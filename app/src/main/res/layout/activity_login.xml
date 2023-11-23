@@ -26,22 +26,19 @@
             android:id="@+id/id_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="13"
             android:hint="아이디"
             android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="280dp" />
+            android:minHeight="50dp"/>
 
         <EditText
             android:id="@+id/password_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="13"
             android:hint="비밀번호"
             android:inputType="text"
-            tools:layout_editor_absoluteX="106dp"
-            tools:layout_editor_absoluteY="354dp" />
+            android:minHeight="50dp"/>
     </LinearLayout>
 
     <Button
@@ -51,9 +48,7 @@
         android:layout_height="wrap_content"
         android:background="@color/dark_green"
         android:layout_marginTop="50dp"
-        android:text="로그인"
-        tools:layout_editor_absoluteX="173dp"
-        tools:layout_editor_absoluteY="429dp" />
+        android:text="로그인" />
 
     <TextView
         android:id="@+id/register_button"
@@ -61,7 +56,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="회원가입"
-        tools:layout_editor_absoluteX="190dp"
-        tools:layout_editor_absoluteY="487dp" />
+        android:text="회원가입" />
 </LinearLayout>
