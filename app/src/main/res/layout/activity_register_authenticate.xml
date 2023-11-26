@@ -99,7 +99,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="인증하기"
+                android:text="인증하기"/>
         </LinearLayout>
     </LinearLayout>
 
