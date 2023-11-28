@@ -1,5 +1,6 @@
 package com.example.gameledger
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,13 @@ class TransactionAdapter(val transactionList: ArrayList<Transactions>) : Recycle
         holder.date.text = transactionList.get(position).date
         holder.title.text = transactionList.get(position).title
         holder.value.text = transactionList.get(position).value
+
+        if (transactionList.get(position).type == R.drawable.treasure_opened) {
+            holder.value.setTextColor(Color.parseColor("#FF0000"))
+        }
+        else if (transactionList.get(position).type == R.drawable.treasure_closed) {
+            holder.value.setTextColor(Color.parseColor("#0000FF"))
+        }
     }
 
     override fun getItemCount(): Int {
@@ -35,7 +43,6 @@ class TransactionAdapter(val transactionList: ArrayList<Transactions>) : Recycle
         val date = itemView.findViewById<TextView>(R.id.tv_date)    // 날짜
         val title = itemView.findViewById<TextView>(R.id.tv_transaction)    // 거래 내역
         val value = itemView.findViewById<TextView>(R.id.tv_value)  // 금액
-
     }
 
 }
