@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class ShowListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_showlist)
 
         val transactionList = arrayListOf(
             Transactions(R.drawable.treasure_opened, "월급", "2023.12.04.", "2023년 11월 월급", "800,000원"),
