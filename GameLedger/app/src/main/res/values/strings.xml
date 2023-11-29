@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GameLedger</string>
+    <string name="year_month"><u>2023년 12월</u></string>
 </resources>
