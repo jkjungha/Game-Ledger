@@ -19,16 +19,17 @@ class TransactionAdapter(val transactionList: ArrayList<Transactions>) : Recycle
     }
 
     override fun onBindViewHolder(holder: TransactionAdapter.CustomViewHolder, position: Int) {
-        holder.type.setImageResource(transactionList.get(position).type)
         holder.category.text = transactionList.get(position).category
         holder.date.text = transactionList.get(position).date
         holder.title.text = transactionList.get(position).title
         holder.value.text = transactionList.get(position).value
 
-        if (transactionList.get(position).type == R.drawable.treasure_opened) {
+        if (transactionList.get(position).type == 1) {
+            holder.type.setImageResource(R.drawable.treasure_opened)
             holder.value.setTextColor(Color.parseColor("#0000FF"))
         }
-        else if (transactionList.get(position).type == R.drawable.treasure_closed) {
+        else if (transactionList.get(position).type == 0) {
+            holder.type.setImageResource(R.drawable.treasure_closed)
             holder.value.setTextColor(Color.parseColor("#FF0000"))
         }
     }
