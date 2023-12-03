@@ -53,6 +53,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="8dp"
                 android:text="User"
+                android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -61,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:text="님의 저축 목표"
+                android:textColor="#FFFFFF"
                 android:textSize="28sp" />
 
         </LinearLayout>
@@ -78,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="여행 경비"
+                android:textColor="#FFFFFF"
                 android:textSize="28sp" />
 
             <TextView
@@ -85,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="30만원"
+                android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -101,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="달성률 : "
+                android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:textStyle="italic" />
 
@@ -109,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10 %"
+                android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:textStyle="italic|bold" />
 
@@ -130,6 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="현재 위치 : "
+            android:textColor="#FFFFFF"
             android:textSize="28sp" />
 
         <TextView
@@ -138,6 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="3층 "
+            android:textColor="#FFFFFF"
             android:textSize="28sp"
             android:textStyle="italic|bold" />
 
@@ -146,6 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="/ 30층"
+            android:textColor="#FFFFFF"
             android:textSize="28sp"
             android:textStyle="italic" />
 
