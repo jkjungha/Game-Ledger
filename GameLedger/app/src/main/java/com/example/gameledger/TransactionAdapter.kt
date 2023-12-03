@@ -26,11 +26,11 @@ class TransactionAdapter(val transactionList: ArrayList<Transactions>) : Recycle
 
         if (transactionList.get(position).type == 1) {
             holder.type.setImageResource(R.drawable.treasure_opened)
-            holder.value.setTextColor(Color.parseColor("#0000FF"))
+            holder.value.setTextColor(Color.parseColor("#2196F3"))
         }
         else if (transactionList.get(position).type == 0) {
             holder.type.setImageResource(R.drawable.treasure_closed)
-            holder.value.setTextColor(Color.parseColor("#FF0000"))
+            holder.value.setTextColor(Color.parseColor("#F44336"))
         }
     }
 
