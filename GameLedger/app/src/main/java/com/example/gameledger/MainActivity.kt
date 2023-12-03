@@ -42,14 +42,14 @@ class MainActivity : AppCompatActivity() {
         val user = database.getReference("users").child("userid")
         user.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var value = dataSnapshot.child("savingValue").getValue(Int::class.java).toString().dropLast(4).toInt()
-                var current = dataSnapshot.child("currentStage").getValue(Int::class.java).toString().dropLast(4).toInt()
+                var value = dataSnapshot.child("savingValue").getValue(String::class.java)!!.replace(",".toRegex(),"").dropLast(4)
+                var current = dataSnapshot.child("currentStage").getValue(String::class.java)!!.replace(",".toRegex(),"").dropLast(4)
                 binding.tvUserName.text = dataSnapshot.key.toString()
                 binding.tvSavingGoal.text = dataSnapshot.child("savingGoal").getValue(String::class.java)
-                binding.tvSavingValue.text = value.toString()
+                binding.tvSavingValue.text = value
                 binding.tvSavingDegree.text = (current.toFloat()*100/value.toFloat()).toString()
-                binding.tvCurrentStage.text = current.toString()
-                binding.tvTotalStage.text = value.toString()
+                binding.tvCurrentStage.text = current
+                binding.tvTotalStage.text = value
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

@@ -7,18 +7,37 @@
     android:background="@drawable/background_black_space"
     tools:context=".QuestActivity">
 
-    <TextView
-        android:id="@+id/tv_dayQuest"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="1일 퀘스트"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/rv_quest"
+        android:padding="7dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:contentDescription="back_button"
+            android:background="@drawable/back_button" />
+
+        <TextView
+            android:id="@+id/tv_dayQuest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1일 퀘스트"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginLeft="75dp"
+            app:layout_constraintBottom_toTopOf="@+id/rv_quest"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"  />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_quest"

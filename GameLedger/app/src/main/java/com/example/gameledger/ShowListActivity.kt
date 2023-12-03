@@ -38,6 +38,7 @@ class ShowListActivity : AppCompatActivity() {
 //            Transactions(0, "문화", "2023.12.04.", "넷플릭스", "10,000원"),
 //            Transactions(0, "교통", "2023.12.04.", "버스", "1,500원")
 //        )
+        InitData()
 
         val transaction = findViewById<RecyclerView>(R.id.rv_transaction)
         transaction.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -52,7 +53,6 @@ class ShowListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        InitData()
     }
 
     fun InitData(){
@@ -79,6 +79,5 @@ class ShowListActivity : AppCompatActivity() {
             }
         })
     }
-
 
 }
