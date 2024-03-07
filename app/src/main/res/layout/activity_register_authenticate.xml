@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegisterAuthenticateActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:text="회원가입"
+        android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/phone_auth_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전화번호 인증" />
+
+            <Button
+                android:id="@+id/email_auth_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이메일 인증" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:text="전화번호 : "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/id_rsg_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="13"
+                android:hint="전화번호"
+                android:inputType="text"
+                android:minHeight="50dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/auth_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="요청하기"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:text="인증코드 : "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/password_rsg_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:hint="인증코드"
+                android:inputType="text"
+                android:minHeight="50dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인증하기"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@color/dark_green"
+        android:text="다음" />
+
+</LinearLayout>
