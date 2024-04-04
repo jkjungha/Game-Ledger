@@ -28,5 +28,6 @@ public class UserEntity {
     private int culture_value;
     private int life_value;
     private int etc_value;
+    private String role;
 
 }
