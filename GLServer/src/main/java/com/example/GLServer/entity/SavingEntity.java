@@ -1,9 +1,6 @@
 package com.example.GLServer.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +13,9 @@ public class SavingEntity {
     private int id;
 
     private int user_id;
-    private int date_id;
+    private int saving_year;
+    private int saving_month;
+    private int saving_day;
     private int saving_food;
     private boolean food_achieved;
     private int saving_traffic;
