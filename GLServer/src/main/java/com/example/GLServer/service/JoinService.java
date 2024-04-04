@@ -7,6 +7,10 @@ import com.example.GLServer.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @Service
 public class JoinService {
 
@@ -23,14 +27,14 @@ public class JoinService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void joinAuth(String emailPhone) {
+    public void joinAuth(String emailPhone) throws UnsupportedEncodingException {
         //이메일 or 핸드폰 or 둘 다 아닌 경우 구분
         if(true){
             Boolean isExist = userRepository.existsByEmail(emailPhone);
             if(isExist){
                 return;
             }
-            this.email = emailPhone;
+            this.email = URLDecoder.decode(emailPhone, StandardCharsets.UTF_8);
         }else{
             Boolean isExist = userRepository.existsByPhone(emailPhone);
             if(isExist){

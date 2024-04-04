@@ -3,12 +3,11 @@ package com.example.GLServer.controller;
 import com.example.GLServer.dto.JoinInfoDTO;
 import com.example.GLServer.dto.UsernamePasswordDTO;
 import com.example.GLServer.service.JoinService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.io.UnsupportedEncodingException;
+
+@RestController
 @ResponseBody
 public class JoinController {
 
@@ -19,13 +18,13 @@ public class JoinController {
     }
 
     @PostMapping("/signup/auth")
-    public String joinAuthProcess(@RequestBody String emailPhone){
+    public String joinAuthProcess(@RequestParam("emailPhone") String emailPhone) throws UnsupportedEncodingException {
         joinService.joinAuth(emailPhone);
         return "ok";
     }
 
     @PostMapping("/signup/auth/check")
-    public String joinAuthCheckProcess(@RequestBody String authCode){
+    public String joinAuthCheckProcess(@RequestParam("authCode") String authCode){
         joinService.joinAuthCheck(authCode);
         return "ok";
     }
