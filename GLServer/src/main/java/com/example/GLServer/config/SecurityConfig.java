@@ -31,6 +31,7 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    //비밀번호 암호처리 함수
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
 
@@ -48,7 +49,7 @@ public class SecurityConfig {
         http.httpBasic((auth) -> auth.disable());
 
         http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/login", "/", "/join", "/main").permitAll()
                         .anyRequest().authenticated());
 
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);

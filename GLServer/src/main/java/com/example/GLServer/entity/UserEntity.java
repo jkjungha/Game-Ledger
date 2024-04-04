@@ -18,5 +18,15 @@ public class UserEntity {
 
     private String username;
     private String password;
-    private String role;
+    private String email;
+    private String phone;
+    private String goal_name;
+    private int goal_value;
+    private int goal_achieved;
+    private int food_value;
+    private int traffic_value;
+    private int culture_value;
+    private int life_value;
+    private int etc_value;
+
 }
