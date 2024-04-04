@@ -13,12 +13,14 @@ public class JoinService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final UserEntity userEntity;
+    private String email;
+    private String phone;
+    private String username;
+    private String password;
 
-    public JoinService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserEntity userEntity){
+    public JoinService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userEntity = userEntity;
     }
 
     public void joinAuth(String emailPhone) {
@@ -28,13 +30,13 @@ public class JoinService {
             if(isExist){
                 return;
             }
-            userEntity.setEmail(emailPhone);
+            this.email = emailPhone;
         }else{
             Boolean isExist = userRepository.existsByPhone(emailPhone);
             if(isExist){
                 return;
             }
-            userEntity.setPhone(emailPhone);
+            this.phone = emailPhone;
         }
     }
 
@@ -53,17 +55,23 @@ public class JoinService {
             return;
         }
 
-        userEntity.setUsername(username);
-        userEntity.setPassword(bCryptPasswordEncoder.encode(password));
+        this.username = username;
+        this.password = bCryptPasswordEncoder.encode(password);
     }
 
     public void joinInput(JoinInfoDTO joinInfoDto) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(this.email);
+        userEntity.setPhone(this.phone);
+        userEntity.setUsername(this.username);
+        userEntity.setPassword(this.password);
         userEntity.setGoal_name(joinInfoDto.getGoalName());
         userEntity.setGoal_value(joinInfoDto.getGoalValue());
         userEntity.setFood_value(joinInfoDto.getFoodValue());
         userEntity.setTraffic_value(joinInfoDto.getTrafficValue());
         userEntity.setCulture_value(joinInfoDto.getCultureValue());
         userEntity.setLife_value(joinInfoDto.getLifeValue());
+        userEntity.setRole("ADMIN");
 
         userRepository.save(userEntity);
     }

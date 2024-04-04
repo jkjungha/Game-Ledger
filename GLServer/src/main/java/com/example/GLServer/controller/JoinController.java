@@ -5,6 +5,7 @@ import com.example.GLServer.dto.UsernamePasswordDTO;
 import com.example.GLServer.service.JoinService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -18,13 +19,13 @@ public class JoinController {
     }
 
     @PostMapping("/signup/auth")
-    public String joinAuthProcess(String emailPhone){
+    public String joinAuthProcess(@RequestBody String emailPhone){
         joinService.joinAuth(emailPhone);
         return "ok";
     }
 
     @PostMapping("/signup/auth/check")
-    public String joinAuthCheckProcess(String authCode){
+    public String joinAuthCheckProcess(@RequestBody String authCode){
         joinService.joinAuthCheck(authCode);
         return "ok";
     }
