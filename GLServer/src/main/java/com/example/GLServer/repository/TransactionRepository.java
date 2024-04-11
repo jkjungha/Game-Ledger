@@ -4,10 +4,13 @@ import com.example.GLServer.entity.TransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
-    @Query("SELECT SUM(t.tranValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.tranType = ?2")
-    Optional<Double> sumTranValueByUserEntityAndTranType(String username, Boolean tranType);
+    @Query("SELECT SUM(t.tranValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.tranType = ?4")
+    Optional<Double> sumTranValueByUserEntityAndDateEntityAndTranType(String username,int year, int month, Boolean tranType);
 
+    @Query("SELECT t FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3")
+    Optional<List<TransactionEntity>> findAllByUserEntityAndDateEntity(String username, int year, int month);
 }
