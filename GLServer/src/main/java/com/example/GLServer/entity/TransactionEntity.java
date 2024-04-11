@@ -17,6 +17,7 @@ public class TransactionEntity {
     private UserEntity userEntity;
 
     @ManyToOne
+    @JoinColumn(name = "dateId")
     private DateEntity dateEntity;
 
     private boolean tranType;

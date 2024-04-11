@@ -10,6 +10,8 @@ import com.example.GLServer.repository.TransactionRepository;
 import com.example.GLServer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class InputService {
     private final UserRepository userRepository;
@@ -22,14 +24,29 @@ public class InputService {
         this.transactionRepository = transactionRepository;
     }
 
+    public DateEntity getDayDateEntity(){
+        LocalDate localDate = LocalDate.now();
+        int year = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day = localDate.getDayOfMonth();
+        DateEntity dateEntity = dateRepository.findAllByYearAndMonthAndDay(year, month, day);
+
+        if(dateEntity == null){
+            DateEntity DE = new DateEntity();
+            DE.setYear(year);
+            DE.setMonth(month);
+            DE.setDay(day);
+            dateRepository.save(DE);
+            return DE;
+        }
+
+        return dateEntity;
+    }
+
     public ResponseData inputInfo(String username, InputInfoDTO inputInfoDTO) {
         UserEntity userEntity = userRepository.findByUsername(username);
 
-        DateEntity dateEntity = new DateEntity();
-        dateEntity.setYear(inputInfoDTO.getTransYear());
-        dateEntity.setMonth(inputInfoDTO.getTransMonth());
-        dateEntity.setDay(inputInfoDTO.getTransDay());
-        dateRepository.save(dateEntity);
+        DateEntity dateEntity = getDayDateEntity();
 
         TransactionEntity transactionEntity = new TransactionEntity();
 

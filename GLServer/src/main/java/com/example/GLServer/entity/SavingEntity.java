@@ -16,7 +16,8 @@ public class SavingEntity {
     @JoinColumn(name = "userId")
     private UserEntity userEntity;
 
-    @OneToOne(mappedBy = "savingEntity")
+    @OneToOne
+    @JoinColumn(name = "dateId")
     private DateEntity dateEntity;
 
     private int savingFood;

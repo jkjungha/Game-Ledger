@@ -15,11 +15,10 @@ public class DateEntity {
     private int id;
 
 
-    @OneToOne
-    @JoinColumn(name = "savingId")
+    @OneToOne(mappedBy = "dateEntity")
     private SavingEntity savingEntity;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dateEntity")
+    @OneToMany(mappedBy = "dateEntity")
     private List<TransactionEntity> TransactionEntities;
 
     private int year;
