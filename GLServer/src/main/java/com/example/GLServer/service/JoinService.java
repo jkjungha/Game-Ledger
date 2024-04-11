@@ -69,13 +69,14 @@ public class JoinService {
         userEntity.setPhone(this.phone);
         userEntity.setUsername(this.username);
         userEntity.setPassword(this.password);
-        userEntity.setGoal_name(joinInfoDto.getGoalName());
-        userEntity.setGoal_value(joinInfoDto.getGoalValue());
-        userEntity.setFood_value(joinInfoDto.getFoodValue());
-        userEntity.setTraffic_value(joinInfoDto.getTrafficValue());
-        userEntity.setCulture_value(joinInfoDto.getCultureValue());
-        userEntity.setLife_value(joinInfoDto.getLifeValue());
-        userEntity.setRole("ADMIN");
+        userEntity.setGoalName(joinInfoDto.getGoalName());
+        userEntity.setGoalValue(joinInfoDto.getGoalValue());
+        userEntity.setFoodValue(joinInfoDto.getFoodValue());
+        userEntity.setTrafficValue(joinInfoDto.getTrafficValue());
+        userEntity.setCultureValue(joinInfoDto.getCultureValue());
+        userEntity.setLifeValue(joinInfoDto.getLifeValue());
+        userEntity.setEtcValue(0);
+        userEntity.setRole("USER");
 
         userRepository.save(userEntity);
     }

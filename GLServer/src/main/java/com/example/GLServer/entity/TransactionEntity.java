@@ -12,13 +12,16 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int user_id;
-    private int trans_year;
-    private int trans_month;
-    private int trans_day;
-    private boolean trans_type;
-    private int trans_value;
-    private String trans_name;
-    private String trans_category;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity userEntity;
+
+    @ManyToOne
+    private DateEntity dateEntity;
+
+    private boolean tranType;
+    private String tranCategory;
+    private String tranName;
+    private int tranValue;
 
 }

@@ -10,7 +10,7 @@ public class InputInfoDTO {
     private int transYear;
     private int transMonth;
     private int transDay;
-    private String tranCategory;
+    private String transCategory;
     private String transName;
     private int transValue;
 }
