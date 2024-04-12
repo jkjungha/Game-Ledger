@@ -24,12 +24,8 @@ public class InputService {
         this.transactionRepository = transactionRepository;
     }
 
-    public DateEntity getDayDateEntity(){
-        LocalDate localDate = LocalDate.now();
-        int year = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day = localDate.getDayOfMonth();
-        DateEntity dateEntity = dateRepository.findAllByYearAndMonthAndDay(year, month, day);
+    public DateEntity searchDayDateEntity(int year, int month, int day){
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
             DateEntity DE = new DateEntity();
@@ -46,7 +42,7 @@ public class InputService {
     public ResponseData inputInfo(String username, InputInfoDTO inputInfoDTO) {
         UserEntity userEntity = userRepository.findByUsername(username);
 
-        DateEntity dateEntity = getDayDateEntity();
+        DateEntity dateEntity = searchDayDateEntity(inputInfoDTO.getTransYear(), inputInfoDTO.getTransMonth(), inputInfoDTO.getTransDay());
 
         TransactionEntity transactionEntity = new TransactionEntity();
 
@@ -58,6 +54,7 @@ public class InputService {
         transactionEntity.setTranValue(inputInfoDTO.getTransValue());
         transactionRepository.save(transactionEntity);
 
+        //성공했을 시
         ResponseData responseData = new ResponseData();
 
         return responseData;

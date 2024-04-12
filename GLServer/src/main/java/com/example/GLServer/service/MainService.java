@@ -26,9 +26,8 @@ public class MainService {
         dic.put("goalName", userEntity.getGoalName());
         dic.put("goalAchieved", userEntity.getGoalAchieved());
         dic.put("goalValue", userEntity.getGoalValue());
-        System.out.println(dic);
+
         responseData.setResult(dic);
-        System.out.println(responseData);
 
         return responseData;
     }

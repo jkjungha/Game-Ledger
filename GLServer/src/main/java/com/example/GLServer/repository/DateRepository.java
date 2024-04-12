@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DateRepository extends JpaRepository<DateEntity, Integer> {
     List<DateEntity> findAllByYearAndMonth(int year, int month);
-    DateEntity findAllByYearAndMonthAndDay(int year, int month, int day);
+    DateEntity findByYearAndMonthAndDay(int year, int month, int day);
 }

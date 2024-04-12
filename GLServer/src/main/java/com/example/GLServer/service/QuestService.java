@@ -33,7 +33,7 @@ public class QuestService {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
-        DateEntity dateEntity = dateRepository.findAllByYearAndMonthAndDay(year, month, day);
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
             DateEntity DE = new DateEntity();
@@ -56,17 +56,19 @@ public class QuestService {
     }
 
 
+
+
     public ResponseData questInfo(String username) {
         UserEntity userEntity = userRepository.findByUsername(username);
         ResponseData responseData = new ResponseData();
         Map<String, Object> result = new HashMap<>();
-        Map<String, Object> category = new HashMap<>();
 
         DateEntity dateEntity = getDayDateEntity();
         Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
 
         if(savingEntity.isPresent()){
             SavingEntity SE = savingEntity.get();
+
             System.out.println(SE);
             Map<String, Object> food = new HashMap<>();
             food.put("savingQA", userEntity.getFoodValue());

@@ -29,7 +29,7 @@ public class ListService {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
-        DateEntity dateEntity = dateRepository.findAllByYearAndMonthAndDay(year, month, day);
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
             DateEntity DE = new DateEntity();
@@ -49,15 +49,15 @@ public class ListService {
         int year = dateEntity.getYear();
         int month = dateEntity.getMonth();
 
-
         ResponseData responseData = new ResponseData();
+
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> total = new HashMap<>();
         List<Object> list = new ArrayList<>();
+
         total.put("expendTotal", transactionRepository.sumTranValueByUserEntityAndDateEntityAndTranType(username, year, month, false));
         total.put("incomeTotal", transactionRepository.sumTranValueByUserEntityAndDateEntityAndTranType(username, year, month, true));
         result.put("total", total);
-
 
         Optional<List<TransactionEntity>> tranList = transactionRepository.findAllByUserEntityAndDateEntity(username, year, month);
 
@@ -78,7 +78,6 @@ public class ListService {
         }
         result.put("list", list);
         responseData.setResult(result);
-        System.out.println(responseData);
 
         return responseData;
     }

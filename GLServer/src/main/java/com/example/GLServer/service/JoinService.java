@@ -45,7 +45,7 @@ public class JoinService {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
-        DateEntity dateEntity = dateRepository.findAllByYearAndMonthAndDay(year, month, day);
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
             DateEntity DE = new DateEntity();
@@ -121,21 +121,15 @@ public class JoinService {
     }
 
     public void joinInput(JoinInfoDTO joinInfoDto) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(this.email);
-        userEntity.setPhone(this.phone);
-        userEntity.setUsername(this.username);
-        userEntity.setPassword(this.password);
-        userEntity.setGoalName(joinInfoDto.getGoalName());
-        userEntity.setGoalValue(joinInfoDto.getGoalValue());
-        userEntity.setFoodValue(joinInfoDto.getFoodValue());
-        userEntity.setTrafficValue(joinInfoDto.getTrafficValue());
-        userEntity.setCultureValue(joinInfoDto.getCultureValue());
-        userEntity.setLifeValue(joinInfoDto.getLifeValue());
-        userEntity.setEtcValue(0);
-        userEntity.setRole("USER");
+        UserEntity userEntity = getUserEntity(joinInfoDto);
         userRepository.save(userEntity);
 
+        SavingEntity savingEntity = getSavingEntity(userEntity);
+        savingRepository.save(savingEntity);
+
+    }
+
+    private SavingEntity getSavingEntity(UserEntity userEntity) {
         SavingEntity savingEntity = new SavingEntity();
         savingEntity.setUserEntity(userEntity);
         savingEntity.setDateEntity(getDayDateEntity());
@@ -149,8 +143,24 @@ public class JoinService {
         savingEntity.setLifeAchieved(false);
         savingEntity.setSavingEtc(0);
         savingEntity.setEtcAchieved(false);
-        savingRepository.save(savingEntity);
+        return savingEntity;
+    }
 
+    private UserEntity getUserEntity(JoinInfoDTO joinInfoDto) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(this.email);
+        userEntity.setPhone(this.phone);
+        userEntity.setUsername(this.username);
+        userEntity.setPassword(this.password);
+        userEntity.setGoalName(joinInfoDto.getGoalName());
+        userEntity.setGoalValue(joinInfoDto.getGoalValue());
+        userEntity.setFoodValue(joinInfoDto.getFoodValue());
+        userEntity.setTrafficValue(joinInfoDto.getTrafficValue());
+        userEntity.setCultureValue(joinInfoDto.getCultureValue());
+        userEntity.setLifeValue(joinInfoDto.getLifeValue());
+        userEntity.setEtcValue(0);
+        userEntity.setRole("USER");
+        return userEntity;
     }
 
 }

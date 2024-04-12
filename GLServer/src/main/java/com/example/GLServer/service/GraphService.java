@@ -30,7 +30,7 @@ public class GraphService {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
-        DateEntity dateEntity = dateRepository.findAllByYearAndMonthAndDay(year, month, day);
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
             DateEntity DE = new DateEntity();
@@ -59,27 +59,28 @@ public class GraphService {
         expendCategoryGraph.put("life",transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "life"));
         expendCategoryGraph.put("etc",transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "etc"));
 
-        List<Object> savingGraph = new ArrayList<>();
+        List<Object> savedGraph = new ArrayList<>();
         List<DateEntity> dateEntities = dateRepository.findAllByYearAndMonth(year, month);
         for(DateEntity DE : dateEntities) {
-            Map<String, Object> saving = new HashMap<>();
+            Map<String, Object> saved = new HashMap<>();
             Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(DE, userEntity);
+            System.out.println(savingEntity);
             if(savingEntity.isPresent()){
                 SavingEntity SE = savingEntity.get();
-                saving.put("year", DE.getYear());
-                saving.put("month", DE.getMonth());
-                saving.put("day", DE.getDay());
-                int total = userEntity.getFoodValue() - SE.getSavingFood();
-                total += userEntity.getTrafficValue() - SE.getSavingTraffic();
-                total += userEntity.getCultureValue() - SE.getSavingCulture();
-                total+= userEntity.getLifeValue() - SE.getSavingLife();
-                saving.put("savedValue", total);
-                savingGraph.add(saving);
+                saved.put("year", DE.getYear());
+                saved.put("month", DE.getMonth());
+                saved.put("day", DE.getDay());
+                int total = SE.getSavingFood();
+                total += SE.getSavingTraffic();
+                total += SE.getSavingCulture();
+                total += SE.getSavingLife();
+                saved.put("savedValue", total);
+                savedGraph.add(saved);
             }
         }
 
         result.put("expendCategoryGraph", expendCategoryGraph);
-        result.put("savingGraph", savingGraph);
+        result.put("savingGraph", savedGraph);
 
         responseData.setResult(result);
 
