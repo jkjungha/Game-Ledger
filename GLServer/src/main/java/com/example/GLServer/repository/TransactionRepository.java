@@ -13,4 +13,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
 
     @Query("SELECT t FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3")
     Optional<List<TransactionEntity>> findAllByUserEntityAndDateEntity(String username, int year, int month);
+
+    @Query("SELECT SUM(t.tranValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.tranType = ?4 AND t.tranCategory = ?5")
+    Optional<Double> sumTranValueByUserEntityAndDateEntityAndCategory(String username, int year, int month, Boolean tranType, String tranCategory);
 }
