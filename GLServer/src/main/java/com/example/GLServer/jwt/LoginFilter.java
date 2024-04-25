@@ -53,6 +53,26 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         return authenticationManager.authenticate(authToken);
     }
 
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)  {
+        MyUserDetails myUserDetails = (MyUserDetails) authResult.getPrincipal();
+
+        String username = myUserDetails.getUsername();
+        makeQuestTask(username);
+        System.out.println("username : "+username);
+
+        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
+        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
+        GrantedAuthority auth = iterator.next();
+
+        String role = auth.getAuthority();
+        System.out.println("role"+role);
+
+        String token = jwtUtil.createJwt(username, role, 6L);
+
+        response.addHeader("Authorization", "Bearer " + token);
+    }
+
     //현재 시각 DataEntity를 리턴하는 함수
     public DateEntity getDayDateEntity(){
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -73,28 +93,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         return dateEntity;
     }
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)  {
-        MyUserDetails myUserDetails = (MyUserDetails) authResult.getPrincipal();
-
-        String username = myUserDetails.getUsername();
-        execute5OclockTask(username);
-        System.out.println("username : "+username);
-
-        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-
-        String role = auth.getAuthority();
-        System.out.println("role"+role);
-
-        String token = jwtUtil.createJwt(username, role, 6L);
-
-        response.addHeader("Authorization", "Bearer " + token);
-    }
-
-    //로그인 시 오전 5시를 기준으로 실행되는 함수
-    public void execute5OclockTask(String username) {
+    //로그인한 시간에 따른 퀘스트 갱신 함수
+    public void makeQuestTask(String username) {
         LocalDateTime localDateTime = LocalDateTime.now();
         int hour = localDateTime.getHour();
         UserEntity userEntity = userRepository.findByUsername(username);
@@ -109,19 +109,18 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             SavingEntity SE = new SavingEntity();
             SE.setUserEntity(userEntity);
             SE.setDateEntity(dateEntity);
-            SE.setSavingFood(0);
+            SE.setSavingFood(userEntity.getFoodValue());
             SE.setFoodAchieved(false);
-            SE.setSavingTraffic(0);
+            SE.setSavingTraffic(userEntity.getTrafficValue());
             SE.setTrafficAchieved(false);
-            SE.setSavingCulture(0);
+            SE.setSavingCulture(userEntity.getCultureValue());
             SE.setCultureAchieved(false);
-            SE.setSavingLife(0);
+            SE.setSavingLife(userEntity.getLifeValue());
             SE.setLifeAchieved(false);
-            SE.setSavingEtc(0);
+            SE.setSavingEtc(userEntity.getEtcValue());
             SE.setEtcAchieved(false);
             savingRepository.save(SE);
         }
-
     }
 
     @Override

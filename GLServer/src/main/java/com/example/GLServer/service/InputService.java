@@ -2,15 +2,14 @@ package com.example.GLServer.service;
 
 import com.example.GLServer.dto.InputInfoDTO;
 import com.example.GLServer.entity.DateEntity;
+import com.example.GLServer.entity.SavingEntity;
 import com.example.GLServer.entity.TransactionEntity;
 import com.example.GLServer.entity.UserEntity;
-import com.example.GLServer.repository.DateRepository;
-import com.example.GLServer.repository.ResponseData;
-import com.example.GLServer.repository.TransactionRepository;
-import com.example.GLServer.repository.UserRepository;
+import com.example.GLServer.repository.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class InputService {
@@ -18,10 +17,13 @@ public class InputService {
     private final DateRepository dateRepository;
     private final TransactionRepository transactionRepository;
 
-    public InputService(UserRepository userRepository, DateRepository dateRepository, TransactionRepository transactionRepository) {
+    private final SavingRepository savingRepository;
+
+    public InputService(UserRepository userRepository, DateRepository dateRepository, TransactionRepository transactionRepository, SavingRepository savingRepository) {
         this.userRepository = userRepository;
         this.dateRepository = dateRepository;
         this.transactionRepository = transactionRepository;
+        this.savingRepository = savingRepository;
     }
 
     public DateEntity searchDayDateEntity(int year, int month, int day){
@@ -53,6 +55,30 @@ public class InputService {
         transactionEntity.setTranName(inputInfoDTO.getTransName());
         transactionEntity.setTranValue(inputInfoDTO.getTransValue());
         transactionRepository.save(transactionEntity);
+
+        if(!inputInfoDTO.isTransType()){
+            Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
+            if(savingEntity.isPresent()){
+                SavingEntity SE = savingEntity.get();
+                int value = transactionEntity.getTranValue();
+                if(Objects.equals(transactionEntity.getTranCategory(), "food")){
+                    int tmp = SE.getSavingFood();
+                    SE.setSavingFood(tmp - value);
+                }else if(Objects.equals(transactionEntity.getTranCategory(), "traffic")){
+                    int tmp = SE.getSavingTraffic();
+                    SE.setSavingTraffic(tmp - value);
+                }else if(Objects.equals(transactionEntity.getTranCategory(), "culture")){
+                    int tmp = SE.getSavingCulture();
+                    SE.setSavingCulture(tmp - value);
+                }else if(Objects.equals(transactionEntity.getTranCategory(), "life")){
+                    int tmp = SE.getSavingLife();
+                    SE.setSavingLife(tmp - value);
+                }else if(Objects.equals(transactionEntity.getTranCategory(), "etc")){
+                    int tmp = SE.getSavingEtc();
+                    SE.setSavingEtc(tmp - value);
+                }
+            }
+        }
 
         //성공했을 시
         ResponseData responseData = new ResponseData();

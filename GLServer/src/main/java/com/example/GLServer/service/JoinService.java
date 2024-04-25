@@ -3,11 +3,13 @@ package com.example.GLServer.service;
 import com.example.GLServer.dto.JoinInfoDTO;
 import com.example.GLServer.dto.UsernamePasswordDTO;
 import com.example.GLServer.entity.DateEntity;
+import com.example.GLServer.entity.SavingEntity;
 import com.example.GLServer.entity.UserEntity;
 import com.example.GLServer.repository.CertificationDao;
 import com.example.GLServer.repository.DateRepository;
 import com.example.GLServer.repository.SavingRepository;
 import com.example.GLServer.repository.UserRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -140,6 +143,9 @@ public class JoinService {
     public String joinInput(JoinInfoDTO joinInfoDto) {
         UserEntity userEntity = getUserEntity(joinInfoDto);
         userRepository.save(userEntity);
+
+        execute5amTask(userEntity);
+
         return "ok";
     }
 
@@ -158,6 +164,27 @@ public class JoinService {
         userEntity.setEtcValue(0);
         userEntity.setRole("USER");
         return userEntity;
+    }
+
+    // 매일 오전 5시에 실행
+    @Scheduled(cron = "0 0 5 * * *")
+    public void execute5amTask(UserEntity userEntity) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        int year = localDateTime.getYear();
+        int month = localDateTime.getMonthValue();
+        int day = localDateTime.getDayOfMonth();
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
+        Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
+        if(dateEntity != null && savingEntity.isPresent()){
+            SavingEntity SE = savingEntity.get();
+            int total = SE.getSavingFood();
+            total += SE.getSavingTraffic();
+            total += SE.getSavingCulture();
+            total += SE.getSavingLife();
+
+            int achieved = userEntity.getGoalAchieved();
+            userEntity.setGoalAchieved(achieved + total);
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import com.example.GLServer.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -26,10 +27,10 @@ public class GraphService {
     }
 
     public DateEntity getDayDateEntity(){
-        LocalDate localDate = LocalDate.now();
-        int year = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day = localDate.getDayOfMonth();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        int year = localDateTime.getYear();
+        int month = localDateTime.getMonthValue();
+        int day = localDateTime.getDayOfMonth();
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
@@ -50,6 +51,7 @@ public class GraphService {
         DateEntity dateEntity = getDayDateEntity();
         int year = dateEntity.getYear();
         int month = dateEntity.getMonth();
+        int day = dateEntity.getDay();
 
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> expendCategoryGraph = new HashMap<>();
@@ -65,6 +67,9 @@ public class GraphService {
             Map<String, Object> saved = new HashMap<>();
             Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(DE, userEntity);
             System.out.println(savingEntity);
+            if(DE.getDay() == day){
+                continue;
+            }
             if(savingEntity.isPresent()){
                 SavingEntity SE = savingEntity.get();
                 saved.put("year", DE.getYear());

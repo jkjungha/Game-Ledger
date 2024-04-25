@@ -7,9 +7,11 @@ import com.example.GLServer.repository.DateRepository;
 import com.example.GLServer.repository.ResponseData;
 import com.example.GLServer.repository.SavingRepository;
 import com.example.GLServer.repository.UserRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +31,10 @@ public class QuestService {
     }
 
     public DateEntity getDayDateEntity(){
-        LocalDate localDate = LocalDate.now();
-        int year = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day = localDate.getDayOfMonth();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        int year = localDateTime.getYear();
+        int month = localDateTime.getMonthValue();
+        int day = localDateTime.getDayOfMonth();
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
@@ -55,9 +57,6 @@ public class QuestService {
         return Optional.ofNullable(dateRepository.findAllByYearAndMonth(year, month));
     }
 
-
-
-
     public ResponseData questInfo(String username) {
         UserEntity userEntity = userRepository.findByUsername(username);
         ResponseData responseData = new ResponseData();
@@ -72,25 +71,25 @@ public class QuestService {
             System.out.println(SE);
             Map<String, Object> food = new HashMap<>();
             food.put("savingQA", userEntity.getFoodValue());
-            food.put("AchievedQA", SE.getSavingFood());
+            food.put("AchievedQA", userEntity.getFoodValue() - SE.getSavingFood());
             food.put("isAchieved", SE.isFoodAchieved());
             result.put("food", food);
 
             Map<String, Object> traffic = new HashMap<>();
             traffic.put("savingQA", userEntity.getTrafficValue());
-            traffic.put("AchievedQA", SE.getSavingTraffic());
+            traffic.put("AchievedQA", userEntity.getTrafficValue() - SE.getSavingTraffic());
             traffic.put("isAchieved", SE.isTrafficAchieved());
             result.put("traffic", traffic);
 
             Map<String, Object> culture = new HashMap<>();
             culture.put("savingQA", userEntity.getCultureValue());
-            culture.put("AchievedQA", SE.getSavingCulture());
+            culture.put("AchievedQA", userEntity.getCultureValue() - SE.getSavingCulture());
             culture.put("isAchieved", SE.isCultureAchieved());
             result.put("culture", culture);
 
             Map<String, Object> life = new HashMap<>();
             life.put("savingQA", userEntity.getLifeValue());
-            life.put("AchievedQA", SE.getSavingLife());
+            life.put("AchievedQA", userEntity.getLifeValue() - SE.getSavingLife());
             life.put("isAchieved", SE.isLifeAchieved());
             result.put("life", life);
         }
@@ -99,4 +98,5 @@ public class QuestService {
 
         return responseData;
     }
+
 }

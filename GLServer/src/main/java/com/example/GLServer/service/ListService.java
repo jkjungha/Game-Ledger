@@ -2,7 +2,6 @@ package com.example.GLServer.service;
 
 import com.example.GLServer.entity.DateEntity;
 import com.example.GLServer.entity.TransactionEntity;
-import com.example.GLServer.entity.UserEntity;
 import com.example.GLServer.repository.DateRepository;
 import com.example.GLServer.repository.ResponseData;
 import com.example.GLServer.repository.TransactionRepository;
@@ -10,25 +9,24 @@ import com.example.GLServer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class ListService {
-    private final UserRepository userRepository;
     private final DateRepository dateRepository;
     private final TransactionRepository transactionRepository;
 
-    public ListService(UserRepository userRepository, DateRepository dateRepository, TransactionRepository transactionRepository) {
-        this.userRepository = userRepository;
+    public ListService(DateRepository dateRepository, TransactionRepository transactionRepository) {
         this.dateRepository = dateRepository;
         this.transactionRepository = transactionRepository;
     }
 
     public DateEntity getDayDateEntity(){
-        LocalDate localDate = LocalDate.now();
-        int year = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day = localDate.getDayOfMonth();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        int year = localDateTime.getYear();
+        int month = localDateTime.getMonthValue();
+        int day = localDateTime.getDayOfMonth();
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
