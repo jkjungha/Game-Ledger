@@ -3,6 +3,9 @@ package com.example.GLServer.config;
 import com.example.GLServer.jwt.JWTFilter;
 import com.example.GLServer.jwt.JWTUtil;
 import com.example.GLServer.jwt.LoginFilter;
+import com.example.GLServer.repository.DateRepository;
+import com.example.GLServer.repository.SavingRepository;
+import com.example.GLServer.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,10 +22,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final UserRepository userRepository;
+    private final SavingRepository savingRepository;
+    private final DateRepository dateRepository;
     private final JWTUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil){
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, UserRepository userRepository, SavingRepository savingRepository, DateRepository dateRepository, JWTUtil jwtUtil){
         this.authenticationConfiguration = authenticationConfiguration;
+        this.userRepository = userRepository;
+        this.savingRepository = savingRepository;
+        this.dateRepository = dateRepository;
         this.jwtUtil = jwtUtil;
     }
 
@@ -54,7 +63,7 @@ public class SecurityConfig {
 
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
-        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), userRepository, savingRepository, dateRepository, jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         http.sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
