@@ -18,9 +18,8 @@ public class JoinController {
     }
 
     @PostMapping("/signup/auth")
-    public String joinAuthProcess(@RequestParam("emailPhone") String emailPhone) throws UnsupportedEncodingException {
-        joinService.joinAuth(emailPhone);
-        return "ok";
+    public String joinAuthProcess(@RequestParam("emailPhone") String emailPhone, @RequestParam("type") Boolean type) throws UnsupportedEncodingException {
+        return joinService.joinAuth(emailPhone, type);
     }
 
     @PostMapping("/signup/auth/check")
@@ -31,8 +30,7 @@ public class JoinController {
 
     @PostMapping("/signup/user")
     public String joinUserProcess(UsernamePasswordDTO usernamePasswordDTO){
-        joinService.joinUser(usernamePasswordDTO);
-        return "ok";
+        return joinService.joinUser(usernamePasswordDTO);
     }
 
     @PostMapping("/signup/input")
