@@ -35,8 +35,7 @@ public class JoinController {
 
     @PostMapping("/signup/input")
     public String joinInputProcess(JoinInfoDTO joinInfoDto){
-        joinService.joinInput(joinInfoDto);
-        return "ok";
+        return joinService.joinInput(joinInfoDto);
     }
 
 }

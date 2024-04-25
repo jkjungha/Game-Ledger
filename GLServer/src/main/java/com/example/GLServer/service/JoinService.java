@@ -137,10 +137,10 @@ public class JoinService {
     }
 
 
-    public void joinInput(JoinInfoDTO joinInfoDto) {
+    public String joinInput(JoinInfoDTO joinInfoDto) {
         UserEntity userEntity = getUserEntity(joinInfoDto);
         userRepository.save(userEntity);
-
+        return "ok";
     }
 
     private UserEntity getUserEntity(JoinInfoDTO joinInfoDto) {
