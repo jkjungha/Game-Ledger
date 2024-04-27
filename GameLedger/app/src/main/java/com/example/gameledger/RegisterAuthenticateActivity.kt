@@ -97,7 +97,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
         binding.nextButton.setOnClickListener {
             val intent = Intent(
                 this@RegisterAuthenticateActivity,
-                RegisterGoalActivity::class.java
+                RegisterUserActivity::class.java
             )
             startActivity(intent)
         }

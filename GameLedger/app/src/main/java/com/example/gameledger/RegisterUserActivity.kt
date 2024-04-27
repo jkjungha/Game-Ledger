@@ -5,19 +5,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.gameledger.databinding.ActivityRegisterInformationBinding
+import com.example.gameledger.databinding.ActivityRegisterUserBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 
-class RegisterInformationActivity : AppCompatActivity() {
-    lateinit var binding: ActivityRegisterInformationBinding
-    private lateinit var apiService: UserService
+class RegisterUserActivity : AppCompatActivity() {
+    lateinit var binding: ActivityRegisterUserBinding
+    private lateinit var userService: UserService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterInformationBinding.inflate(layoutInflater)
+        binding = ActivityRegisterUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        apiService = RetrofitClient.retrofit.create(UserService::class.java)
+        userService = RetrofitClient.retrofit.create(UserService::class.java)
         init()
     }
 
@@ -26,9 +26,8 @@ class RegisterInformationActivity : AppCompatActivity() {
             val username = binding.idRsgInput.text.toString()
             val password = binding.passwordRsgInput.text.toString()
             val againPassword = binding.passwordAgainRsgInput.text.toString()
-            val context: Context = this
 
-            apiService.signupUserData(username, password, againPassword)
+            userService.signupUserData(username, password, againPassword)
                 .enqueue(object : retrofit2.Callback<ResponseBody> {
                     override fun onResponse(
                         call: Call<ResponseBody>,
@@ -36,7 +35,7 @@ class RegisterInformationActivity : AppCompatActivity() {
                     ) {
                         if (response.isSuccessful) {
                             var intent = Intent(
-                                this@RegisterInformationActivity,
+                                this@RegisterUserActivity,
                                 RegisterGoalActivity::class.java
                             )
                             startActivity(intent)
