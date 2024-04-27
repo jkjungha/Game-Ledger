@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
                                 val editor = sharedPreferences.edit()
                                 editor.putString("userToken", headerValue)
                                 editor.apply()
-                                var intent = Intent(
+                                val intent = Intent(
                                     this@LoginActivity,
                                     MainActivity::class.java
                                 )

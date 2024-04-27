@@ -1,8 +1,6 @@
 package com.example.gameledger
 
-import android.content.Context
 import android.content.Intent
-import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -54,7 +52,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                                 "API Call",
                                 "Successful response: ${response.code()}"
                             )
-                            TODO("인증처리")
+//                            TODO("인증처리")
                         } else {
                             Log.e(
                                 "API Call",
@@ -67,6 +65,41 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                         Log.e("API Call", "Failed to make API call: ${t.message}", t)
                     }
                 })
+        }
+
+        binding.authCodeButton.setOnClickListener {
+            val authCode = binding.authCodeInput.text.toString()
+            userService.signupAuthCheckData(authCode)
+                .enqueue(object : retrofit2.Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.e(
+                                "API Call",
+                                "Successful response: ${response.code()}"
+                            )
+                        } else {
+                            Log.e(
+                                "API Call",
+                                "Unsuccessful response: ${response.code()}"
+                            )
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("API Call", "Failed to make API call: ${t.message}", t)
+                    }
+                })
+        }
+
+        binding.nextButton.setOnClickListener {
+            val intent = Intent(
+                this@RegisterAuthenticateActivity,
+                RegisterGoalActivity::class.java
+            )
+            startActivity(intent)
         }
 
     }
