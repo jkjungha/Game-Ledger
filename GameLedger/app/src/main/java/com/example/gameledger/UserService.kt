@@ -38,11 +38,13 @@ interface UserService {
     @FormUrlEncoded
     @POST("/signup/input")
     fun signupInputData(
-        @Field("goalData") goalData : GoalData
+        @Field("goalName") goalName : String,
+        @Field("goalValue") goalValue : Int,
+        @Field("foodValue") foodValue : Int,
+        @Field("trafficValue") trafficValue : Int,
+        @Field("cultureValue") cultureValue : Int,
+        @Field("lifeValue") lifeValue : Int
     ): Call<ResponseBody>
 
-    class GoalData {
-
-    }
 }
 

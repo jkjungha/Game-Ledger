@@ -43,6 +43,10 @@ class LoginActivity : AppCompatActivity() {
                                 val editor = sharedPreferences.edit()
                                 editor.putString("userToken", headerValue)
                                 editor.apply()
+                                Log.e(
+                                    "API Call",
+                                    "Successful response: ${response.code()}"
+                                )
                                 val intent = Intent(
                                     this@LoginActivity,
                                     MainActivity::class.java

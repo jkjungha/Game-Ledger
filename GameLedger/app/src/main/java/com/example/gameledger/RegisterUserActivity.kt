@@ -1,6 +1,5 @@
 package com.example.gameledger
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,6 +33,10 @@ class RegisterUserActivity : AppCompatActivity() {
                         response: Response<ResponseBody>
                     ) {
                         if (response.isSuccessful) {
+                            Log.e(
+                                "API Call",
+                                "Successful response: ${response.code()}"
+                            )
                             var intent = Intent(
                                 this@RegisterUserActivity,
                                 RegisterGoalActivity::class.java
