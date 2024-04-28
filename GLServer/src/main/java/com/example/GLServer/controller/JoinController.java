@@ -1,12 +1,13 @@
 package com.example.GLServer.controller;
 
-import com.example.GLServer.dto.JoinDTO;
+import com.example.GLServer.dto.JoinInfoDTO;
+import com.example.GLServer.dto.UsernamePasswordDTO;
 import com.example.GLServer.service.JoinService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.io.UnsupportedEncodingException;
+
+@RestController
 @ResponseBody
 public class JoinController {
 
@@ -16,9 +17,25 @@ public class JoinController {
         this.joinService = joinService;
     }
 
-    @PostMapping("/join")
-    public String joinController(JoinDTO joinDto){
-        joinService.joinService(joinDto);
+    @PostMapping("/signup/auth")
+    public String joinAuthProcess(@RequestParam("emailPhone") String emailPhone, @RequestParam("type") Boolean type) throws UnsupportedEncodingException {
+        return joinService.joinAuth(emailPhone, type);
+    }
+
+    @PostMapping("/signup/auth/check")
+    public String joinAuthCheckProcess(@RequestParam("authCode") String authCode){
+        joinService.joinAuthCheck(authCode);
         return "ok";
     }
+
+    @PostMapping("/signup/user")
+    public String joinUserProcess(UsernamePasswordDTO usernamePasswordDTO){
+        return joinService.joinUser(usernamePasswordDTO);
+    }
+
+    @PostMapping("/signup/input")
+    public String joinInputProcess(JoinInfoDTO joinInfoDto){
+        return joinService.joinInput(joinInfoDto);
+    }
+
 }

@@ -1,29 +1,25 @@
 package com.example.GLServer.controller;
 
 import com.example.GLServer.repository.ResponseData;
-import com.example.GLServer.service.MainService;
+import com.example.GLServer.service.QuestService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @ResponseBody
-public class MainController {
+public class QuestController {
+    private final QuestService questService;
 
-    private final MainService mainService;
 
-    public MainController(MainService mainService) {
-        this.mainService = mainService;
+    public QuestController(QuestService questService) {
+        this.questService = questService;
     }
 
-    @GetMapping("/main/info")
-    public ResponseData mainInfoProcess(){
+    @GetMapping("quest/info")
+    public ResponseData questInfoProcess(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return mainService.mainInfo(username);
+        return questService.questInfo(username);
     }
-
 }
