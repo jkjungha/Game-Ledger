@@ -13,14 +13,17 @@
 		android:layout_gravity="center"
 		android:layout_marginTop="100dp"
 		android:text="회원가입"
-		android:textSize="40sp" />
+		android:textSize="35sp"/>
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="20dp"
 		android:layout_marginTop="40dp"
+		android:paddingTop="15dp"
+		android:paddingBottom="30dp"
 		android:gravity="center"
+		android:background="@drawable/outline_style"
 		android:orientation="vertical">
 
 		<LinearLayout
@@ -42,10 +45,11 @@
 				android:id="@+id/goalName_Input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:ems="13"
-				android:hint="목표 내용"
 				android:inputType="text"
-				android:minHeight="50dp" />
+				android:minHeight="30dp"
+				android:ems="12"
+				android:hint="목표 내용"
+				android:textSize="17sp"/>
 		</LinearLayout>
 
 		<LinearLayout
@@ -67,10 +71,11 @@
 				android:id="@+id/goalValue_Input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:ems="13"
-				android:hint="목표 금액"
 				android:inputType="text"
-				android:minHeight="50dp" />
+				android:minHeight="30dp"
+				android:ems="12"
+				android:hint="목표 금액"
+				android:textSize="17sp"/>
 		</LinearLayout>
 
 		<TextView
@@ -80,7 +85,8 @@
 			android:layout_marginTop="10dp"
 			android:layout_marginRight="10dp"
 			android:text="카테고리별 기준 금액"
-			android:textSize="15sp" />
+			android:textSize="15sp"
+			android:textColor="@color/dark_green"/>
 
 
 		<LinearLayout
@@ -95,18 +101,18 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:layout_marginRight="10dp"
-				android:text="식사비 :"
+				android:text="식사비"
 				android:textSize="15sp" />
 
 			<EditText
 				android:id="@+id/foodValue_input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:minHeight="30dp"
 				android:ems="8"
 				android:hint="금액"
-				android:textSize="15sp"
-				android:inputType="text"
-				android:minHeight="50dp"/>
+				android:textSize="15sp"/>
 		</LinearLayout>
 		<LinearLayout
 			android:layout_width="wrap_content"
@@ -120,18 +126,18 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:layout_marginRight="10dp"
-				android:text="교통비 :"
+				android:text="교통비"
 				android:textSize="15sp" />
 
 			<EditText
 				android:id="@+id/trafficValue_input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:minHeight="30dp"
 				android:ems="8"
 				android:hint="금액"
-				android:textSize="15sp"
-				android:inputType="text"
-				android:minHeight="50dp"/>
+				android:textSize="15sp"/>
 		</LinearLayout>
 		<LinearLayout
 			android:layout_width="wrap_content"
@@ -145,18 +151,18 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:layout_marginRight="10dp"
-				android:text="문화비 :"
+				android:text="문화비"
 				android:textSize="15sp" />
 
 			<EditText
 				android:id="@+id/cultureValue_input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:minHeight="30dp"
 				android:ems="8"
 				android:hint="금액"
-				android:textSize="15sp"
-				android:inputType="text"
-				android:minHeight="50dp"/>
+				android:textSize="15sp"/>
 		</LinearLayout>
 		<LinearLayout
 			android:layout_width="wrap_content"
@@ -170,28 +176,28 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:layout_marginRight="10dp"
-				android:text="생활비 :"
+				android:text="생활비"
 				android:textSize="15sp" />
 
 			<EditText
 				android:id="@+id/lifeValue_input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:minHeight="30dp"
 				android:ems="8"
 				android:hint="금액"
-				android:textSize="15sp"
-				android:inputType="text"
-				android:minHeight="50dp"/>
+				android:textSize="15sp"/>
 		</LinearLayout>
 	</LinearLayout>
 
-	<Button
+	<android.widget.Button
 		android:id="@+id/register_button"
-		android:layout_width="wrap_content"
+		android:layout_width="200dp"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
-		android:layout_marginTop="50dp"
-		android:background="@color/dark_green"
+		android:layout_marginTop="30dp"
+		android:background="@drawable/button_style"
 		android:text="회원가입" />
 
 </LinearLayout>
