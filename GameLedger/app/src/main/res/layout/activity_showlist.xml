@@ -7,27 +7,26 @@
     android:background="@drawable/background_black_space"
     tools:context=".ShowListActivity">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_transaction"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="72dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginBottom="0dp"
         android:background="@drawable/view_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="7dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -35,112 +34,200 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="10dp"
-            android:contentDescription="back_button"
-            android:background="@drawable/back_button" />
+            android:background="@drawable/back_button"
+            android:contentDescription="back_button" />
 
         <TextView
             android:id="@+id/tv_yearMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="70dp"
             android:text="@string/year_month"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginLeft="70dp"
             app:layout_constraintBottom_toTopOf="@+id/rv_transaction"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout3"
+        app:layout_constraintBottom_toTopOf="@id/rv_transaction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
+
+        <TextView
+            android:id="@+id/tv_totalString1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="수입"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_totalIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/total_income"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+            android:textStyle="bold"  />
+
+        <TextView
+            android:id="@+id/tv_totalString2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="지출"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_totalExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/total_expense"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:textStyle="bold"  />
+
+        <TextView
+            android:id="@+id/tv_totalString3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="합계"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_totalSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/total_sum"
+            android:textColor="@color/purple"
+            android:textSize="16sp"
+            android:textStyle="bold"  />
+
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_totalString1"
-        android:layout_width="wrap_content"
+<!--
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="수입"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_totalIncome"
-        app:layout_constraintEnd_toStartOf="@+id/tv_totalString2"
+        app:layout_constraintTop_toBottomOf=""
+        app:layout_constraintBottom_toTopOf=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_transaction" />
+        app:layout_constraintEnd_toEndOf="parent" >
 
-    <TextView
-        android:id="@+id/tv_totalString2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="지출"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/totalExpense"
-        app:layout_constraintEnd_toStartOf="@+id/tv_totalString3"
-        app:layout_constraintStart_toEndOf="@+id/tv_totalString1"
-        app:layout_constraintTop_toBottomOf="@+id/rv_transaction" />
+        <TextView
+            android:id="@+id/tv_totalString1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="수입"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_totalIncome"
+            app:layout_constraintEnd_toStartOf="@+id/tv_totalString2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_transaction" />
 
-    <TextView
-        android:id="@+id/tv_totalString3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="합계"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/totalSum"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_totalString2"
-        app:layout_constraintTop_toBottomOf="@+id/rv_transaction" />
+        <TextView
+            android:id="@+id/tv_totalString2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="지출"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/totalExpense"
+            app:layout_constraintEnd_toStartOf="@+id/tv_totalString3"
+            app:layout_constraintStart_toEndOf="@+id/tv_totalString1"
+            app:layout_constraintTop_toBottomOf="@+id/rv_transaction" />
 
-    <TextView
-        android:id="@+id/tv_totalIncome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="900,000원"
-        android:textColor="#2196F3"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/totalExpense"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalString1" />
+        <TextView
+            android:id="@+id/tv_totalString3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="합계"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/totalSum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_totalString2"
+            app:layout_constraintTop_toBottomOf="@+id/rv_transaction" />
 
-    <TextView
-        android:id="@+id/totalExpense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="70,000원"
-        android:textColor="#F44336"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/totalSum"
-        app:layout_constraintStart_toEndOf="@+id/tv_totalIncome"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalString2" />
+        <TextView
+            android:id="@+id/tv_totalIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="900,000원"
+            android:textColor="#2196F3"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/totalExpense"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_totalString1" />
 
-    <TextView
-        android:id="@+id/totalSum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="830,000원"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/totalExpense"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalString3" />
+        <TextView
+            android:id="@+id/totalExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="70,000원"
+            android:textColor="#F44336"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/totalSum"
+            app:layout_constraintStart_toEndOf="@+id/tv_totalIncome"
+            app:layout_constraintTop_toBottomOf="@+id/tv_totalString2" />
 
+        <TextView
+            android:id="@+id/totalSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="830,000원"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/totalExpense"
+            app:layout_constraintTop_toBottomOf="@+id/tv_totalString3" />
+
+    </LinearLayout>
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

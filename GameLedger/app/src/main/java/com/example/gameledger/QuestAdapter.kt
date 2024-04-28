@@ -33,7 +33,7 @@ class QuestAdapter(val questList:ArrayList<Quests>) : RecyclerView.Adapter<Quest
         val questCategory = itemView.findViewById<TextView>(R.id.tv_questCategory)    // 카테고리
         val questTitle = itemView.findViewById<TextView>(R.id.tv_quest)    // 퀘스트
         val questValue = itemView.findViewById<TextView>(R.id.tv_questValue)    // 퀘스트 목표 금액
-        val accumulatedAmmount = itemView.findViewById<TextView>(R.id.tv_accumulatedAmmount)  // 누적 금액
-        val questCompleteButton = itemView.findViewById<Button>(R.id.btn_questComplete)
+        val accumulatedAmmount =
+            itemView.findViewById<TextView>(R.id.tv_accumulatedAmmount)  // 누적 금액
     }
 }

@@ -23,18 +23,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun init() {
-        binding.insertButton.setOnClickListener {
-            var intent = Intent(this@MainActivity, InsertActivity::class.java)
-            startActivity(intent)
-        }
-        binding.questButton.setOnClickListener {
-            var intent = Intent(this@MainActivity, QuestActivity::class.java)
-            startActivity(intent)
-        }
-        binding.showlistButton.setOnClickListener {
-            var intent = Intent(this@MainActivity, ShowListActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.insertButton.setOnClickListener {
+//            var intent = Intent(this@MainActivity, InsertActivity::class.java)
+//            startActivity(intent)
+//        }
+//        binding.questButton.setOnClickListener {
+//            var intent = Intent(this@MainActivity, QuestActivity::class.java)
+//            startActivity(intent)
+//        }
+//        binding.showlistButton.setOnClickListener {
+//            var intent = Intent(this@MainActivity, ShowListActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
     fun initData() {
@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
                 binding.tvSavingGoal.text = dataSnapshot.child("savingGoal").getValue(String::class.java)
                 binding.tvSavingValue.text = value
                 binding.tvSavingDegree.text = (current.toFloat()*100/value.toFloat()).toString()
-                binding.tvCurrentStage.text = current
-                binding.tvTotalStage.text = value
+//                binding.tvCurrentStage.text = current
+//                binding.tvTotalStage.text = value
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

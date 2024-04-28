@@ -20,13 +20,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
+        <!-- 지출 카테고리별 몬스터 그래픽으로 수정 예정 -->
         <ImageView
             android:id="@+id/iv_quest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:src="@drawable/mission"
-            app:layout_constraintBottom_toTopOf="@+id/btn_questComplete"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +52,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_questComplete"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintStart_toEndOf="@+id/iv_quest"
             app:layout_constraintTop_toBottomOf="@+id/tv_questCategory" />
 
@@ -66,7 +67,7 @@
             android:textColor="#03A9F4"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_questComplete"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintStart_toEndOf="@+id/tv_quest"
             app:layout_constraintTop_toBottomOf="@+id/tv_questCategory" />
 
@@ -80,7 +81,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_questComplete"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintStart_toEndOf="@+id/tv_questValue"
             app:layout_constraintTop_toBottomOf="@+id/tv_questCategory" />
 
@@ -109,7 +110,7 @@
             android:textColor="#F44336"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_questComplete"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintEnd_toStartOf="@+id/textView8"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -118,69 +119,35 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="8dp"
             android:text="원"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_questComplete"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintStart_toEndOf="@+id/tv_accumulatedAmmount"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
-            app:layout_constraintVertical_bias="0.727" />
+            app:layout_constraintVertical_bias="0.384" />
 
         <LinearLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_questComplete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_quest">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+            <!-- 달성도 바 그래픽 추가 예정 -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                android:text="HP"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:src="@drawable/border_achievement_rate" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/border_achievement_rate" />
-
-                <!--HP에 따라 길이(width) 설정-->
-                <ImageView
-                    android:id="@+id/iv_questAchievementRate"
-                    android:layout_width="96dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="2dp"
-                    android:src="@drawable/bar_achievement_rate" />
-            </FrameLayout>
         </LinearLayout>
 
-        <android.widget.Button
-            android:id="@+id/btn_questComplete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_quest"
-            android:text="완료"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_accumulatedAmmount" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

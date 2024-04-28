@@ -29,6 +29,7 @@ class TransactionAdapter(val transactionList: ArrayList<Transactions>) : Recycle
             holder.value.setTextColor(Color.parseColor("#2196F3"))
         }
         else if (transactionList.get(position).type == 0) {
+            // 지출 카테고리별 몬스터 그래픽 변경 예정
             holder.type.setImageResource(R.drawable.treasure_closed)
             holder.value.setTextColor(Color.parseColor("#F44336"))
         }
