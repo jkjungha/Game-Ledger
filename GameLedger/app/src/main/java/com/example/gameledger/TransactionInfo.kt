@@ -3,16 +3,16 @@ package com.example.gameledger
 import com.google.gson.annotations.SerializedName
 
 data class TransactionInfo(
-    @SerializedName("transType") val transType : Boolean,
-    @SerializedName("transYear") val transYear : Int,
-    @SerializedName("transMonth") val transMonth : Int,
-    @SerializedName("transDay") val transDay : Int,
-    @SerializedName("transCategory") val transCategory : String,
-    @SerializedName("transName") val transName : String,
-    @SerializedName("transValue")val transValue : Int
+    @SerializedName("transType") var transType : Boolean,
+    @SerializedName("transYear") var transYear : Int,
+    @SerializedName("transMonth") var transMonth : Int,
+    @SerializedName("transDay") var transDay : Int,
+    @SerializedName("transCategory") var transCategory : String,
+    @SerializedName("transName") var transName : String,
+    @SerializedName("transValue")var transValue : Int
 )
 
 data class TotalInfo(
-    @SerializedName("expendTotal") val expendTotal : String,
-    @SerializedName("incomeTotal") val incomeTotal : String
+    @SerializedName("expendTotal") var expendTotal : String,
+    @SerializedName("incomeTotal") var incomeTotal : String
 )

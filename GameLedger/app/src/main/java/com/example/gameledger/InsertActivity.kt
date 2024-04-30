@@ -3,28 +3,25 @@ package com.example.gameledger
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.widget.addTextChangedListener
 import com.example.gameledger.databinding.ActivityInsertBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import org.checkerframework.checker.units.qual.s
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.DecimalFormat
 
 
 class InsertActivity : AppCompatActivity() {
     lateinit var binding: ActivityInsertBinding
+    lateinit var transactionService: TransactionService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertBinding.inflate(layoutInflater)
+        transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         setContentView(binding.root)
         init()
         inputData()
@@ -34,10 +31,12 @@ class InsertActivity : AppCompatActivity() {
         val valueDecimalFormat = DecimalFormat("#,###")
         val watcher = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-            var result:String = ""
+            var result: String = ""
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (!charSequence.toString().isEmpty() && charSequence.toString() != result) {
-                    result = valueDecimalFormat.format(charSequence.toString().replace(",", "").toDouble())
+                    result = valueDecimalFormat.format(
+                        charSequence.toString().replace(",", "").toDouble()
+                    )
                     binding.valueInputText.setText(result)
                     binding.valueInputText.setSelection(result.length)
                 }
@@ -65,10 +64,12 @@ class InsertActivity : AppCompatActivity() {
                             binding.dateInputText.setText(binding.dateInputText.text.toString() + ".")
                             binding.dateInputText.setSelection(binding.dateInputText.text.length)
                         }
+
                         textlength == 7 && before != 1 -> {
                             binding.dateInputText.setText(binding.dateInputText.text.toString() + ".")
                             binding.dateInputText.setSelection(binding.dateInputText.text.length)
                         }
+
                         textlength == 5 && !binding.dateInputText.text.toString().contains(".") -> {
                             binding.dateInputText.setText(
                                 binding.dateInputText.text.toString().substring(0, 4) + "." +
@@ -76,7 +77,9 @@ class InsertActivity : AppCompatActivity() {
                             )
                             binding.dateInputText.setSelection(binding.dateInputText.text.length)
                         }
-                        textlength == 8 && binding.dateInputText.text.toString().substring(7, 8) != "." -> {
+
+                        textlength == 8 && binding.dateInputText.text.toString()
+                            .substring(7, 8) != "." -> {
                             binding.dateInputText.setText(
                                 binding.dateInputText.text.toString().substring(0, 7) + "." +
                                         binding.dateInputText.text.toString().substring(7)
@@ -91,9 +94,69 @@ class InsertActivity : AppCompatActivity() {
         }
         binding.dateInputText.addTextChangedListener(watcher2)
 
+
     }
 
     fun inputData() {
+        binding.inputButton.setOnClickListener {
+            val transDate = binding.dateInputText.text.toString()
+            val parts = transDate.split(".")
+            if (parts.size == 3) {
+            }
+            val transYear = parts[0].toInt() // 연도
+            val transMonth = parts[1].toInt() // 월
+            val transDay = parts[2].toInt() // 일
+
+            var transCategory = binding.categoryInputText.text.toString()
+            val transName = binding.titleInputText.text.toString()
+
+            var value = binding.valueInputText.text.toString()
+            val transValue = value.replace(",", "").toInt()
+
+            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
+            val trans = Transactions(transType, transCategory, transDate, transName, transValue)
+
+            transactionService.inputInfoData(
+                "token",
+                transYear,
+                transMonth,
+                transDay,
+                transCategory,
+                transName,
+                transValue,
+                transType
+            )
+                .enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.d("API Call", "Successful response: ${response.code()}")
+                            // 입력 후 MainActivity로 이동
+                            val intent = Intent(this@InsertActivity, MainActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Log.e("API Call", "Unsuccessful response: ${response.code()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        // 통신 실패시 처리
+                        Toast.makeText(this@InsertActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
+
+        binding.cancelButton.setOnClickListener {
+            // MainActivity로 이동
+            val intent = Intent(this@InsertActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+
+        /*
         val database = Firebase.database
         val user = database.getReference("users").child("userid")
         user.addValueEventListener(object : ValueEventListener {
@@ -141,6 +204,4 @@ class InsertActivity : AppCompatActivity() {
             }
         })
     }
-
-
-}
+*/

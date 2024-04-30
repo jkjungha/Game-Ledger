@@ -1,11 +1,9 @@
 package com.example.gameledger
 
 import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +12,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import java.util.Objects
 
 
 class ShowListActivity : AppCompatActivity() {
@@ -67,8 +64,10 @@ class ShowListActivity : AppCompatActivity() {
                     val category = trans.child("category").value as? String ?: ""
                     val date = trans.child("date").value as? String ?: ""
                     val title = trans.child("title").value as? String ?: ""
-                    val value = trans.child("value").value as? String ?: ""
-                    val t = Transactions(type ?: 0, category, date, title, value)
+                    val value = trans.child("value").value as? Int ?: ""
+                    val t = Transactions((type ?: false) as Boolean, category, date, title,
+                        value as Int
+                    )
 //                    Log.d("DATA", t.type.toString()+" "+ t.category+" "+t.date+" "+t.title+" "+t.value)
                     transactionList.add(t)
                 }

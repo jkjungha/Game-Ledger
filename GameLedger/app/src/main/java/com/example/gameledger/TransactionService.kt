@@ -7,12 +7,12 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface TransactionService {
     @FormUrlEncoded
     @POST("/input/info")
     fun inputInfoData(
+        @Header("token") authorization: String,
         @Field("transYear") transYear: Int,
         @Field("transMonth") transMonth: Int,
         @Field("transDay") transDay: Int,
