@@ -5,23 +5,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ShowListActivity : AppCompatActivity() {
 
     var transactionList = arrayListOf<Transactions>()
     lateinit var transactionAdapter: TransactionAdapter
+    lateinit var transactionService: TransactionService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_showlist)
+        transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
 
 //        InputData(Transactions(1, "월급", "2023.12.04.", "2023년 11월 월급", "800,000원"))
 //        val transactionList = arrayListOf(
@@ -47,7 +48,7 @@ class ShowListActivity : AppCompatActivity() {
 
         val back_button = findViewById<ImageButton>(R.id.back_button)
         back_button.setOnClickListener{
-            var intent = Intent(this@ShowListActivity, MainActivity::class.java)
+            val intent = Intent(this@ShowListActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
@@ -58,8 +59,49 @@ class ShowListActivity : AppCompatActivity() {
         val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
         val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
 
+        if (userToken != null) {
+            transactionService.listInfoData(userToken)
+                .enqueue(object : Callback<List<TransactionInfo>> {
+                    override fun onResponse(
+                        call: Call<List<TransactionInfo>>,
+                        response: Response<List<TransactionInfo>>
+                    ) {
+                        if(response.isSuccessful) {
+                            val transactionInfoList = response.body()
+                            if(transactionInfoList != null) {
+                                for(transactionInfo in transactionInfoList) {
+                                    val transaction = Transactions(
+                                        transactionInfo.transType,
+                                        transactionInfo.transCategory,
+                                        "${transactionInfo.transYear}-${transactionInfo.transMonth}-${transactionInfo.transDay}",
+                                        transactionInfo.transName,
+                                        transactionInfo.transValue
+                                    )
+                                    transactionList.add(transaction)
+                                }
+                                transactionAdapter.notifyDataSetChanged()       //RecyclerView 구현 확인 필요
+                            }
+                        } else {
+                            Toast.makeText(
+                                this@ShowListActivity,
+                                "서버 응답 오류: ${response.code()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
 
+                    override fun onFailure(call: Call<List<TransactionInfo>>, t: Throwable) {
+                        // 요청이 실패한 경우
+                        Toast.makeText(
+                            this@ShowListActivity,
+                            "네트워크 오류: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        }
 
+/*
         val database = Firebase.database
         val user = database.getReference("users").child("userid")
         user.addValueEventListener(object : ValueEventListener {
@@ -84,6 +126,7 @@ class ShowListActivity : AppCompatActivity() {
                 Log.e("FAIL", "Error fetching data")
             }
         })
-    }
 
+ */
+    }
 }
