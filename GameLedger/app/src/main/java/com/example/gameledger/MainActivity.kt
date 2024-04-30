@@ -57,13 +57,13 @@ class MainActivity : AppCompatActivity() {
 
                                     val username = data.getString("username")
                                     val goalName = data.getString("goalName")
-                                    val goalAchieved = data.getInt("goalAchieved")
                                     val goalValue = data.getInt("goalValue")
+                                    val goalAchieved = data.getInt("goalAchieved")
 
                                     Log.v("username", username.toString())
                                     Log.v("goalName", goalName.toString())
-                                    Log.v("goalAchieved", goalAchieved.toString())
                                     Log.v("goalValue", goalValue.toString())
+                                    Log.v("goalAchieved", goalAchieved.toString())
 
                                 } catch (e: JSONException) {
                                     e.printStackTrace()

@@ -53,8 +53,17 @@ public class ListService {
         Map<String, Object> total = new HashMap<>();
         List<Object> list = new ArrayList<>();
 
-        total.put("expendTotal", transactionRepository.sumTranValueByUserEntityAndDateEntityAndTranType(username, year, month, false));
-        total.put("incomeTotal", transactionRepository.sumTranValueByUserEntityAndDateEntityAndTranType(username, year, month, true));
+        Optional<Double> expendTotal = transactionRepository.sumTransValueByUserEntityAndDateEntityAndTranType(username, year, month, false);
+        if (expendTotal.isEmpty()){
+            expendTotal = Optional.of(0.0);
+        }
+        Optional<Double> incomeTotal = transactionRepository.sumTransValueByUserEntityAndDateEntityAndTranType(username, year, month, true);
+        if (incomeTotal.isEmpty()){
+            incomeTotal = Optional.of(0.0);
+        }
+
+        total.put("expendTotal", expendTotal);
+        total.put("incomeTotal", incomeTotal);
         result.put("total", total);
 
         Optional<List<TransactionEntity>> tranList = transactionRepository.findAllByUserEntityAndDateEntity(username, year, month);
@@ -64,13 +73,13 @@ public class ListService {
             for (TransactionEntity tran : TL) {
                 DateEntity DE = tran.getDateEntity();
                 Map<String, Object> dic = new HashMap<>();
-                dic.put("tranType", tran.isTranType());
-                dic.put("tranYear", DE.getYear());
-                dic.put("tranMonth", DE.getMonth());
-                dic.put("tranDay", DE.getDay());
-                dic.put("tranCategory", tran.getTranCategory());
-                dic.put("tranName", tran.getTranName());
-                dic.put("tranValue", tran.getTranValue());
+                dic.put("transType", tran.isTransType());
+                dic.put("transYear", DE.getYear());
+                dic.put("transMonth", DE.getMonth());
+                dic.put("transDay", DE.getDay());
+                dic.put("transCategory", tran.getTransCategory());
+                dic.put("transName", tran.getTransName());
+                dic.put("transValue", tran.getTransValue());
                 list.add(dic);
             }
         }

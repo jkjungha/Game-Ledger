@@ -72,12 +72,13 @@ class ShowListActivity : AppCompatActivity() {
                                     val expendTotal = total.getDouble("expendTotal")
                                     val incomeTotal = total.getDouble("incomeTotal")
                                     Log.v("expendTotal",expendTotal.toString())
+                                    Log.v("incomeTotal",incomeTotal.toString())
 
                                     val list = data.getJSONArray("list")
                                     for (i in 0 until list.length()) {
                                         val listItem = list.getJSONObject(i)
 
-                                        val tranType = listItem.getBoolean("tranType")
+                                        val tranType = listItem.getBoolean("transType")
                                         val transYear = listItem.getInt("transYear")
                                         val transMonth = listItem.getInt("transMonth")
                                         val transDay = listItem.getInt("transDay")
@@ -87,11 +88,11 @@ class ShowListActivity : AppCompatActivity() {
 
                                         Log.v("tranType",tranType.toString())
                                         Log.v("transYear",transYear.toString())
+                                        Log.v("transMonth",transMonth.toString())
+                                        Log.v("transDay",transDay.toString())
                                         Log.v("transCategory",transCategory.toString())
                                         Log.v("transName",transName.toString())
-                                        Log.v("transName",transName.toString())
                                         Log.v("transValue",transValue.toString())
-
 
 
                                     }

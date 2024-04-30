@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
-    @Query("SELECT SUM(t.tranValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.tranType = ?4")
-    Double sumTranValueByUserEntityAndDateEntityAndTranType(String username,int year, int month, Boolean tranType);
+    @Query("SELECT SUM(t.transValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.transType = ?4")
+    Optional<Double> sumTransValueByUserEntityAndDateEntityAndTranType(String username,int year, int month, Boolean transType);
 
     @Query("SELECT t FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3")
     Optional<List<TransactionEntity>> findAllByUserEntityAndDateEntity(String username, int year, int month);
 
-    @Query("SELECT SUM(t.tranValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.tranType = ?4 AND t.tranCategory = ?5")
-    Double sumTranValueByUserEntityAndDateEntityAndCategory(String username, int year, int month, Boolean tranType, String tranCategory);
+    @Query("SELECT SUM(t.transValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.transType = ?4 AND t.transCategory = ?5")
+    Optional<Double> sumTransValueByUserEntityAndDateEntityAndCategory(String username, int year, int month, Boolean transType, String transCategory);
 }

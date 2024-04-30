@@ -20,9 +20,9 @@ public class TransactionEntity {
     @JoinColumn(name = "dateId")
     private DateEntity dateEntity;
 
-    private boolean tranType;
-    private String tranCategory;
-    private String tranName;
-    private int tranValue;
+    private boolean transType;
+    private String transCategory;
+    private String transName;
+    private int transValue;
 
 }

@@ -73,21 +73,27 @@ class QuestActivity : AppCompatActivity() {
                                     val food = data.getJSONObject("food")
                                     val foodGoal = food.getInt("goal")
                                     val foodExpend = food.getInt("expend")
-
-                                    val traffic = data.getJSONObject("traffic")
-                                    val trafficGoal = food.getInt("goal")
-                                    val trafficExpend = food.getInt("expend")
-
-                                    val culture = data.getJSONObject("culture")
-                                    val cultureGoal = food.getInt("goal")
-                                    val cultureExpend = food.getInt("expend")
-
-                                    val life = data.getJSONObject("life")
-                                    val lifeGoal = food.getInt("goal")
-                                    val lifeExpend = food.getInt("expend")
-
                                     Log.v("foodGoal", foodGoal.toString())
                                     Log.v("foodExpend", foodExpend.toString())
+
+                                    val traffic = data.getJSONObject("traffic")
+                                    val trafficGoal = traffic.getInt("goal")
+                                    val trafficExpend = traffic.getInt("expend")
+                                    Log.v("trafficGoal", trafficGoal.toString())
+                                    Log.v("trafficExpend", trafficExpend.toString())
+
+                                    val culture = data.getJSONObject("culture")
+                                    val cultureGoal = culture.getInt("goal")
+                                    val cultureExpend = culture.getInt("expend")
+                                    Log.v("cultureGoal", cultureGoal.toString())
+                                    Log.v("cultureExpend", cultureExpend.toString())
+
+                                    val life = data.getJSONObject("life")
+                                    val lifeGoal = life.getInt("goal")
+                                    val lifeExpend = life.getInt("expend")
+                                    Log.v("lifeGoal", lifeGoal.toString())
+                                    Log.v("lifeExpend", lifeExpend.toString())
+
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                     // Handle JSON parsing error
