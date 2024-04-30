@@ -53,6 +53,7 @@ class ShowListActivity : AppCompatActivity() {
     }
 
     fun InitData(){
+
         val database = Firebase.database
         val user = database.getReference("users").child("userid")
         user.addValueEventListener(object : ValueEventListener {

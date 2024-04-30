@@ -12,7 +12,7 @@ interface TransactionService {
     @FormUrlEncoded
     @POST("/input/info")
     fun inputInfoData(
-        @Header("token") authorization: String,
+        @Header("token") Authorization: String,
         @Field("transYear") transYear: Int,
         @Field("transMonth") transMonth: Int,
         @Field("transDay") transDay: Int,
@@ -24,12 +24,12 @@ interface TransactionService {
 
     @GET("/list/info")
     fun listInfoData(
-        @Header("token") authorization: String
+        @Header("token") Authorization: String
     ): Call<List<TransactionInfo>>
 
     @GET("/list/info")
     fun totalInfoData(
-        @Header("token") authorization: String
+        @Header("token") Authorization: String
     ): Call<TotalInfo>
 
 }

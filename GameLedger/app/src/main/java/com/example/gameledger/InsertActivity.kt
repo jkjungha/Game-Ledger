@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gameledger.databinding.ActivityInsertBinding
@@ -28,6 +29,16 @@ class InsertActivity : AppCompatActivity() {
     }
 
     fun init() {
+        binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
+            when(checkedID) {
+                binding.incomeRadioButton.id -> {
+                    binding.linearLayout2.visibility = View.GONE
+                }
+                binding.expendRadioButton.id -> {
+                    binding.linearLayout2.visibility = View.VISIBLE
+                }
+            }
+        }
         val valueDecimalFormat = DecimalFormat("#,###")
         val watcher = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -114,6 +125,7 @@ class InsertActivity : AppCompatActivity() {
             val transValue = value.replace(",", "").toInt()
 
             val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
+
             val trans = Transactions(transType, transCategory, transDate, transName, transValue)
 
             transactionService.inputInfoData(

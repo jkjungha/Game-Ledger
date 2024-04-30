@@ -52,7 +52,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                                 "API Call",
                                 "Successful response: ${response.code()}"
                             )
-//                            TODO("인증처리")
+
                         } else {
                             Log.e(
                                 "API Call",
