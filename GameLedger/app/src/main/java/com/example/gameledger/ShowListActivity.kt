@@ -1,5 +1,6 @@
 package com.example.gameledger
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -53,6 +54,11 @@ class ShowListActivity : AppCompatActivity() {
     }
 
     fun InitData(){
+        val context: Context = this
+        val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
+        val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
+
+
 
         val database = Firebase.database
         val user = database.getReference("users").child("userid")

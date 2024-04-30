@@ -1,5 +1,6 @@
 package com.example.gameledger
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -109,7 +110,14 @@ class InsertActivity : AppCompatActivity() {
     }
 
     fun inputData() {
+
+
         binding.inputButton.setOnClickListener {
+
+            val context: Context = this
+            val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
+            val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
+
             val transDate = binding.dateInputText.text.toString()
             val parts = transDate.split(".")
             if (parts.size == 3) {
@@ -128,41 +136,43 @@ class InsertActivity : AppCompatActivity() {
 
             val trans = Transactions(transType, transCategory, transDate, transName, transValue)
 
-            transactionService.inputInfoData(
-                "token",
-                transYear,
-                transMonth,
-                transDay,
-                transCategory,
-                transName,
-                transValue,
-                transType
-            )
-                .enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        if (response.isSuccessful) {
-                            Log.d("API Call", "Successful response: ${response.code()}")
-                            // 입력 후 MainActivity로 이동
-                            val intent = Intent(this@InsertActivity, MainActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            Log.e("API Call", "Unsuccessful response: ${response.code()}")
+            if (userToken != null) {
+                transactionService.inputInfoData(
+                    userToken,
+                    transYear,
+                    transMonth,
+                    transDay,
+                    transCategory,
+                    transName,
+                    transValue,
+                    transType
+                )
+                    .enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("API Call", "Successful response: ${response.code()}")
+                                // 입력 후 MainActivity로 이동
+                                val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Log.e("API Call", "Unsuccessful response: ${response.code()}")
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        // 통신 실패시 처리
-                        Toast.makeText(this@InsertActivity, "통신 실패", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            // 통신 실패시 처리
+                            Toast.makeText(this@InsertActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+            }
         }
 
         binding.cancelButton.setOnClickListener {
             // MainActivity로 이동
-            val intent = Intent(this@InsertActivity, MainActivity::class.java)
+            val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
             startActivity(intent)
         }
     }
