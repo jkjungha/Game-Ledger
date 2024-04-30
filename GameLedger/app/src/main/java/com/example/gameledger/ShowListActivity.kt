@@ -3,8 +3,8 @@ package com.example.gameledger
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +60,50 @@ class ShowListActivity : AppCompatActivity() {
         val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
 
         if (userToken != null) {
+            transactionService.totalInfoData(userToken)
+                .enqueue(object : Callback<TotalInfo> {
+                    override fun onResponse(
+                        call: Call<TotalInfo>,
+                        response: Response<TotalInfo>
+                    ) {
+                        if(response.isSuccessful) {
+                            val totalInfo = response.body()
+                            if (totalInfo != null) {
+                                val expendTotal: TextView = findViewById(R.id.tv_totalExpense)
+                                val incomeTotal: TextView = findViewById(R.id.tv_totalIncome)
+                                val sumTotal: TextView = findViewById(R.id.tv_totalSum)
+
+                                val expenseString = resources.getString(R.string.total_placeholder, totalInfo.expendTotal)
+                                val incomeString = resources.getString(R.string.total_placeholder, totalInfo.incomeTotal)
+
+                                val sum = totalInfo.incomeTotal.replace(",", "").toInt() - totalInfo.expendTotal.replace(",", "").toInt()
+                                val sumString = resources.getString(R.string.total_placeholder, sum.toString())
+
+                                expendTotal.text = expenseString
+                                incomeTotal.text = incomeString
+                                sumTotal.text = sumString
+                            }
+                        } else {
+                            Toast.makeText(
+                                this@ShowListActivity,
+                                "서버 응답 오류: ${response.code()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<TotalInfo>, t: Throwable) {
+                        // 요청이 실패한 경우
+                        Toast.makeText(
+                            this@ShowListActivity,
+                            "네트워크 오류: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        }
+
+        if (userToken != null) {
             transactionService.listInfoData(userToken)
                 .enqueue(object : Callback<List<TransactionInfo>> {
                     override fun onResponse(
@@ -79,7 +123,8 @@ class ShowListActivity : AppCompatActivity() {
                                     )
                                     transactionList.add(transaction)
                                 }
-                                transactionAdapter.notifyDataSetChanged()       //RecyclerView 구현 확인 필요
+                                val insertedPosition = transactionList.size - 1
+                                transactionAdapter.notifyItemInserted(insertedPosition)  //데이터셋에 새로운 아이템 추가 -> 뷰 업데이트
                             }
                         } else {
                             Toast.makeText(

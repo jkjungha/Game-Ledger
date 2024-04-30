@@ -5,6 +5,7 @@
     <string name="total_expense">50,000원</string>
     <string name="total_sum">50,000원</string>
     <string name="title_activity_register_goal">RegisterGoalActivity</string>
+    <string name="total_placeholder">%1$s원</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
