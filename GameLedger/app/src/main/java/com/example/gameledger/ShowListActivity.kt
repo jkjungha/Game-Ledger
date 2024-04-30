@@ -67,10 +67,36 @@ class ShowListActivity : AppCompatActivity() {
 
                                     // Access specific fields from the JSON object
                                     val data = jsonObject.getJSONObject("result")
+
                                     val total = data.getJSONObject("total")
+                                    val expendTotal = total.getDouble("expendTotal")
+                                    val incomeTotal = total.getDouble("incomeTotal")
+                                    Log.v("expendTotal",expendTotal.toString())
+
                                     val list = data.getJSONArray("list")
-                                    Log.v("total", total.toString())
-                                    Log.v("lists", list.toString())
+                                    for (i in 0 until list.length()) {
+                                        val listItem = list.getJSONObject(i)
+
+                                        val tranType = listItem.getBoolean("tranType")
+                                        val transYear = listItem.getInt("transYear")
+                                        val transMonth = listItem.getInt("transMonth")
+                                        val transDay = listItem.getInt("transDay")
+                                        val transCategory = listItem.getString("transCategory")
+                                        val transName = listItem.getString("transName")
+                                        val transValue = listItem.getInt("transValue")
+
+                                        Log.v("tranType",tranType.toString())
+                                        Log.v("transYear",transYear.toString())
+                                        Log.v("transCategory",transCategory.toString())
+                                        Log.v("transName",transName.toString())
+                                        Log.v("transName",transName.toString())
+                                        Log.v("transValue",transValue.toString())
+
+
+
+                                    }
+
+
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                     // Handle JSON parsing error
