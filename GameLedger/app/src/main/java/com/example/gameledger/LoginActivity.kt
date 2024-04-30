@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
                                 )
                                 val intent = Intent(
                                     this@LoginActivity,
-                                    QuestActivity::class.java
+                                    MainActivity::class.java
                                 )
                                 startActivity(intent)
                             } else {
