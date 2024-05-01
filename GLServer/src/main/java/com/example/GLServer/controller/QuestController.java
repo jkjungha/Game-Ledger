@@ -4,6 +4,7 @@ import com.example.GLServer.repository.ResponseData;
 import com.example.GLServer.service.QuestService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,11 @@ public class QuestController {
     public ResponseData questInfoProcess(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return questService.questInfo(username);
+    }
+
+    @PostMapping("quest/reset")
+    public ResponseData questResetProcess(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return questService.questReset(username);
     }
 }
