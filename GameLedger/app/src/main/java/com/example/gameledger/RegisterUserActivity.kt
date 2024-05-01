@@ -15,7 +15,6 @@ import retrofit2.Response
 class RegisterUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterUserBinding
     private lateinit var userService: UserService
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterUserBinding.inflate(layoutInflater)

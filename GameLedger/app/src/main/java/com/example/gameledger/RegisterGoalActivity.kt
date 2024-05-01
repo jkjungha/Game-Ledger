@@ -4,8 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.gameledger.databinding.ActivityRegisterGoalBinding
 import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
@@ -40,11 +43,34 @@ class RegisterGoalActivity : AppCompatActivity() {
                                 "API Call",
                                 "Successful response: ${response.code()}"
                             )
-                            var intent = Intent(
-                                this@RegisterGoalActivity,
-                                LoginActivity::class.java
-                            )
-                            startActivity(intent)
+                            val responseBodyString = response.body()?.string()
+
+                            // Process the JSON response
+                            if (!responseBodyString.isNullOrEmpty()) {
+                                try {
+                                    // Parse the JSON response string
+                                    val jsonObject = JSONObject(responseBodyString)
+
+                                    // Access specific fields from the JSON object
+                                    val message = jsonObject.getString("message")
+                                    val code = jsonObject.getInt("code")
+                                    Toast.makeText(this@RegisterGoalActivity, message.toString(), Toast.LENGTH_SHORT).show()
+                                    if(code == 200){val intent = Intent(
+                                        this@RegisterGoalActivity,
+                                        LoginActivity::class.java
+                                    )
+                                        startActivity(intent)
+                                    }
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
+                            } else {
+                                Toast.makeText(
+                                    this@RegisterGoalActivity,
+                                    "응답 내용 없음",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         } else {
                             Log.e(
                                 "API Call",
