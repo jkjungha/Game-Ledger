@@ -118,6 +118,9 @@ class ShowListActivity : AppCompatActivity() {
                                             transValue
                                         )
                                         transactionList.add(transactions)
+
+                                        val position = transactionList.size-1
+                                        transactionAdapter.notifyItemInserted(position)
                                     }
 
                                 } catch (e: JSONException) {

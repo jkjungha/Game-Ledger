@@ -1,17 +1,12 @@
 package com.example.gameledger
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import com.example.gameledger.databinding.ActivityMainBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -64,6 +59,19 @@ class MainActivity : AppCompatActivity() {
                                     Log.v("goalName", goalName.toString())
                                     Log.v("goalValue", goalValue.toString())
                                     Log.v("goalAchieved", goalAchieved.toString())
+
+                                    val usernameTextView: TextView = findViewById(R.id.tv_userName)
+                                    val usernameString = "${username}의"
+                                    usernameTextView.text = usernameString
+
+                                    val goalNameTextView: TextView = findViewById(R.id.tv_goalName)
+                                    goalNameTextView.text = goalName
+
+                                    val goalValueTextView: TextView = findViewById(R.id.tv_goalValue)
+                                    val goalValueString = "${goalValue/10000}만원"    // 천원 단위 추가 예정
+                                    goalValueTextView.text = goalValueString
+
+                                    // 달성도 추가 예정
 
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
