@@ -5,6 +5,7 @@
     <string name="total_expense">50,000원</string>
     <string name="total_sum">50,000원</string>
     <string name="title_activity_register_goal">RegisterGoalActivity</string>
+    <string name="total_placeholder">%1$s원</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -47,5 +48,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
->>>>>>> a445ad693da98d8bc46e52ed067b77537ee8826b
+    <string name="year"><u>2024년</u></string>
+    <string name="month"><u>5월</u></string>
 </resources>

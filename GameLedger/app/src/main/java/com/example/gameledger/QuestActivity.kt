@@ -76,11 +76,27 @@ class QuestActivity : AppCompatActivity() {
                                     Log.v("foodGoal", foodGoal.toString())
                                     Log.v("foodExpend", foodExpend.toString())
 
+                                    val foodQuest = Quests(
+                                        "식비",
+                                        "하루 식비",
+                                        foodGoal.toString(),
+                                        foodExpend.toString()
+                                    )
+                                    questList.add(foodQuest)
+
                                     val traffic = data.getJSONObject("traffic")
                                     val trafficGoal = traffic.getInt("goal")
                                     val trafficExpend = traffic.getInt("expend")
                                     Log.v("trafficGoal", trafficGoal.toString())
                                     Log.v("trafficExpend", trafficExpend.toString())
+
+                                    val trafficQuest = Quests(
+                                        "교통",
+                                        "하루 교통비",
+                                        trafficGoal.toString(),
+                                        trafficExpend.toString()
+                                    )
+                                    questList.add(trafficQuest)
 
                                     val culture = data.getJSONObject("culture")
                                     val cultureGoal = culture.getInt("goal")
@@ -88,11 +104,29 @@ class QuestActivity : AppCompatActivity() {
                                     Log.v("cultureGoal", cultureGoal.toString())
                                     Log.v("cultureExpend", cultureExpend.toString())
 
+                                    val cultureQuest = Quests(
+                                        "문화",
+                                        "하루 문화비",
+                                        cultureGoal.toString(),
+                                        cultureExpend.toString()
+                                    )
+                                    questList.add(cultureQuest)
+
                                     val life = data.getJSONObject("life")
                                     val lifeGoal = life.getInt("goal")
                                     val lifeExpend = life.getInt("expend")
                                     Log.v("lifeGoal", lifeGoal.toString())
                                     Log.v("lifeExpend", lifeExpend.toString())
+
+                                    val lifeQuest = Quests(
+                                        "생활",
+                                        "하루 생활비",
+                                        lifeGoal.toString(),
+                                        lifeExpend.toString()
+                                    )
+                                    questList.add(lifeQuest)
+
+                                    questAdapter.notifyDataSetChanged()
 
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
