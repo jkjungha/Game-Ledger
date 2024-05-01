@@ -71,9 +71,9 @@ class MainActivity : AppCompatActivity() {
                                     val goalValueString = "${goalValue/10000}만원"    // 천원 단위 추가 예정
                                     goalValueTextView.text = goalValueString
 
-                                    var savingDegree = 0
+                                    var savingDegree = 0.0
                                     if (goalAchieved != 0) {
-                                        savingDegree = goalAchieved / goalValue * 100
+                                        savingDegree = goalAchieved.toDouble() / goalValue.toDouble() * 100.0
                                     }
                                     val savingDegreeTextView: TextView = findViewById(R.id.tv_savingDegree)
                                     val savingDegreeString = "${savingDegree}%"
