@@ -182,7 +182,7 @@ class QuestActivity : AppCompatActivity() {
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Successful response: ${response.code()}")
                                 // 입력 후 MainActivity로 이동
-                                val intent = Intent(this@QuestActivity, MainActivity::class.java)
+                                val intent = Intent(this@QuestActivity, QuestActivity::class.java)
                                 startActivity(intent)
                             } else {
                                 Log.e("API Call", "Unsuccessful response: ${response.code()}")
