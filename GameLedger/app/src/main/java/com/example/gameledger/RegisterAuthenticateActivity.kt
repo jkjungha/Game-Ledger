@@ -73,7 +73,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
 
                                     // Access specific fields from the JSON object
                                     val message = jsonObject.getString("message")
-                                    val code = jsonObject.getString("code")
+                                    val code = jsonObject.getInt("code")
                                     Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
@@ -123,7 +123,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
 
                                     // Access specific fields from the JSON object
                                     val message = jsonObject.getString("message")
-                                    val code = jsonObject.getString("code")
+                                    val code = jsonObject.getInt("code")
                                     Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
                                 } catch (e: JSONException) {
                                     e.printStackTrace()

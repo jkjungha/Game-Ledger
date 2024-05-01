@@ -38,7 +38,12 @@
             android:exported="false" />
         <activity
             android:name=".RegisterUserActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".RegisterAuthenticateActivity"
@@ -46,16 +51,8 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false" >
         </activity>
     </application>
 
-
-    <permission android:name="android.permission.INTERNET"
-        tools:ignore="ReservedSystemPermission" />
 </manifest>
