@@ -5,13 +5,11 @@ import com.example.GLServer.dto.UsernamePasswordDTO;
 import com.example.GLServer.entity.DateEntity;
 import com.example.GLServer.entity.SavingEntity;
 import com.example.GLServer.entity.UserEntity;
-import com.example.GLServer.repository.CertificationDao;
-import com.example.GLServer.repository.DateRepository;
-import com.example.GLServer.repository.SavingRepository;
-import com.example.GLServer.repository.UserRepository;
+import com.example.GLServer.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -71,35 +69,41 @@ public class JoinService {
     }
 
     //등록된 회원인지 확인하는 함수
-    public String joinAuth(String emailPhone, Boolean type) throws UnsupportedEncodingException {
+    public ResponseData joinAuth(String emailPhone, Boolean type) throws UnsupportedEncodingException {
+        ResponseData responseData = new ResponseData();
         //이메일 or 핸드폰 or 둘 다 아닌 경우 구분
         if(type){//이메일인 경우
             if(isValidEmail(emailPhone)){
                 Boolean isExist = userRepository.existsByEmail(emailPhone);
                 if(isExist){
-                    return "이미 해당 이메일로 등록된 회원이 있습니다.";
+                    responseData.setCode(400);
+                    responseData.setMessage("이미 해당 이메일로 등록된 회원이 있습니다.");
                 }else{
                     this.email = URLDecoder.decode(emailPhone, StandardCharsets.UTF_8);
 //                    sendEmail(emailPhone);
-                    return "ok";
+                    responseData.setMessage("요청 완료");
                 }
             }else{
-                return "이메일 형식에 맞지 않습니다.";
+                responseData.setCode(400);
+                responseData.setMessage("이메일 형식에 맞지 않습니다.");
             }
         }else{//핸드폰인 경우
             if(isValidPhone(emailPhone)){
                 Boolean isExist = userRepository.existsByPhone(emailPhone);
                 if(isExist){
-                    return "이미 해당 전화번호로 등록된 회원이 있습니다.";
+                    responseData.setCode(400);
+                    responseData.setMessage("이미 해당 전화번호로 등록된 회원이 있습니다.");
                 }else{
                     this.phone = emailPhone;
 //                    sendSms(emailPhone);
-                    return "ok";
+                    responseData.setMessage("요청 완료");
                 }
             }else{
-                return "전화번호 형식에 맞지 않습니다.";
+                responseData.setCode(400);
+                responseData.setMessage("전화번호 형식에 맞지 않습니다.");
             }
         }
+        return responseData;
     }
 
     public boolean isValidEmail(String email) {
@@ -114,39 +118,49 @@ public class JoinService {
         return matcher.matches();
     }
 
-    public void joinAuthCheck(String authCode) {
-
+    public ResponseData joinAuthCheck(String authCode) {
+        ResponseData responseData = new ResponseData();
+        responseData.setMessage("인증 완료");
+        return responseData;
     }
 
 
-    public String joinUser(UsernamePasswordDTO usernamePasswordDTO) {
+    public ResponseData joinUser(UsernamePasswordDTO usernamePasswordDTO) {
+        ResponseData responseData = new ResponseData();
         String username = usernamePasswordDTO.getUsername();
         String password = usernamePasswordDTO.getPassword();
         String againPassword = usernamePasswordDTO.getAgainPassword();
 
         if(!Objects.equals(password, againPassword)){
-            return "비밀번호가 일치하지 않습니다.";
+            responseData.setCode(400);
+            responseData.setMessage("비밀번호가 일치하지 않습니다.");
+            return responseData;
         }
 
         //아이디 중복 확인
         Boolean isExist = userRepository.existsByUsername(username);
         if(isExist){
-            return "이미 존재하는 아이디입니다.";
+            responseData.setCode(400);
+            responseData.setMessage("이미 존재하는 아이디입니다.");
         }else{
             this.username = username;
             this.password = bCryptPasswordEncoder.encode(password);
-            return "ok";
+            responseData.setMessage("요청 완료");
         }
+        return responseData;
     }
 
 
-    public String joinInput(JoinInfoDTO joinInfoDto) {
+    public ResponseData joinInput(JoinInfoDTO joinInfoDto) {
+        ResponseData responseData = new ResponseData();
         UserEntity userEntity = getUserEntity(joinInfoDto);
         userRepository.save(userEntity);
 
         execute5amTask(userEntity);
+        responseData.setMessage("요청 완료");
 
-        return "ok";
+
+        return responseData;
     }
 
     private UserEntity getUserEntity(JoinInfoDTO joinInfoDto) {

@@ -2,6 +2,7 @@ package com.example.GLServer.controller;
 
 import com.example.GLServer.dto.JoinInfoDTO;
 import com.example.GLServer.dto.UsernamePasswordDTO;
+import com.example.GLServer.repository.ResponseData;
 import com.example.GLServer.service.JoinService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,23 +19,22 @@ public class JoinController {
     }
 
     @PostMapping("/signup/auth")
-    public String joinAuthProcess(@RequestParam("emailPhone") String emailPhone, @RequestParam("type") Boolean type) throws UnsupportedEncodingException {
+    public ResponseData joinAuthProcess(@RequestParam("emailPhone") String emailPhone, @RequestParam("type") Boolean type) throws UnsupportedEncodingException {
         return joinService.joinAuth(emailPhone, type);
     }
 
     @PostMapping("/signup/auth/check")
-    public String joinAuthCheckProcess(@RequestParam("authCode") String authCode){
-        joinService.joinAuthCheck(authCode);
-        return "ok";
+    public ResponseData joinAuthCheckProcess(@RequestParam("authCode") String authCode){
+        return joinService.joinAuthCheck(authCode);
     }
 
     @PostMapping("/signup/user")
-    public String joinUserProcess(UsernamePasswordDTO usernamePasswordDTO){
+    public ResponseData joinUserProcess(UsernamePasswordDTO usernamePasswordDTO){
         return joinService.joinUser(usernamePasswordDTO);
     }
 
     @PostMapping("/signup/input")
-    public String joinInputProcess(JoinInfoDTO joinInfoDto){
+    public ResponseData joinInputProcess(JoinInfoDTO joinInfoDto){
         return joinService.joinInput(joinInfoDto);
     }
 
