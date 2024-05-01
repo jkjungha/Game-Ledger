@@ -28,14 +28,20 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                 binding.phoneAuthRadioButton.id -> {
                     binding.authTitle.text = "전화번호 :"
                     binding.authInput.hint = "전화번호"
-                    binding.phoneAuthRadioButton.setBackgroundResource(R.drawable.phone_button_style)
+                    binding.phoneAuthRadioButton.setBackgroundResource(R.drawable.phone_button_on_style)
+                    binding.emailAuthRadioButton.setBackgroundResource(R.drawable.email_button_off_style)
+                    binding.phoneAuthRadioButton.setTextColor(resources.getColor(R.color.black))
+                    binding.emailAuthRadioButton.setTextColor(resources.getColor(R.color.gray))
                     type = true
                 }
 
                 binding.emailAuthRadioButton.id -> {
                     binding.authTitle.text = "이메일 :"
                     binding.authInput.hint = "이메일"
-                    binding.phoneAuthRadioButton.setBackgroundResource(R.drawable.email_button_style)
+                    binding.phoneAuthRadioButton.setBackgroundResource(R.drawable.phone_button_off_style)
+                    binding.emailAuthRadioButton.setBackgroundResource(R.drawable.email_button_on_style)
+                    binding.phoneAuthRadioButton.setTextColor(resources.getColor(R.color.gray))
+                    binding.emailAuthRadioButton.setTextColor(resources.getColor(R.color.black))
                     type = false
                 }
             }
