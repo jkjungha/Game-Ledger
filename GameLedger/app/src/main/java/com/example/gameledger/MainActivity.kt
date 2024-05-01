@@ -71,7 +71,10 @@ class MainActivity : AppCompatActivity() {
                                     val goalValueString = "${goalValue/10000}만원"    // 천원 단위 추가 예정
                                     goalValueTextView.text = goalValueString
 
-                                    // 달성도 추가 예정
+                                    val savingDegree = goalValue / goalAchieved
+                                    val savingDegreeTextView: TextView = findViewById(R.id.tv_savingDegree)
+                                    val savingDegreeString = "${savingDegree}%"
+                                    savingDegreeTextView.text = savingDegreeString
 
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
