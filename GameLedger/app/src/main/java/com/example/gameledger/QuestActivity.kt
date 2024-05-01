@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +38,8 @@ class QuestActivity : AppCompatActivity() {
 
         questAdapter = QuestAdapter(questList)
         quest.adapter = questAdapter
+
+        LinkData()
 
         val back_button = findViewById<ImageButton>(R.id.back_button)
         back_button.setOnClickListener {
@@ -161,6 +164,40 @@ class QuestActivity : AppCompatActivity() {
         }
     }
 
+    fun LinkData() {
+        val context: Context = this
+        val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
+        val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
+
+        val link_button = findViewById<ImageButton>(R.id.link_button)
+        link_button.setOnClickListener {
+            if (userToken != null) {
+                transactionService.questResetData(userToken)
+                    .enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            Log.d("Logging","click link_button")
+                            if (response.isSuccessful) {
+                                Log.d("API Call", "Successful response: ${response.code()}")
+                                // 입력 후 MainActivity로 이동
+                                val intent = Intent(this@QuestActivity, MainActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Log.e("API Call", "Unsuccessful response: ${response.code()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            // 통신 실패시 처리
+                            Toast.makeText(this@QuestActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+            }
+        }
+
+    }
 
 
 }

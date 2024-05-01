@@ -31,75 +31,89 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/treasure_opened" />
 
-        <TextView
-            android:id="@+id/tv_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="월급"
-            android:textColor="@color/purple"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_transaction"
-            app:layout_constraintStart_toEndOf="@+id/iv_plus"
-            app:layout_constraintTop_toTopOf="@+id/iv_plus" />
+        <LinearLayout
+                android:id="@+id/LinearLayout_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="24dp"
+                app:layout_constraintStart_toEndOf="@id/iv_plus"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/tv_transaction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="2023년 11월 월급"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_plus"
-            app:layout_constraintStart_toEndOf="@+id/iv_plus"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category" />
+            <LinearLayout
+                    android:id="@+id/LinearLayout1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/tv_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="800,000"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_plus"
-            app:layout_constraintStart_toEndOf="@+id/tv_transaction"
-            app:layout_constraintTop_toTopOf="@+id/tv_transaction"
-            app:layout_constraintVertical_bias="1.0" />
+                <TextView
+                        android:id="@+id/tv_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="월급"
+                        android:textSize="16sp"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/TextView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="원"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_plus"
-            app:layout_constraintStart_toEndOf="@+id/tv_value"
-            app:layout_constraintTop_toTopOf="@+id/tv_transaction"
-            app:layout_constraintVertical_bias="1.0" />
+                <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="2023. 12. 04."
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="2023. 12. 04."
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_category"
-            app:layout_constraintStart_toEndOf="@+id/tv_category"
-            app:layout_constraintTop_toTopOf="@+id/iv_plus" />
+            <LinearLayout
+                    android:id="@+id/LinearLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/tv_transaction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2023년 11월 월급"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"/>
+
+                <TextView
+                        android:id="@+id/tv_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="800,000"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"/>
+
+                <TextView
+                        android:id="@+id/TextView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="원"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
