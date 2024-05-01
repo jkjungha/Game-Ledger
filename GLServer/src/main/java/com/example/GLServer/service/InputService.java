@@ -61,19 +61,19 @@ public class InputService {
             if(savingEntity.isPresent()){
                 SavingEntity SE = savingEntity.get();
                 int value = transactionEntity.getTransValue();
-                if(Objects.equals(transactionEntity.getTransCategory(), "food")){
+                if(Objects.equals(transactionEntity.getTransCategory().trim(), "식비")){
                     int tmp = SE.getSavingFood();
                     SE.setSavingFood(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory(), "traffic")){
+                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "교통")){
                     int tmp = SE.getSavingTraffic();
                     SE.setSavingTraffic(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory(), "culture")){
+                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "문화")){
                     int tmp = SE.getSavingCulture();
                     SE.setSavingCulture(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory(), "life")){
+                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "생활")){
                     int tmp = SE.getSavingLife();
                     SE.setSavingLife(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory(), "etc")){
+                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "기타")){
                     int tmp = SE.getSavingEtc();
                     SE.setSavingEtc(Math.max(tmp - value, 0));
                 }

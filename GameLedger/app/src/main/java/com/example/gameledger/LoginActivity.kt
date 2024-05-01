@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                             } else {
                                 Log.e(
                                     "API Call",
-                                    "Unsuccessful response: ${response.code()}"
+                                    "Header is null: ${response.code()}"
                                 )
                             }
 

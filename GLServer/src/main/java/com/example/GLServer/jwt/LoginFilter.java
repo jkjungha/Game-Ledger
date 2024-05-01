@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,6 +28,10 @@ import java.util.Optional;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
+//    private static final int MIN_USERNAME_LENGTH = 5;
+//    private static final int MAX_USERNAME_LENGTH = 15;
+//    private static final int MIN_PASSWORD_LENGTH = 5;
+//    private static final int MAX_PASSWORD_LENGTH = 45;
     private final AuthenticationManager authenticationManager;
 
     private final UserRepository userRepository;
@@ -47,6 +52,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String username = obtainUsername(request);
         String password = obtainPassword(request);
+//        if (username == null || username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
+//            throw new BadCredentialsException("Invalid username length");
+//        }
+//
+//        if (password == null || password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
+//            throw new BadCredentialsException("Invalid password length");
+//        }
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
 
