@@ -3,11 +3,8 @@ package com.example.gameledger
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
 
 class QuestAdapter(val questList:ArrayList<Quests>) : RecyclerView.Adapter<QuestAdapter.CustomViewHolder>()
 {
@@ -22,7 +19,7 @@ class QuestAdapter(val questList:ArrayList<Quests>) : RecyclerView.Adapter<Quest
         holder.questCategory.text = questList.get(position).questCategory
         holder.questTitle.text = questList.get(position).questTitle
         holder.questValue.text = questList.get(position).questValue
-        holder.accumulatedAmmount.text = questList.get(position).accumulatedAmmount
+        holder.accumulatedAmount.text = questList.get(position).accumulatedAmount
     }
 
     override fun getItemCount(): Int {
@@ -33,7 +30,7 @@ class QuestAdapter(val questList:ArrayList<Quests>) : RecyclerView.Adapter<Quest
         val questCategory = itemView.findViewById<TextView>(R.id.tv_questCategory)    // 카테고리
         val questTitle = itemView.findViewById<TextView>(R.id.tv_quest)    // 퀘스트
         val questValue = itemView.findViewById<TextView>(R.id.tv_questValue)    // 퀘스트 목표 금액
-        val accumulatedAmmount =
-            itemView.findViewById<TextView>(R.id.tv_accumulatedAmmount)  // 누적 금액
+        val accumulatedAmount =
+            itemView.findViewById<TextView>(R.id.tv_accumulatedAmount)  // 누적 금액
     }
 }

@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:text="2023.12.04."
+                    android:text="2024.05.01."
                     android:inputType="number"
                     android:maxLength="10"/>
 

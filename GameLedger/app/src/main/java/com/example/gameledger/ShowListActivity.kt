@@ -39,7 +39,7 @@ class ShowListActivity : AppCompatActivity() {
 
         val back_button = findViewById<ImageButton>(R.id.back_button)
         back_button.setOnClickListener{
-            val intent = Intent(this@ShowListActivity, MainActivity::class.java)
+            val intent = Intent(this@ShowListActivity, QuestActivity::class.java)
             startActivity(intent)
         }
 
@@ -131,8 +131,8 @@ class ShowListActivity : AppCompatActivity() {
                                         )
                                         transactionList.add(transactions)
 
-                                        //val position = transactionList.size-1
-                                        //transactionAdapter.notifyItemInserted(position)
+                                        val position = transactionList.size-1
+                                        transactionAdapter.notifyItemInserted(position)
                                     }
 
                                 } catch (e: JSONException) {
