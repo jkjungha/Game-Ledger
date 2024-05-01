@@ -1,10 +1,12 @@
 package com.example.gameledger
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,6 +53,7 @@ class ShowListActivity : AppCompatActivity() {
         if (userToken != null) {
             transactionService.listInfoData(userToken)
                 .enqueue(object : Callback<ResponseBody> {
+                    @SuppressLint("StringFormatMatches")
                     override fun onResponse(
                         call: Call<ResponseBody>,
                         response: Response<ResponseBody>
@@ -67,10 +70,56 @@ class ShowListActivity : AppCompatActivity() {
 
                                     // Access specific fields from the JSON object
                                     val data = jsonObject.getJSONObject("result")
+
                                     val total = data.getJSONObject("total")
+                                    val expendTotal = total.getDouble("expendTotal")
+                                    val incomeTotal = total.getDouble("incomeTotal")
+                                    Log.v("expendTotal",expendTotal.toString())
+                                    Log.v("incomeTotal",incomeTotal.toString())
+
+                                    val expendTotalTextView: TextView = findViewById(R.id.tv_totalExpense)
+                                    val expenseString = resources.getString(R.string.total_placeholder, expendTotal)
+                                    expendTotalTextView.text = expenseString
+
+                                    val incomeTotalTextView: TextView = findViewById(R.id.tv_totalIncome)
+                                    val incomeString = resources.getString(R.string.total_placeholder, incomeTotal)
+                                    incomeTotalTextView.text = incomeString
+
+                                    val sumTotal = incomeTotal - expendTotal
+                                    val sumTotalTextView: TextView = findViewById(R.id.tv_totalSum)
+                                    val sumString = resources.getString(R.string.total_placeholder, sumTotal)
+                                    sumTotalTextView.text = sumString
+
                                     val list = data.getJSONArray("list")
-                                    Log.v("total", total.toString())
-                                    Log.v("lists", list.toString())
+                                    for (i in 0 until list.length()) {
+                                        val listItem = list.getJSONObject(i)
+
+                                        val transType = listItem.getBoolean("transType")
+                                        val transYear = listItem.getInt("transYear")
+                                        val transMonth = listItem.getInt("transMonth")
+                                        val transDay = listItem.getInt("transDay")
+                                        val transCategory = listItem.getString("transCategory")
+                                        val transName = listItem.getString("transName")
+                                        val transValue = listItem.getInt("transValue")
+
+                                        Log.v("tranType",transType.toString())
+                                        Log.v("transYear",transYear.toString())
+                                        Log.v("transMonth",transMonth.toString())
+                                        Log.v("transDay",transDay.toString())
+                                        Log.v("transCategory",transCategory.toString())
+                                        Log.v("transName",transName.toString())
+                                        Log.v("transValue",transValue.toString())
+
+                                        val transactions = Transactions(
+                                            transType,
+                                            transCategory,
+                                            "${transYear}.${transMonth}.${transDay}",
+                                            transName,
+                                            transValue
+                                        )
+                                        transactionList.add(transactions)
+                                    }
+
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                     // Handle JSON parsing error
