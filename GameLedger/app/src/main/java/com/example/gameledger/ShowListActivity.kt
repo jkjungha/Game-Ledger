@@ -70,10 +70,12 @@ class ShowListActivity : AppCompatActivity() {
 
                                     // Access specific fields from the JSON object
                                     val data = jsonObject.getJSONObject("result")
+                                    Log.d("logging", data.toString())
 
                                     val total = data.getJSONObject("total")
-                                    val expendTotal = total.getDouble("expendTotal")
-                                    val incomeTotal = total.getDouble("incomeTotal")
+                                    val expendTotal = total.getInt("expendTotal")
+                                    val incomeTotal = total.getInt("incomeTotal")
+                                    Log.d("logging", total.toString())
                                     Log.v("expendTotal",expendTotal.toString())
                                     Log.v("incomeTotal",incomeTotal.toString())
 
@@ -91,6 +93,8 @@ class ShowListActivity : AppCompatActivity() {
                                     sumTotalTextView.text = sumString
 
                                     val list = data.getJSONArray("list")
+                                    Log.d("logging", list.toString())
+
                                     for (i in 0 until list.length()) {
                                         val listItem = list.getJSONObject(i)
 
@@ -110,6 +114,14 @@ class ShowListActivity : AppCompatActivity() {
                                         Log.v("transName",transName.toString())
                                         Log.v("transValue",transValue.toString())
 
+                                        val yearTextView: TextView = findViewById(R.id.tv_year)
+                                        val yearString = "${transYear}년"
+                                        yearTextView.text = yearString
+
+                                        val monthTextView: TextView = findViewById(R.id.tv_month)
+                                        val monthString = "${transMonth}월"
+                                        monthTextView.text = monthString
+
                                         val transactions = Transactions(
                                             transType,
                                             transCategory,
@@ -119,8 +131,8 @@ class ShowListActivity : AppCompatActivity() {
                                         )
                                         transactionList.add(transactions)
 
-                                        val position = transactionList.size-1
-                                        transactionAdapter.notifyItemInserted(position)
+                                        //val position = transactionList.size-1
+                                        //transactionAdapter.notifyItemInserted(position)
                                     }
 
                                 } catch (e: JSONException) {

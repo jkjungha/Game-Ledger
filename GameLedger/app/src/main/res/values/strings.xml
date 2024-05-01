@@ -48,5 +48,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
->>>>>>> a445ad693da98d8bc46e52ed067b77537ee8826b
+    <string name="year"><u>2024년</u></string>
+    <string name="month"><u>5월</u></string>
 </resources>

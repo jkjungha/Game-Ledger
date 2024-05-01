@@ -31,8 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UserName"
-                    android:fontFamily="casual"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:layout_marginRight="20dp" />
@@ -41,7 +40,6 @@
                     android:id="@+id/TextView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="casual"
                     android:text="저축 목표"
                     android:textColor="@color/white"
                     android:textStyle="bold"
@@ -60,9 +58,8 @@
                     android:id="@+id/tv_goalName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="casual"
                     android:text="여행 경비"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:layout_marginRight="20dp" />
@@ -72,8 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30만원"
-                    android:fontFamily="casual"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="28sp"
                     android:textStyle="bold" />
         </LinearLayout>
@@ -89,8 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="달성도 : "
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="casual"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="28sp"
                     android:layout_marginRight="12dp" />
@@ -100,8 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10%"
-                    android:fontFamily="casual"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="28sp"
                     android:textStyle="bold" />
 
