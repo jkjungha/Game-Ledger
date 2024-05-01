@@ -37,6 +37,12 @@ interface TransactionService {
         @Header("Authorization") Authorization: String
     ): Call<ResponseBody>
 
+    @POST("/quest/reset")
+    fun questResetData(
+        @Header("Authorization") Authorization: String
+    ): Call<ResponseBody>
+
+
     @GET("/graph/info")
     fun graphInfoData(
         @Header("Authorization") Authorization: String

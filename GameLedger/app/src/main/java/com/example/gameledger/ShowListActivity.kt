@@ -125,7 +125,7 @@ class ShowListActivity : AppCompatActivity() {
                                         val transactions = Transactions(
                                             transType,
                                             transCategory,
-                                            "${transYear}.${transMonth}.${transDay}",
+                                            "${transYear}. ${transMonth}. ${transDay}",
                                             transName,
                                             transValue
                                         )

@@ -154,7 +154,7 @@ class InsertActivity : AppCompatActivity() {
                         ) {
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Successful response: ${response.code()}")
-                                // 입력 후 MainActivity로 이동
+                                // 입력 후 ShowListActivity로 이동
                                 val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
                                 startActivity(intent)
                             } else {
