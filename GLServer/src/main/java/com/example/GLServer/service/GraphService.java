@@ -55,11 +55,11 @@ public class GraphService {
 
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> expendCategoryGraph = new HashMap<>();
-        expendCategoryGraph.put("food", transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "food"));
-        expendCategoryGraph.put("traffic",transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "traffic"));
-        expendCategoryGraph.put("culture", transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "culture"));
-        expendCategoryGraph.put("life",transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "life"));
-        expendCategoryGraph.put("etc",transactionRepository.sumTranValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "etc"));
+        expendCategoryGraph.put("food", transactionRepository.sumTransValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "food"));
+        expendCategoryGraph.put("traffic",transactionRepository.sumTransValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "traffic"));
+        expendCategoryGraph.put("culture", transactionRepository.sumTransValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "culture"));
+        expendCategoryGraph.put("life",transactionRepository.sumTransValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "life"));
+        expendCategoryGraph.put("etc",transactionRepository.sumTransValueByUserEntityAndDateEntityAndCategory(username, year, month,false, "etc"));
 
         List<Object> savedGraph = new ArrayList<>();
         List<DateEntity> dateEntities = dateRepository.findAllByYearAndMonth(year, month);

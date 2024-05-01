@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,20 +26,6 @@ class ShowListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_showlist)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
-
-//        InputData(Transactions(1, "월급", "2023.12.04.", "2023년 11월 월급", "800,000원"))
-//        val transactionList = arrayListOf(
-//            Transactions(1, "월급", "2023.12.04.", "2023년 11월 월급", "800,000원"),
-//            Transactions(0, "식비", "2023.12.04.", "학식", "5,000원"),
-//            Transactions(0, "식비", "2023.12.04.", "레스티오", "3,000원"),
-//            Transactions(0, "교통", "2023.12.04.", "카카오택시", "6,500원"),
-//            Transactions(1, "용돈", "2023.12.04.", "할머니용돈", "100,000원"),
-//            Transactions(0, "문화", "2023.12.04.", "롯데시네마", "14,000원"),
-//            Transactions(0, "식비", "2023.12.04.", "영화관매점", "10,000원"),
-//            Transactions(0, "식비", "2023.12.04.", "교촌치킨", "20,000원"),
-//            Transactions(0, "문화", "2023.12.04.", "넷플릭스", "10,000원"),
-//            Transactions(0, "교통", "2023.12.04.", "버스", "1,500원")
-//        )
         InitData()
 
         val transaction = findViewById<RecyclerView>(R.id.rv_transaction)
@@ -64,23 +52,35 @@ class ShowListActivity : AppCompatActivity() {
             transactionService.listInfoData(userToken)
                 .enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
-                        call: Call<List<ResponseBody>,
+                        call: Call<ResponseBody>,
                         response: Response<ResponseBody>
                     ) {
                         if(response.isSuccessful) {
-                            val transactionInfoList = response.body()
-                            if(transactionInfoList != null) {
-                                for(transactionInfo in transactionInfoList) {
-                                    val transaction = Transactions(
-                                        transactionInfo.transType,
-                                        transactionInfo.transCategory,
-                                        "${transactionInfo.transYear}-${transactionInfo.transMonth}-${transactionInfo.transDay}",
-                                        transactionInfo.transName,
-                                        transactionInfo.transValue
-                                    )
-                                    transactionList.add(transaction)
+                            // Get the response body as a string
+                            val responseBodyString = response.body()?.string()
+
+                            // Process the JSON response
+                            if (!responseBodyString.isNullOrEmpty()) {
+                                try {
+                                    // Parse the JSON response string
+                                    val jsonObject = JSONObject(responseBodyString)
+
+                                    // Access specific fields from the JSON object
+                                    val data = jsonObject.getJSONObject("result")
+                                    val total = data.getJSONObject("total")
+                                    val list = data.getJSONArray("list")
+                                    Log.v("total", total.toString())
+                                    Log.v("lists", list.toString())
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                    // Handle JSON parsing error
                                 }
-                                transactionAdapter.notifyDataSetChanged()       //RecyclerView 구현 확인 필요
+                            } else {
+                                Toast.makeText(
+                                    this@ShowListActivity,
+                                    "응답 내용 없음: ${response.code()}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         } else {
                             Toast.makeText(
@@ -91,7 +91,7 @@ class ShowListActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<List<TransactionInfo>>, t: Throwable) {
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // 요청이 실패한 경우
                         Toast.makeText(
                             this@ShowListActivity,
@@ -99,35 +99,8 @@ class ShowListActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+
                 })
         }
-
-/*
-        val database = Firebase.database
-        val user = database.getReference("users").child("userid")
-        user.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                transactionList.clear()
-                var transactions = dataSnapshot.child("transactions")
-                for(trans in transactions.children){
-                    val type = trans.child("type").getValue(Int::class.java)
-                    val category = trans.child("category").value as? String ?: ""
-                    val date = trans.child("date").value as? String ?: ""
-                    val title = trans.child("title").value as? String ?: ""
-                    val value = trans.child("value").value as? Int ?: ""
-                    val t = Transactions((type ?: false) as Boolean, category, date, title,
-                        value as Int
-                    )
-//                    Log.d("DATA", t.type.toString()+" "+ t.category+" "+t.date+" "+t.title+" "+t.value)
-                    transactionList.add(t)
-                }
-                transactionAdapter.notifyDataSetChanged()
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.e("FAIL", "Error fetching data")
-            }
-        })
-
- */
     }
 }

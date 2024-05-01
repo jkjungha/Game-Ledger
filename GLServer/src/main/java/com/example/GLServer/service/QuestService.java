@@ -70,26 +70,26 @@ public class QuestService {
 
             System.out.println(SE);
             Map<String, Object> food = new HashMap<>();
-            food.put("savingQA", userEntity.getFoodValue());
-            food.put("AchievedQA", userEntity.getFoodValue() - SE.getSavingFood());
+            food.put("goal", userEntity.getFoodValue());
+            food.put("expend", userEntity.getFoodValue() - SE.getSavingFood());
             food.put("isAchieved", SE.isFoodAchieved());
             result.put("food", food);
 
             Map<String, Object> traffic = new HashMap<>();
-            traffic.put("savingQA", userEntity.getTrafficValue());
-            traffic.put("AchievedQA", userEntity.getTrafficValue() - SE.getSavingTraffic());
+            traffic.put("goal", userEntity.getTrafficValue());
+            traffic.put("expend", userEntity.getTrafficValue() - SE.getSavingTraffic());
             traffic.put("isAchieved", SE.isTrafficAchieved());
             result.put("traffic", traffic);
 
             Map<String, Object> culture = new HashMap<>();
-            culture.put("savingQA", userEntity.getCultureValue());
-            culture.put("AchievedQA", userEntity.getCultureValue() - SE.getSavingCulture());
+            culture.put("goal", userEntity.getCultureValue());
+            culture.put("expend", userEntity.getCultureValue() - SE.getSavingCulture());
             culture.put("isAchieved", SE.isCultureAchieved());
             result.put("culture", culture);
 
             Map<String, Object> life = new HashMap<>();
-            life.put("savingQA", userEntity.getLifeValue());
-            life.put("AchievedQA", userEntity.getLifeValue() - SE.getSavingLife());
+            life.put("goal", userEntity.getLifeValue());
+            life.put("expend", userEntity.getLifeValue() - SE.getSavingLife());
             life.put("isAchieved", SE.isLifeAchieved());
             result.put("life", life);
         }

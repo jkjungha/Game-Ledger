@@ -50,33 +50,34 @@ public class InputService {
 
         transactionEntity.setUserEntity(userEntity);
         transactionEntity.setDateEntity(dateEntity);
-        transactionEntity.setTranType(inputInfoDTO.isTransType());
-        transactionEntity.setTranCategory(inputInfoDTO.getTransCategory());
-        transactionEntity.setTranName(inputInfoDTO.getTransName());
-        transactionEntity.setTranValue(inputInfoDTO.getTransValue());
+        transactionEntity.setTransType(inputInfoDTO.isTransType());
+        transactionEntity.setTransCategory(inputInfoDTO.getTransCategory());
+        transactionEntity.setTransName(inputInfoDTO.getTransName());
+        transactionEntity.setTransValue(inputInfoDTO.getTransValue());
         transactionRepository.save(transactionEntity);
 
         if(!inputInfoDTO.isTransType()){
             Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
             if(savingEntity.isPresent()){
                 SavingEntity SE = savingEntity.get();
-                int value = transactionEntity.getTranValue();
-                if(Objects.equals(transactionEntity.getTranCategory(), "food")){
+                int value = transactionEntity.getTransValue();
+                if(Objects.equals(transactionEntity.getTransCategory(), "food")){
                     int tmp = SE.getSavingFood();
-                    SE.setSavingFood(tmp - value);
-                }else if(Objects.equals(transactionEntity.getTranCategory(), "traffic")){
+                    SE.setSavingFood(Math.max(tmp - value, 0));
+                }else if(Objects.equals(transactionEntity.getTransCategory(), "traffic")){
                     int tmp = SE.getSavingTraffic();
-                    SE.setSavingTraffic(tmp - value);
-                }else if(Objects.equals(transactionEntity.getTranCategory(), "culture")){
+                    SE.setSavingTraffic(Math.max(tmp - value, 0));
+                }else if(Objects.equals(transactionEntity.getTransCategory(), "culture")){
                     int tmp = SE.getSavingCulture();
-                    SE.setSavingCulture(tmp - value);
-                }else if(Objects.equals(transactionEntity.getTranCategory(), "life")){
+                    SE.setSavingCulture(Math.max(tmp - value, 0));
+                }else if(Objects.equals(transactionEntity.getTransCategory(), "life")){
                     int tmp = SE.getSavingLife();
-                    SE.setSavingLife(tmp - value);
-                }else if(Objects.equals(transactionEntity.getTranCategory(), "etc")){
+                    SE.setSavingLife(Math.max(tmp - value, 0));
+                }else if(Objects.equals(transactionEntity.getTransCategory(), "etc")){
                     int tmp = SE.getSavingEtc();
-                    SE.setSavingEtc(tmp - value);
+                    SE.setSavingEtc(Math.max(tmp - value, 0));
                 }
+                savingRepository.save(SE);
             }
         }
 
