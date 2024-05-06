@@ -33,19 +33,17 @@ public class JoinService {
             "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String PHONE_REGEX = "\\d{3}-\\d{4}-\\d{4}";
 
-    private final CertificationDao certificationDao;
 
     private String email;
     private String phone;
     private String username;
     private String password;
 
-    public JoinService(UserRepository userRepository, DateRepository dateRepository, SavingRepository savingRepository, BCryptPasswordEncoder bCryptPasswordEncoder, CertificationDao smsCertificationDao){
+    public JoinService(UserRepository userRepository, DateRepository dateRepository, SavingRepository savingRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
         this.dateRepository = dateRepository;
         this.savingRepository = savingRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.certificationDao = smsCertificationDao;
     }
 
 

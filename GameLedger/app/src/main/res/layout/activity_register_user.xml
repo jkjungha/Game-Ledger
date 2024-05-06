@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 android:ems="12"
-                android:hint="영문+숫자 8~16자리"
+                android:hint="비밀번호를 입력해주세요"
                 android:textSize="17sp"
                 android:inputType="textPassword"/>
         </LinearLayout>

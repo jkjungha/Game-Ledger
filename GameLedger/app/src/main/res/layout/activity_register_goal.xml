@@ -44,7 +44,7 @@
 			<EditText
 				android:id="@+id/goalName_Input"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:inputType="text"
 				android:minHeight="30dp"
 				android:ems="12"
@@ -70,7 +70,7 @@
 			<EditText
 				android:id="@+id/goalValue_Input"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:inputType="text"
 				android:minHeight="30dp"
 				android:ems="12"
@@ -107,7 +107,7 @@
 			<EditText
 				android:id="@+id/foodValue_input"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:inputType="text"
 				android:minHeight="30dp"
 				android:ems="8"
@@ -132,7 +132,7 @@
 			<EditText
 				android:id="@+id/trafficValue_input"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:inputType="text"
 				android:minHeight="30dp"
 				android:ems="8"
@@ -157,7 +157,7 @@
 			<EditText
 				android:id="@+id/cultureValue_input"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:inputType="text"
 				android:minHeight="30dp"
 				android:ems="8"
@@ -182,7 +182,7 @@
 			<EditText
 				android:id="@+id/lifeValue_input"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:inputType="text"
 				android:minHeight="30dp"
 				android:ems="8"

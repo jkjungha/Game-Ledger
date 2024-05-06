@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gameledger.databinding.ActivityLoginBinding
 import okhttp3.ResponseBody
@@ -25,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             var username = binding.idInput.text.toString()
             var password = binding.passwordInput.text.toString()
+
             val context: Context = this
 
             userService.loginData(username, password)

@@ -5,7 +5,6 @@ import com.example.GLServer.entity.TransactionEntity;
 import com.example.GLServer.repository.DateRepository;
 import com.example.GLServer.repository.ResponseData;
 import com.example.GLServer.repository.TransactionRepository;
-import com.example.GLServer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

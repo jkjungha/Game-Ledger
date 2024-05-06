@@ -50,11 +50,16 @@ class RegisterUserActivity : AppCompatActivity() {
                                     // Access specific fields from the JSON object
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
-                                    Toast.makeText(this@RegisterUserActivity, message.toString(), Toast.LENGTH_SHORT).show()
-                                    if(code == 200){val intent = Intent(
+                                    Toast.makeText(
                                         this@RegisterUserActivity,
-                                        RegisterGoalActivity::class.java
-                                    )
+                                        message.toString(),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    if (code == 200) {
+                                        val intent = Intent(
+                                            this@RegisterUserActivity,
+                                            RegisterGoalActivity::class.java
+                                        )
                                         startActivity(intent)
                                     }
                                 } catch (e: JSONException) {
