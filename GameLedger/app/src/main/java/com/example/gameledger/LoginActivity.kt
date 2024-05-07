@@ -68,7 +68,6 @@ class LoginActivity : AppCompatActivity() {
                             )
                         }
                     }
-
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.e("API Call", "Failed to make API call: ${t.message}", t)
                     }

@@ -15,6 +15,7 @@ import retrofit2.Response
 class RegisterAuthenticateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterAuthenticateBinding
     private lateinit var userService: UserService
+    private lateinit var authCode: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,19 +66,15 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                             )
                             val responseBodyString = response.body()?.string()
 
-                            // Process the JSON response
                             if (!responseBodyString.isNullOrEmpty()) {
                                 try {
-                                    // Parse the JSON response string
                                     val jsonObject = JSONObject(responseBodyString)
 
-                                    // Access specific fields from the JSON object
-                                    val message = jsonObject.getString("message")
-                                    val code = jsonObject.getInt("code")
+                                    val message = jsonObject.getJSONObject("message")
+                                    authCode = jsonObject.getJSONObject("result").getInt("authCode").toString()
                                     Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
-                                    // Handle JSON parsing error
                                 }
                             } else {
                                 Toast.makeText(
@@ -115,19 +112,15 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                             )
                             val responseBodyString = response.body()?.string()
 
-                            // Process the JSON response
                             if (!responseBodyString.isNullOrEmpty()) {
                                 try {
-                                    // Parse the JSON response string
                                     val jsonObject = JSONObject(responseBodyString)
 
-                                    // Access specific fields from the JSON object
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
                                     Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
-                                    // Handle JSON parsing error
                                 }
                             } else {
                                 Toast.makeText(

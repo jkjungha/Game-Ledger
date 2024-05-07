@@ -45,13 +45,10 @@ class RegisterGoalActivity : AppCompatActivity() {
                             )
                             val responseBodyString = response.body()?.string()
 
-                            // Process the JSON response
                             if (!responseBodyString.isNullOrEmpty()) {
                                 try {
-                                    // Parse the JSON response string
                                     val jsonObject = JSONObject(responseBodyString)
 
-                                    // Access specific fields from the JSON object
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
                                     Toast.makeText(this@RegisterGoalActivity, message.toString(), Toast.LENGTH_SHORT).show()
