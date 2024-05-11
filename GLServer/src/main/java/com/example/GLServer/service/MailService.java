@@ -14,34 +14,52 @@ import java.util.Random;
 
 @Service
 public class MailService {
-
-    private static final String AUTH_CODE_PREFIX ="AuthCode ";
     private final JavaMailSender emailSender;
 
-    public MailService(JavaMailSender emailSender) {
+    private final RedisUtil redisUtil;
+
+    public MailService(JavaMailSender emailSender, RedisUtil redisUtil) {
         this.emailSender = emailSender;
+        this.redisUtil = redisUtil;
     }
-    @Value("${spring.mail.auth-code-expiration-millis}")
-    private long authCodeExpirationMillis;
 
+    public ResponseData authCheckEmail(String email,String authCode){
+        ResponseData responseData = new ResponseData();
+        if(redisUtil.getData(authCode)==null){
+            responseData.setCode(400);
+            responseData.setMessage("인증이 만료되었습니다.");
+        }
+        else if(redisUtil.getData(authCode).equals(email)){
+            responseData.setCode(200);
+        }
+        else{
+            responseData.setCode(400);
+            responseData.setMessage("인증에 오류가 났습니다.");
+        }
+        return responseData;
+    }
 
-    public ResponseData sendEmail(String toEmail) {
+    public ResponseData sendEmail(String emailPhone) {
         ResponseData responseData = new ResponseData();
         String authCode = this.createCode();
-        SimpleMailMessage emailForm = createEmailForm(toEmail, authCode);
+        SimpleMailMessage emailForm = createEmailForm(emailPhone, authCode);
         try {
             emailSender.send(emailForm);
             Map<String, Object> result = new HashMap<>();
             result.put("authCode", authCode);
-            System.out.println(toEmail);
-            System.out.println(authCode);
             responseData.setResult(result);
+
+            System.out.println(emailPhone);
+            System.out.println(authCode);
         } catch (MailException e) {
             responseData.setCode(400);
-            System.out.println(toEmail);
-            System.out.println(authCode);
+            responseData.setMessage("이메일 전송에 오류가 났습니다.");
             e.printStackTrace();
+
+            System.out.println(emailPhone);
+            System.out.println(authCode);
         }
+        redisUtil.setDataExpire(authCode, emailPhone,60*5L);
         return responseData;
     }
 
@@ -50,7 +68,7 @@ public class MailService {
         message.setTo(toEmail);
         message.setSubject("이메일 인증");
         String body = "";
-        body += "요청하신 인증 번호입니다.\n";
+        body += "[gameledger] 요청하신 인증 번호입니다.\n";
         body += authCode+"\n";
         body += "감사합니다.\n";
         message.setText(body);
@@ -71,4 +89,7 @@ public class MailService {
             throw new RuntimeException(e);
         }
     }
+
+
+
 }

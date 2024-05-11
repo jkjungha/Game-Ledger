@@ -9,14 +9,11 @@ import com.example.GLServer.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +29,6 @@ public class JoinService {
     private static final String EMAIL_REGEX =
             "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String PHONE_REGEX = "\\d{3}-\\d{4}-\\d{4}";
-
 
     private String email;
     private String phone;
@@ -116,7 +112,7 @@ public class JoinService {
         return matcher.matches();
     }
 
-    public ResponseData joinAuthCheck(String authCode) {
+    public ResponseData joinAuthCheck(String emailPhone, String authCode) {
         ResponseData responseData = new ResponseData();
         responseData.setMessage("인증 완료");
         return responseData;
@@ -198,5 +194,4 @@ public class JoinService {
             userEntity.setGoalAchieved(achieved + total);
         }
     }
-
 }

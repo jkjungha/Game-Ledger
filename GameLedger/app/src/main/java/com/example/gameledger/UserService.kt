@@ -24,7 +24,9 @@ interface UserService {
     @FormUrlEncoded
     @POST("/signup/auth/check")
     fun signupAuthCheckData(
-        @Field("authCode") authCode: String
+        @Field("emailPhone") emailPhone: String,
+        @Field("authCode") authCode: String,
+        @Field("type") type: Boolean
     ): Call<ResponseBody>
 
     @FormUrlEncoded

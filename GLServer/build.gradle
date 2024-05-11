@@ -38,6 +38,8 @@ dependencies {
 	implementation 'javax.mail:javax.mail-api:1.6.2'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'net.nurigo:sdk:4.3.0'
 }
 
 tasks.named('test') {
