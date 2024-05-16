@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="150dp"
-        android:text="회원가입"
+        android:text="설정"
         android:textSize="35sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="80dp"
-        android:paddingTop="25dp"
+        android:layout_marginTop="40dp"
+        android:paddingTop="35dp"
         android:paddingBottom="40dp"
         android:gravity="center"
         android:background="@drawable/outline_style"
@@ -36,18 +36,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:text="아이디 : "
+                android:text="현재 비밀번호 : "
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/id_rsg_input"
+                android:id="@+id/password_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:minHeight="50dp"
                 android:ems="12"
-                android:hint="아이디"
-                android:textSize="15sp"/>
+                android:hint="현재 비밀번호"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,18 +60,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:text="비밀번호 : "
+                android:text="새로운 비밀번호 : "
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/password_rsg_input"
+                android:id="@+id/new_password_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 android:ems="12"
                 android:hint="비밀번호를 입력해주세요"
                 android:textSize="15sp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,28 +84,52 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:text="비밀번호 확인 : "
+                android:text="새로운 비밀번호 확인 : "
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/password_again_rsg_input"
+                android:id="@+id/new_password_again_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 android:ems="12"
                 android:hint="비밀번호를 입력해주세요"
                 android:textSize="15sp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </LinearLayout>
     </LinearLayout>
 
     <android.widget.Button
-        android:id="@+id/next_button"
+        android:id="@+id/save_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:background="@drawable/button_style"
-        android:text="다음" />
+        android:text="설정 저장" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_margin="30dp">
+
+        <TextView
+            android:id="@+id/logout_button"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="20dp"
+            android:text="로그아웃" />
+
+        <TextView
+            android:id="@+id/signout_button"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="탈퇴하기" />
+
+    </LinearLayout>
 
 </LinearLayout>
