@@ -4,6 +4,8 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface UserService {
@@ -47,6 +49,27 @@ interface UserService {
         @Field("cultureValue") cultureValue : Int,
         @Field("lifeValue") lifeValue : Int
     ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("/settings/edit")
+    fun settingsEditData(
+        @Header("Authorization") Authorization: String,
+        @Field("password") password: String,
+        @Field("newPassword") newPassword: String
+    ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @PATCH("/settings/logout")
+    fun settingsLogoutData(
+        @Header("Authorization") Authorization: String
+    ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @PATCH("/settings/signout")
+    fun settingsSignoutData(
+        @Header("Authorization") Authorization: String
+    ): Call<ResponseBody>
+
 
 }
 
