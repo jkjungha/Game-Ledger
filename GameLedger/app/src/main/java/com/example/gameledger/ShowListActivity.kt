@@ -17,6 +17,8 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class ShowListActivity : AppCompatActivity() {
@@ -79,17 +81,20 @@ class ShowListActivity : AppCompatActivity() {
                                     Log.v("expendTotal",expendTotal.toString())
                                     Log.v("incomeTotal",incomeTotal.toString())
 
+                                    val formattedExpendTotal = formatNumberWithCommas(expendTotal)
                                     val expendTotalTextView: TextView = findViewById(R.id.tv_totalExpense)
-                                    val expenseString = resources.getString(R.string.total_placeholder, expendTotal)
+                                    val expenseString = resources.getString(R.string.total_placeholder, formattedExpendTotal)
                                     expendTotalTextView.text = expenseString
 
+                                    val formattedIncomeTotal = formatNumberWithCommas(incomeTotal)
                                     val incomeTotalTextView: TextView = findViewById(R.id.tv_totalIncome)
-                                    val incomeString = resources.getString(R.string.total_placeholder, incomeTotal)
+                                    val incomeString = resources.getString(R.string.total_placeholder, formattedIncomeTotal)
                                     incomeTotalTextView.text = incomeString
 
                                     val sumTotal = incomeTotal - expendTotal
+                                    val formattedSumTotal = formatNumberWithCommas(sumTotal)
                                     val sumTotalTextView: TextView = findViewById(R.id.tv_totalSum)
-                                    val sumString = resources.getString(R.string.total_placeholder, sumTotal)
+                                    val sumString = resources.getString(R.string.total_placeholder, formattedSumTotal)
                                     sumTotalTextView.text = sumString
 
                                     val list = data.getJSONArray("list")
@@ -127,7 +132,7 @@ class ShowListActivity : AppCompatActivity() {
                                             transCategory,
                                             "${transYear}. ${transMonth}. ${transDay}",
                                             transName,
-                                            transValue
+                                            formatNumberWithCommas(transValue)
                                         )
                                         transactionList.add(transactions)
 
@@ -153,6 +158,11 @@ class ShowListActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                    }
+
+                    private fun formatNumberWithCommas(number: Int): String {
+                        val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
+                        return numberFormat.format(number)
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

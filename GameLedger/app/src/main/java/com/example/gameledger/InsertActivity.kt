@@ -134,7 +134,7 @@ class InsertActivity : AppCompatActivity() {
 
             val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
 
-            val trans = Transactions(transType, transCategory, transDate, transName, transValue)
+            //val trans = Transactions(transType, transCategory, transDate, transName, transValue)
 
             if (userToken != null) {
                 transactionService.inputInfoData(

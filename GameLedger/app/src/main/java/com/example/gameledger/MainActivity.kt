@@ -55,11 +55,6 @@ class MainActivity : AppCompatActivity() {
                                     val goalValue = data.getInt("goalValue")
                                     val goalAchieved = data.getInt("goalAchieved")
 
-                                    Log.v("username", username.toString())
-                                    Log.v("goalName", goalName.toString())
-                                    Log.v("goalValue", goalValue.toString())
-                                    Log.v("goalAchieved", goalAchieved.toString())
-
                                     val usernameTextView: TextView = findViewById(R.id.tv_userName)
                                     val usernameString = "${username}의"
                                     usernameTextView.text = usernameString
@@ -72,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                                     goalValueTextView.text = goalValueString
 
                                     var savingDegree = 0.0
-                                    if (goalAchieved != 0) {
+                                    if (goalValue != 0) {
                                         savingDegree = goalAchieved.toDouble() / goalValue.toDouble() * 100.0
                                     }
                                     val savingDegreeTextView: TextView = findViewById(R.id.tv_savingDegree)
