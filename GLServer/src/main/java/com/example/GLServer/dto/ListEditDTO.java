@@ -1,0 +1,17 @@
+package com.example.GLServer.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ListEditDTO {
+    private int transId;
+    private boolean transType;
+    private int transYear;
+    private int transMonth;
+    private int transDay;
+    private String transCategory;
+    private String transName;
+    private int transValue;
+}

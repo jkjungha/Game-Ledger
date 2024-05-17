@@ -26,10 +26,10 @@ public class InputService {
         this.savingRepository = savingRepository;
     }
 
-    public DateEntity searchDayDateEntity(int year, int month, int day){
+    public DateEntity searchDayDateEntity(int year, int month, int day) {
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
-        if(dateEntity == null){
+        if (dateEntity == null) {
             DateEntity DE = new DateEntity();
             DE.setYear(year);
             DE.setMonth(month);
@@ -56,35 +56,65 @@ public class InputService {
         transactionEntity.setTransValue(inputInfoDTO.getTransValue());
         transactionRepository.save(transactionEntity);
 
-        if(!inputInfoDTO.isTransType()){
-            Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
-            if(savingEntity.isPresent()){
-                SavingEntity SE = savingEntity.get();
-                int value = transactionEntity.getTransValue();
-                if(Objects.equals(transactionEntity.getTransCategory().trim(), "식비")){
-                    int tmp = SE.getSavingFood();
-                    SE.setSavingFood(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "교통")){
-                    int tmp = SE.getSavingTraffic();
-                    SE.setSavingTraffic(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "문화")){
-                    int tmp = SE.getSavingCulture();
-                    SE.setSavingCulture(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "생활")){
-                    int tmp = SE.getSavingLife();
-                    SE.setSavingLife(Math.max(tmp - value, 0));
-                }else if(Objects.equals(transactionEntity.getTransCategory().trim(), "기타")){
-                    int tmp = SE.getSavingEtc();
-                    SE.setSavingEtc(Math.max(tmp - value, 0));
-                }
-                savingRepository.save(SE);
-            }
+        if (!inputInfoDTO.isTransType()) {
+            return inputExpendCalculate(userEntity, dateEntity, inputInfoDTO.getTransValue(), inputInfoDTO.getTransCategory());
+        }else{
+            return new ResponseData();
         }
 
-        //성공했을 시
+    }
+
+    public ResponseData inputExpendCalculate(UserEntity userEntity, DateEntity dateEntity, int transValue, String transCategory) {
         ResponseData responseData = new ResponseData();
-
+        Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
+        if (savingEntity.isPresent()) {
+            SavingEntity SE = savingEntity.get();
+            int value = transValue;
+            if (Objects.equals(transCategory.trim(), "식비")) {
+                int tmp = SE.getSavingFood();
+                SE.setSavingFood(Math.max(tmp - value, 0));
+            } else if (Objects.equals(transCategory.trim(), "교통")) {
+                int tmp = SE.getSavingTraffic();
+                SE.setSavingTraffic(Math.max(tmp - value, 0));
+            } else if (Objects.equals(transCategory.trim(), "문화")) {
+                int tmp = SE.getSavingCulture();
+                SE.setSavingCulture(Math.max(tmp - value, 0));
+            } else if (Objects.equals(transCategory.trim(), "생활")) {
+                int tmp = SE.getSavingLife();
+                SE.setSavingLife(Math.max(tmp - value, 0));
+            } else if (Objects.equals(transCategory.trim(), "기타")) {
+                int tmp = SE.getSavingEtc();
+                SE.setSavingEtc(Math.max(tmp - value, 0));
+            }
+            savingRepository.save(SE);
+        }
         return responseData;
+    }
 
+    public ResponseData inputIncomeCalculate(UserEntity userEntity, DateEntity dateEntity, int transValue, String transCategory) {
+        ResponseData responseData = new ResponseData();
+        Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
+        if (savingEntity.isPresent()) {
+            SavingEntity SE = savingEntity.get();
+            int value = transValue;
+            if (Objects.equals(transCategory.trim(), "식비")) {
+                int tmp = SE.getSavingFood();
+                SE.setSavingFood(Math.min(tmp + value, userEntity.getFoodValue()));
+            } else if (Objects.equals(transCategory.trim(), "교통")) {
+                int tmp = SE.getSavingTraffic();
+                SE.setSavingTraffic(Math.min(tmp + value, userEntity.getTrafficValue()));
+            } else if (Objects.equals(transCategory.trim(), "문화")) {
+                int tmp = SE.getSavingCulture();
+                SE.setSavingCulture(Math.min(tmp + value, userEntity.getCultureValue()));
+            } else if (Objects.equals(transCategory.trim(), "생활")) {
+                int tmp = SE.getSavingLife();
+                SE.setSavingLife(Math.min(tmp + value, userEntity.getLifeValue()));
+            } else if (Objects.equals(transCategory.trim(), "기타")) {
+                int tmp = SE.getSavingEtc();
+                SE.setSavingEtc(Math.min(tmp + value, userEntity.getEtcValue()));
+            }
+            savingRepository.save(SE);
+        }
+        return responseData;
     }
 }

@@ -1,13 +1,17 @@
 package com.example.GLServer.service;
 
+import com.example.GLServer.dto.InputInfoDTO;
+import com.example.GLServer.dto.ListEditDTO;
 import com.example.GLServer.entity.DateEntity;
 import com.example.GLServer.entity.TransactionEntity;
+import com.example.GLServer.entity.UserEntity;
 import com.example.GLServer.repository.DateRepository;
 import com.example.GLServer.repository.ResponseData;
 import com.example.GLServer.repository.TransactionRepository;
+import com.example.GLServer.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -16,9 +20,15 @@ public class ListService {
     private final DateRepository dateRepository;
     private final TransactionRepository transactionRepository;
 
-    public ListService(DateRepository dateRepository, TransactionRepository transactionRepository) {
+    private final UserRepository userRepository;
+
+    private final  InputService inputService;
+
+    public ListService(DateRepository dateRepository, TransactionRepository transactionRepository, UserRepository userRepository, InputService inputService) {
         this.dateRepository = dateRepository;
         this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+        this.inputService = inputService;
     }
 
     public DateEntity getDayDateEntity(){
@@ -29,6 +39,21 @@ public class ListService {
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
         if(dateEntity == null){
+            DateEntity DE = new DateEntity();
+            DE.setYear(year);
+            DE.setMonth(month);
+            DE.setDay(day);
+            dateRepository.save(DE);
+            return DE;
+        }
+
+        return dateEntity;
+    }
+
+    public DateEntity searchDayDateEntity(int year, int month, int day) {
+        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
+
+        if (dateEntity == null) {
             DateEntity DE = new DateEntity();
             DE.setYear(year);
             DE.setMonth(month);
@@ -72,6 +97,7 @@ public class ListService {
             for (TransactionEntity tran : TL) {
                 DateEntity DE = tran.getDateEntity();
                 Map<String, Object> dic = new HashMap<>();
+                dic.put("transId", tran.getId());
                 dic.put("transType", tran.isTransType());
                 dic.put("transYear", DE.getYear());
                 dic.put("transMonth", DE.getMonth());
@@ -87,4 +113,50 @@ public class ListService {
 
         return responseData;
     }
+
+    public ResponseData listEdit(String username, ListEditDTO listEditDTO) {
+
+        ResponseData responseData = new ResponseData();
+        UserEntity userEntity = userRepository.findByUsername(username);
+
+        int id = listEditDTO.getTransId();
+        boolean transType = listEditDTO.isTransType();
+        String transCategory = listEditDTO.getTransCategory();
+        int transYear = listEditDTO.getTransYear();
+        int transMonth = listEditDTO.getTransMonth();
+        int transDay = listEditDTO.getTransDay();
+        String transName = listEditDTO.getTransName();
+        int transValue = listEditDTO.getTransValue();
+
+        Optional<TransactionEntity> transactionEntity = transactionRepository.findById(id);
+
+        if(transactionEntity.isPresent()) {
+            TransactionEntity TE = transactionEntity.get();
+            if(TE.isTransType()){
+                inputService.inputExpendCalculate(userEntity, TE.getDateEntity(), TE.getTransValue(), TE.getTransCategory());
+            }else{
+                inputService.inputIncomeCalculate(userEntity, TE.getDateEntity(), TE.getTransValue(), TE.getTransCategory());
+            }
+            DateEntity dateEntity = searchDayDateEntity(transYear,transMonth,transDay);
+            TE.setTransType(transType);
+            TE.setTransCategory(transCategory);
+            TE.setDateEntity(dateEntity);
+            TE.setTransName(transName);
+            TE.setTransValue(transValue);
+            transactionRepository.save(TE);
+
+            if (!transType) {
+                inputService.inputExpendCalculate(userEntity, dateEntity, transValue, transCategory);
+            }
+
+            return responseData;
+        }else{
+            responseData.setCode(400);
+            responseData.setMessage("해당하는 내역이 없습니다.");
+            return responseData;
+        }
+
+
+    }
+
 }
