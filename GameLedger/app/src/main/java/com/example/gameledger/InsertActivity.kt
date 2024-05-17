@@ -1,6 +1,7 @@
 package com.example.gameledger
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +10,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gameledger.databinding.ActivityInsertBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -17,14 +21,23 @@ import retrofit2.Response
 import java.text.DecimalFormat
 
 
-class InsertActivity : AppCompatActivity() {
+class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
     lateinit var binding: ActivityInsertBinding
     lateinit var transactionService: TransactionService
+    private lateinit var selectedCategory: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertBinding.inflate(layoutInflater)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         setContentView(binding.root)
+
+        val categories = listOf("식비", "교통", "문화", "생활", "기타")
+        val categoryRecyclerView: RecyclerView = findViewById(R.id.rv_category)
+
+        categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        categoryRecyclerView.adapter = CategoryAdapter(categories, this)
+
         init()
         inputData()
     }
@@ -126,7 +139,7 @@ class InsertActivity : AppCompatActivity() {
             val transMonth = parts[1].toInt() // 월
             val transDay = parts[2].toInt() // 일
 
-            var transCategory = binding.categoryInputText.text.toString()
+            var transCategory = selectedCategory.toString()
             val transName = binding.titleInputText.text.toString()
 
             var value = binding.valueInputText.text.toString()
@@ -175,6 +188,11 @@ class InsertActivity : AppCompatActivity() {
             val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onItemClick(category: String) {
+        selectedCategory = category
+        Toast.makeText(this, "Selected: $category", Toast.LENGTH_SHORT).show()
     }
 }
 
