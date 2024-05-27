@@ -23,4 +23,12 @@ public class InputController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return inputService.inputInfo(username, inputInfoDTO);
     }
+
+    @PostMapping("/settings/edit")
+    public ResponseData settingsEditProcess(@RequestParam("password") String password, @RequestParam("newPassword") String newPassword){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return inputService.settingsEdit(username, password, newPassword);
+    }
+
+
 }

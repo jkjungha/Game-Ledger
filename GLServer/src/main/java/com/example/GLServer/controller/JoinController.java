@@ -56,4 +56,5 @@ public class JoinController {
         return joinService.joinInput(joinInfoDto);
     }
 
+
 }
