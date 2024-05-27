@@ -1,5 +1,6 @@
 package com.example.gameledger
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -128,6 +129,13 @@ class SettingsActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     if (code == 200) {
+                                        val context: Context = this@SettingsActivity
+                                        val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
+                                        val editor = sharedPreferences.edit()
+                                        editor.putString("userToken", "디폴트 값 입니다.")
+                                        editor.apply()
+                                        val s = sharedPreferences.getString("userToken", "error")
+                                        Log.v("userToken", s.toString())
                                         val intent = Intent(
                                             this@SettingsActivity,
                                             LoginActivity::class.java
@@ -207,6 +215,13 @@ class SettingsActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 if (code == 200) {
+                                    val context: Context = this@SettingsActivity
+                                    val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    editor.putString("userToken", "디폴트 값 입니다.")
+                                    editor.apply()
+                                    val s = sharedPreferences.getString("userToken", "error")
+                                    Log.v("userToken", s.toString())
                                     val intent = Intent(
                                         this@SettingsActivity,
                                         LoginActivity::class.java

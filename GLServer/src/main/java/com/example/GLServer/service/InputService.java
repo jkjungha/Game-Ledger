@@ -6,6 +6,7 @@ import com.example.GLServer.entity.SavingEntity;
 import com.example.GLServer.entity.TransactionEntity;
 import com.example.GLServer.entity.UserEntity;
 import com.example.GLServer.repository.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -134,6 +135,25 @@ public class InputService {
             userRepository.save(userEntity);
             responseData.setMessage("비밀번호를 변경하였습니다.");
         }
+        return responseData;
+    }
+
+    public ResponseData settingsLogout(String username) {
+        System.out.println("logging out : "+ username);
+        ResponseData responseData = new ResponseData();
+        SecurityContextHolder.clearContext();
+        responseData.setMessage("로그아웃");
+        return responseData;
+    }
+
+
+    public ResponseData settingsSignout(String username) {
+        System.out.println("signing out : "+ username);
+        ResponseData responseData = new ResponseData();
+        UserEntity userEntity = userRepository.findByUsername(username);
+        userRepository.delete(userEntity);
+        SecurityContextHolder.clearContext();
+        responseData.setMessage("탈퇴");
         return responseData;
     }
 }

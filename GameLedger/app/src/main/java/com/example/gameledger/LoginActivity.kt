@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gameledger.databinding.ActivityLoginBinding
 import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
@@ -24,8 +26,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun init() {
         binding.loginButton.setOnClickListener {
-            var username = binding.idInput.text.toString()
-            var password = binding.passwordInput.text.toString()
+            val username = binding.idInput.text.toString()
+            val password = binding.passwordInput.text.toString()
 
             val context: Context = this
 
@@ -37,29 +39,22 @@ class LoginActivity : AppCompatActivity() {
                     ) {
                         if (response.isSuccessful) {
                             val headers = response.headers()
-                            if (headers != null) {
-                                val headerValue = headers.get("Authorization")
-                                Log.d("HEADER", "Header value ${headerValue}")
-                                val sharedPreferences =
-                                    context.getSharedPreferences("saveData", Context.MODE_PRIVATE)
-                                val editor = sharedPreferences.edit()
-                                editor.putString("userToken", headerValue)
-                                editor.apply()
-                                Log.e(
-                                    "API Call",
-                                    "Successful response: ${response.code()}"
-                                )
-                                val intent = Intent(
-                                    this@LoginActivity,
-                                    InsertActivity::class.java
-                                )
-                                startActivity(intent)
-                            } else {
-                                Log.e(
-                                    "API Call",
-                                    "Header is null: ${response.code()}"
-                                )
-                            }
+
+                            val headerValue = headers.get("Authorization")
+                            val sharedPreferences =
+                                context.getSharedPreferences("saveData", Context.MODE_PRIVATE)
+                            val editor = sharedPreferences.edit()
+                            editor.putString("userToken", headerValue)
+                            editor.apply()
+                            Log.e(
+                                "API Call",
+                                "Successful response: ${response.code()}"
+                            )
+                            val intent = Intent(
+                                this@LoginActivity,
+                                MainActivity::class.java
+                            )
+                            startActivity(intent)
 
                         } else {
                             Log.e(
@@ -68,14 +63,18 @@ class LoginActivity : AppCompatActivity() {
                             )
                         }
                     }
+
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.e("API Call", "Failed to make API call: ${t.message}", t)
                     }
                 })
+            binding.idInput.text.clear()
+            binding.passwordInput.text.clear()
+
 
         }
         binding.registerButton.setOnClickListener {
-            var intent = Intent(
+            val intent = Intent(
                 this@LoginActivity,
                 RegisterAuthenticateActivity::class.java
             )
