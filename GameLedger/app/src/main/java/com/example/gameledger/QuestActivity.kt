@@ -10,17 +10,14 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.NumberFormat
+import java.util.Locale
 
 class QuestActivity : AppCompatActivity() {
     var questList = arrayListOf<Quests>()
@@ -82,8 +79,8 @@ class QuestActivity : AppCompatActivity() {
                                     val foodQuest = Quests(
                                         "식비",
                                         "하루 식비",
-                                        foodGoal.toString(),
-                                        foodExpend.toString()
+                                        formatNumberWithCommas(foodGoal),
+                                        formatNumberWithCommas(foodExpend)
                                     )
                                     questList.add(foodQuest)
 
@@ -96,8 +93,8 @@ class QuestActivity : AppCompatActivity() {
                                     val trafficQuest = Quests(
                                         "교통",
                                         "하루 교통비",
-                                        trafficGoal.toString(),
-                                        trafficExpend.toString()
+                                        formatNumberWithCommas(trafficGoal),
+                                        formatNumberWithCommas(trafficExpend)
                                     )
                                     questList.add(trafficQuest)
 
@@ -110,8 +107,8 @@ class QuestActivity : AppCompatActivity() {
                                     val cultureQuest = Quests(
                                         "문화",
                                         "하루 문화비",
-                                        cultureGoal.toString(),
-                                        cultureExpend.toString()
+                                        formatNumberWithCommas(cultureGoal),
+                                        formatNumberWithCommas(cultureExpend)
                                     )
                                     questList.add(cultureQuest)
 
@@ -124,8 +121,8 @@ class QuestActivity : AppCompatActivity() {
                                     val lifeQuest = Quests(
                                         "생활",
                                         "하루 생활비",
-                                        lifeGoal.toString(),
-                                        lifeExpend.toString()
+                                        formatNumberWithCommas(lifeGoal),
+                                        formatNumberWithCommas(lifeExpend)
                                     )
                                     questList.add(lifeQuest)
 
@@ -149,6 +146,11 @@ class QuestActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                    }
+
+                    private fun formatNumberWithCommas(number: Int): String {
+                        val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
+                        return numberFormat.format(number)
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

@@ -138,13 +138,19 @@
                     android:text="카테고리 :"
                     android:textSize="24sp" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+<!--
                 <EditText
                     android:id="@+id/categoryInputText"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="식비" />
-
+-->
             </LinearLayout>
 
             <LinearLayout
