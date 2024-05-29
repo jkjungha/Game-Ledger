@@ -111,6 +111,8 @@ class ShowListActivity : AppCompatActivity() {
                                         val transName = listItem.getString("transName")
                                         val transValue = listItem.getInt("transValue")
 
+                                        val transDate = "${transYear}. ${transMonth}. ${transDay}"
+
                                         Log.v("tranType",transType.toString())
                                         Log.v("transYear",transYear.toString())
                                         Log.v("transMonth",transMonth.toString())
@@ -130,7 +132,7 @@ class ShowListActivity : AppCompatActivity() {
                                         val transactions = Transactions(
                                             transType,
                                             transCategory,
-                                            "${transYear}. ${transMonth}. ${transDay}",
+                                            transDate,
                                             transName,
                                             formatNumberWithCommas(transValue)
                                         )

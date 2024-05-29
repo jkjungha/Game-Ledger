@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CategoryAdapter(
     private val categories: List<String>,
+    private val selectedCategory: String,
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+
+    private var selectedPosition = categories.indexOf(selectedCategory)
 
     interface OnItemClickListener {
         fun onItemClick(category: String)
@@ -22,9 +25,24 @@ class CategoryAdapter(
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
+                    val previousSelectedPosition = selectedPosition
+                    selectedPosition = position
+                    notifyItemChanged(previousSelectedPosition)
+                    notifyItemChanged(selectedPosition)
                     itemClickListener.onItemClick(categories[position])
                 }
             }
+        }
+
+        fun bind(category: String, isSelected: Boolean) {
+            categoryTextView.text = category
+            itemView.setBackgroundColor(
+                if (isSelected) {
+                    itemView.context.getColor(R.color.selected_category_background) // 선택된 아이템 배경색
+                } else {
+                    itemView.context.getColor(R.color.default_category_background) // 기본 아이템 배경색
+                }
+            )
         }
     }
 
@@ -36,7 +54,7 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categories[position]
-        holder.categoryTextView.text = category
+        holder.bind(category, position == selectedPosition)
     }
 
     override fun getItemCount(): Int {

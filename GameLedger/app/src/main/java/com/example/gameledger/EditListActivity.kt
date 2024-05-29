@@ -1,7 +1,6 @@
 package com.example.gameledger
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -10,9 +9,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gameledger.databinding.ActivityEditlistBinding
 import com.example.gameledger.databinding.ActivityInsertBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -20,29 +19,29 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
 
-
-class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
-    lateinit var binding: ActivityInsertBinding
+class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
+    lateinit var binding: ActivityEditlistBinding
     lateinit var transactionService: TransactionService
     private lateinit var selectedCategory: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityInsertBinding.inflate(layoutInflater)
+        binding = ActivityEditlistBinding.inflate(layoutInflater)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         setContentView(binding.root)
 
         val categories = listOf("식비", "교통", "문화", "생활", "기타")
         val categoryRecyclerView: RecyclerView = findViewById(R.id.rv_category)
-
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        //categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
 
+        init() // Type별 레이아웃 변경, Value 포맷 설정
+        setData()
         categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
-
-        init()
         inputData()
     }
 
-    fun init() {
+    private fun init() {
         binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {
@@ -114,19 +113,37 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
                     }
                 }
             }
-
             override fun afterTextChanged(s: Editable) {}
         }
         binding.dateInputText.addTextChangedListener(watcher2)
+    }
 
+    private fun setData() {
+        val intent = intent
+        val transType = intent.getBooleanExtra("transType", false)
+        val transDate = intent.getStringExtra("transDate")
+        val transCategory = intent.getStringExtra("transCategory")
+        val transName = intent.getStringExtra("transName")
+        val transValue = intent.getStringExtra("transValue")
 
+        if (!transType) {
+            binding.expendRadioButton.isChecked = true
+            binding.incomeRadioButton.isChecked = false
+        }
+        else {
+            binding.expendRadioButton.isChecked = false
+            binding.incomeRadioButton.isChecked = true
+        }
+        binding.dateInputText.setText(transDate)
+        if (transCategory != null) {
+            selectedCategory = transCategory
+        }
+        binding.nameInputText.setText(transName)
+        binding.valueInputText.setText(transValue)
     }
 
     fun inputData() {
-
-
-        binding.inputButton.setOnClickListener {
-
+        binding.editButton.setOnClickListener {
             val context: Context = this
             val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
             val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
@@ -140,14 +157,12 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
             val transDay = parts[2].toInt() // 일
 
             var transCategory = selectedCategory.toString()
-            val transName = binding.titleInputText.text.toString()
+            val transName = binding.nameInputText.text.toString()
 
             var value = binding.valueInputText.text.toString()
             val transValue = value.replace(",", "").toInt()
 
             val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
-
-            //val trans = Transactions(transType, transCategory, transDate, transName, transValue)
 
             if (userToken != null) {
                 transactionService.inputInfoData(
@@ -168,7 +183,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Successful response: ${response.code()}")
                                 // 입력 후 ShowListActivity로 이동
-                                val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
+                                val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
                                 startActivity(intent)
                             } else {
                                 Log.e("API Call", "Unsuccessful response: ${response.code()}")
@@ -177,7 +192,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             // 통신 실패시 처리
-                            Toast.makeText(this@InsertActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@EditListActivity, "통신 실패", Toast.LENGTH_SHORT).show()
                         }
                     })
             }
@@ -185,7 +200,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
         binding.cancelButton.setOnClickListener {
             // MainActivity로 이동
-            val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
+            val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
             startActivity(intent)
         }
     }
@@ -195,53 +210,3 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
         Toast.makeText(this, "Selected: $category", Toast.LENGTH_SHORT).show()
     }
 }
-
-        /*
-        val database = Firebase.database
-        val user = database.getReference("users").child("userid")
-        user.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var type: Int = 0
-                binding.expendRadioButton.setOnClickListener {
-                    type = 0
-                    Toast.makeText(this@InsertActivity, "지출을 입력합니다.", Toast.LENGTH_SHORT).show()
-                }
-                binding.incomeRadioButton.setOnClickListener {
-                    type = 1
-                    Toast.makeText(this@InsertActivity, "수입을 입력합니다.", Toast.LENGTH_SHORT).show()
-                }
-                binding.cancelButton.setOnClickListener {
-                    var intent = Intent(this@InsertActivity, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                binding.inputButton.setOnClickListener {
-                    var date = binding.dateInputText.text.toString()
-                    var category = binding.categoryInputText.text.toString()
-                    var title = binding.titleInputText.text.toString()
-                    var value = binding.valueInputText.text.toString()
-                    var trans = Transactions(type, category, date, title, value)
-
-                    val newRef = user.child("transactions")
-                        .push() // This generates a unique key for the new data
-                    newRef.setValue(trans)
-                        .addOnSuccessListener {
-                            // Data successfully saved
-                            // newRef.key contains the unique key generated by push()
-                            Log.d("SUCCESS", "Data pushed to Firebase with key: ${newRef.key}")
-                        }
-                        .addOnFailureListener { e ->
-                            // Failed to save data
-                            Log.e("FAIL", "Error pushing data to Firebase")
-                        }
-
-                    var intent = Intent(this@InsertActivity, MainActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.e("FAIL", "Error fetching data")
-            }
-        })
-    }
-*/
