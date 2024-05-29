@@ -58,13 +58,11 @@ interface UserService {
         @Field("newPassword") newPassword: String
     ): Call<ResponseBody>
 
-    @FormUrlEncoded
     @PATCH("/settings/logout")
     fun settingsLogoutData(
         @Header("Authorization") Authorization: String
     ): Call<ResponseBody>
 
-    @FormUrlEncoded
     @PATCH("/settings/signout")
     fun settingsSignoutData(
         @Header("Authorization") Authorization: String

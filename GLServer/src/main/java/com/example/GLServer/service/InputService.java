@@ -6,6 +6,8 @@ import com.example.GLServer.entity.SavingEntity;
 import com.example.GLServer.entity.TransactionEntity;
 import com.example.GLServer.entity.UserEntity;
 import com.example.GLServer.repository.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -16,13 +18,15 @@ public class InputService {
     private final UserRepository userRepository;
     private final DateRepository dateRepository;
     private final TransactionRepository transactionRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final SavingRepository savingRepository;
 
-    public InputService(UserRepository userRepository, DateRepository dateRepository, TransactionRepository transactionRepository, SavingRepository savingRepository) {
+    public InputService(UserRepository userRepository, DateRepository dateRepository, TransactionRepository transactionRepository, BCryptPasswordEncoder bCryptPasswordEncoder, SavingRepository savingRepository) {
         this.userRepository = userRepository;
         this.dateRepository = dateRepository;
         this.transactionRepository = transactionRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.savingRepository = savingRepository;
     }
 
@@ -115,6 +119,41 @@ public class InputService {
             }
             savingRepository.save(SE);
         }
+        return responseData;
+    }
+
+    public ResponseData settingsEdit(String username, String password, String newPassword) {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        String oriPassword = userEntity.getPassword();
+        ResponseData responseData = new ResponseData();
+        if(!bCryptPasswordEncoder.matches(password, oriPassword)){
+            responseData.setCode(400);
+            responseData.setMessage("입력하신 비밀번호가 틀렸습니다.");
+        }else{
+            String inputPassword = bCryptPasswordEncoder.encode(newPassword);
+            userEntity.setPassword(inputPassword);
+            userRepository.save(userEntity);
+            responseData.setMessage("비밀번호를 변경하였습니다.");
+        }
+        return responseData;
+    }
+
+    public ResponseData settingsLogout(String username) {
+        System.out.println("logging out : "+ username);
+        ResponseData responseData = new ResponseData();
+        SecurityContextHolder.clearContext();
+        responseData.setMessage("로그아웃");
+        return responseData;
+    }
+
+
+    public ResponseData settingsSignout(String username) {
+        System.out.println("signing out : "+ username);
+        ResponseData responseData = new ResponseData();
+        UserEntity userEntity = userRepository.findByUsername(username);
+        userRepository.delete(userEntity);
+        SecurityContextHolder.clearContext();
+        responseData.setMessage("탈퇴");
         return responseData;
     }
 }

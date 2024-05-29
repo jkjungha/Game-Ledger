@@ -23,7 +23,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
         if(data != null){
             return new MyUserDetails(data);
+        }else{
+            throw new UsernameNotFoundException("User not found");
         }
-        return null;
     }
 }
