@@ -1,7 +1,6 @@
 package com.example.gameledger
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -10,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gameledger.databinding.ActivityInsertBinding
@@ -23,7 +21,7 @@ import java.text.DecimalFormat
 
 class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
     lateinit var binding: ActivityInsertBinding
-    lateinit var transactionService: TransactionService
+    private lateinit var transactionService: TransactionService
     private lateinit var selectedCategory: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +40,8 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
         inputData()
     }
 
-    fun init() {
-        binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
+    private fun init() {
+        binding.typeRadioGroup.setOnCheckedChangeListener { _, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {
                     binding.linearLayout2.visibility = View.GONE
@@ -58,7 +56,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             var result: String = ""
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                if (!charSequence.toString().isEmpty() && charSequence.toString() != result) {
+                if (charSequence.toString().isNotEmpty() && charSequence.toString() != result) {
                     result = valueDecimalFormat.format(
                         charSequence.toString().replace(",", "").toDouble()
                     )
@@ -122,7 +120,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
     }
 
-    fun inputData() {
+    private fun inputData() {
 
 
         binding.inputButton.setOnClickListener {
@@ -133,13 +131,13 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
             val transDate = binding.dateInputText.text.toString()
             val parts = transDate.split(".")
-            if (parts.size == 3) {
-            }
+//            if (parts.size == 3) {
+//            }
             val transYear = parts[0].toInt() // 연도
             val transMonth = parts[1].toInt() // 월
             val transDay = parts[2].toInt() // 일
 
-            var transCategory = selectedCategory.toString()
+            var transCategory = selectedCategory
             val transName = binding.titleInputText.text.toString()
 
             var value = binding.valueInputText.text.toString()
@@ -195,53 +193,3 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
         Toast.makeText(this, "Selected: $category", Toast.LENGTH_SHORT).show()
     }
 }
-
-        /*
-        val database = Firebase.database
-        val user = database.getReference("users").child("userid")
-        user.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var type: Int = 0
-                binding.expendRadioButton.setOnClickListener {
-                    type = 0
-                    Toast.makeText(this@InsertActivity, "지출을 입력합니다.", Toast.LENGTH_SHORT).show()
-                }
-                binding.incomeRadioButton.setOnClickListener {
-                    type = 1
-                    Toast.makeText(this@InsertActivity, "수입을 입력합니다.", Toast.LENGTH_SHORT).show()
-                }
-                binding.cancelButton.setOnClickListener {
-                    var intent = Intent(this@InsertActivity, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                binding.inputButton.setOnClickListener {
-                    var date = binding.dateInputText.text.toString()
-                    var category = binding.categoryInputText.text.toString()
-                    var title = binding.titleInputText.text.toString()
-                    var value = binding.valueInputText.text.toString()
-                    var trans = Transactions(type, category, date, title, value)
-
-                    val newRef = user.child("transactions")
-                        .push() // This generates a unique key for the new data
-                    newRef.setValue(trans)
-                        .addOnSuccessListener {
-                            // Data successfully saved
-                            // newRef.key contains the unique key generated by push()
-                            Log.d("SUCCESS", "Data pushed to Firebase with key: ${newRef.key}")
-                        }
-                        .addOnFailureListener { e ->
-                            // Failed to save data
-                            Log.e("FAIL", "Error pushing data to Firebase")
-                        }
-
-                    var intent = Intent(this@InsertActivity, MainActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.e("FAIL", "Error fetching data")
-            }
-        })
-    }
-*/
