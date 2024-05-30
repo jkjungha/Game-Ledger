@@ -30,7 +30,6 @@ class ShowListActivity : AppCompatActivity() {
     lateinit var transactionService: TransactionService
 
     private var editPosition: Int = -1
-    private val EDIT_TRANSACTION_REQUEST_CODE = 1
     private lateinit var editTransactionLauncher: ActivityResultLauncher<Intent>
 
 
@@ -39,6 +38,7 @@ class ShowListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_showlist)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         InitData()
+        NavigationBar()
 
         val transaction = findViewById<RecyclerView>(R.id.rv_transaction)
 
@@ -228,6 +228,38 @@ class ShowListActivity : AppCompatActivity() {
                     }
 
                 })
+        }
+    }
+
+    fun NavigationBar() {
+        val main_button = findViewById<ImageButton>(R.id.main_button)
+        main_button.setOnClickListener {
+            var intent = Intent(this@ShowListActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val quest_button = findViewById<ImageButton>(R.id.quest_button)
+        quest_button.setOnClickListener {
+            var intent = Intent(this@ShowListActivity, QuestActivity::class.java)
+            startActivity(intent)
+        }
+
+        val insert_button = findViewById<ImageButton>(R.id.insert_button)
+        insert_button.setOnClickListener {
+            var intent = Intent(this@ShowListActivity, InsertActivity::class.java)
+            startActivity(intent)
+        }
+
+        val showlist_button = findViewById<ImageButton>(R.id.showlist_button)
+        showlist_button.setOnClickListener {
+            var intent = Intent(this@ShowListActivity, ShowListActivity::class.java)
+            startActivity(intent)
+        }
+
+        val setting_button = findViewById<ImageButton>(R.id.setting_button)
+        setting_button.setOnClickListener {
+            var intent = Intent(this@ShowListActivity, SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 }

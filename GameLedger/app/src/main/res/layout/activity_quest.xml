@@ -72,30 +72,35 @@
         app:layout_constraintEnd_toEndOf="parent" >
 
         <ImageButton
+            android:id="@+id/main_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="main_button"
             android:background="@drawable/main_button" />
 
         <ImageButton
+            android:id="@+id/quest_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="quest_button"
             android:background="@drawable/quest_button" />
 
         <ImageButton
+            android:id="@+id/insert_button"
             android:layout_width="76dp"
             android:layout_height="match_parent"
             android:contentDescription="insert_button"
             android:background="@drawable/insert_button" />
 
         <ImageButton
+            android:id="@+id/showlist_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="showlist_button"
             android:background="@drawable/showlist_button" />
 
         <ImageButton
+            android:id="@+id/setting_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="setting_button"

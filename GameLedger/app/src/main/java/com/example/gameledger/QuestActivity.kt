@@ -37,6 +37,7 @@ class QuestActivity : AppCompatActivity() {
         quest.adapter = questAdapter
 
         LinkData()
+        NavigationBar()
 
         val back_button = findViewById<ImageButton>(R.id.back_button)
         back_button.setOnClickListener {
@@ -198,7 +199,38 @@ class QuestActivity : AppCompatActivity() {
                     })
             }
         }
+    }
 
+    fun NavigationBar() {
+        val main_button = findViewById<ImageButton>(R.id.main_button)
+        main_button.setOnClickListener {
+            var intent = Intent(this@QuestActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val quest_button = findViewById<ImageButton>(R.id.quest_button)
+        quest_button.setOnClickListener {
+            var intent = Intent(this@QuestActivity, QuestActivity::class.java)
+            startActivity(intent)
+        }
+
+        val insert_button = findViewById<ImageButton>(R.id.insert_button)
+        insert_button.setOnClickListener {
+            var intent = Intent(this@QuestActivity, InsertActivity::class.java)
+            startActivity(intent)
+        }
+
+        val showlist_button = findViewById<ImageButton>(R.id.showlist_button)
+        showlist_button.setOnClickListener {
+            var intent = Intent(this@QuestActivity, ShowListActivity::class.java)
+            startActivity(intent)
+        }
+
+        val setting_button = findViewById<ImageButton>(R.id.setting_button)
+        setting_button.setOnClickListener {
+            var intent = Intent(this@QuestActivity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
