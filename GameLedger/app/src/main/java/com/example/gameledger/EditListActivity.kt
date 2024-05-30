@@ -183,8 +183,16 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Successful response: ${response.code()}")
                                 // 입력 후 ShowListActivity로 이동
-                                val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
-                                startActivity(intent)
+                                // val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
+                                // startActivity(intent)
+                                val resultIntent = intent
+                                resultIntent.putExtra("updatedType", transType)
+                                resultIntent.putExtra("updatedDate", transDate)
+                                resultIntent.putExtra("updatedCategory", transCategory)
+                                resultIntent.putExtra("updatedName", transName)
+                                resultIntent.putExtra("updatedValue", transValue)
+                                setResult(RESULT_OK, resultIntent)
+                                finish()
                             } else {
                                 Log.e("API Call", "Unsuccessful response: ${response.code()}")
                             }
