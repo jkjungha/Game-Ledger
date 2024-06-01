@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,8 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         userService = RetrofitClient.retrofit.create(UserService::class.java)
         setContentView(binding.root)
+        NavigationBar()
+
         val context: Context = this
         val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
         val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
@@ -251,6 +254,38 @@ class SettingsActivity : AppCompatActivity() {
                 }
             })
 
+    }
+
+    fun NavigationBar() {
+        val main_button = findViewById<ImageButton>(R.id.main_button)
+        main_button.setOnClickListener {
+            var intent = Intent(this@SettingsActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val quest_button = findViewById<ImageButton>(R.id.quest_button)
+        quest_button.setOnClickListener {
+            var intent = Intent(this@SettingsActivity, QuestActivity::class.java)
+            startActivity(intent)
+        }
+
+        val insert_button = findViewById<ImageButton>(R.id.insert_button)
+        insert_button.setOnClickListener {
+            var intent = Intent(this@SettingsActivity, InsertActivity::class.java)
+            startActivity(intent)
+        }
+
+        val showlist_button = findViewById<ImageButton>(R.id.showlist_button)
+        showlist_button.setOnClickListener {
+            var intent = Intent(this@SettingsActivity, ShowListActivity::class.java)
+            startActivity(intent)
+        }
+
+        val setting_button = findViewById<ImageButton>(R.id.setting_button)
+        setting_button.setOnClickListener {
+            var intent = Intent(this@SettingsActivity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

@@ -1,9 +1,11 @@
 package com.example.gameledger
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.gameledger.databinding.ActivityMainBinding
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         initData()
+        NavigationBar()
     }
 
     fun initData(){
@@ -104,6 +107,38 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
+        }
+    }
+
+    fun NavigationBar() {
+        val main_button = findViewById<ImageButton>(R.id.main_button)
+        main_button.setOnClickListener {
+            var intent = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val quest_button = findViewById<ImageButton>(R.id.quest_button)
+        quest_button.setOnClickListener {
+            var intent = Intent(this@MainActivity, QuestActivity::class.java)
+            startActivity(intent)
+        }
+
+        val insert_button = findViewById<ImageButton>(R.id.insert_button)
+        insert_button.setOnClickListener {
+            var intent = Intent(this@MainActivity, InsertActivity::class.java)
+            startActivity(intent)
+        }
+
+        val showlist_button = findViewById<ImageButton>(R.id.showlist_button)
+        showlist_button.setOnClickListener {
+            var intent = Intent(this@MainActivity, ShowListActivity::class.java)
+            startActivity(intent)
+        }
+
+        val setting_button = findViewById<ImageButton>(R.id.setting_button)
+        setting_button.setOnClickListener {
+            var intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 

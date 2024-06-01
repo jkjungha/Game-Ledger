@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gameledger.databinding.ActivityEditlistBinding
 import com.example.gameledger.databinding.ActivityInsertBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -18,30 +19,30 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
 
-
-class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
-    lateinit var binding: ActivityInsertBinding
-    private lateinit var transactionService: TransactionService
+class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
+    lateinit var binding: ActivityEditlistBinding
+    lateinit var transactionService: TransactionService
     private lateinit var selectedCategory: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityInsertBinding.inflate(layoutInflater)
+        binding = ActivityEditlistBinding.inflate(layoutInflater)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         setContentView(binding.root)
 
         val categories = listOf("식비", "교통", "문화", "생활", "기타")
         val categoryRecyclerView: RecyclerView = findViewById(R.id.rv_category)
-
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        //categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
 
+        init() // Type별 레이아웃 변경, Value 포맷 설정
+        setData()
         categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
-
-        init()
         inputData()
     }
 
     private fun init() {
-        binding.typeRadioGroup.setOnCheckedChangeListener { _, checkedID ->
+        binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {
                     binding.linearLayout2.visibility = View.GONE
@@ -56,7 +57,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             var result: String = ""
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                if (charSequence.toString().isNotEmpty() && charSequence.toString() != result) {
+                if (!charSequence.toString().isEmpty() && charSequence.toString() != result) {
                     result = valueDecimalFormat.format(
                         charSequence.toString().replace(",", "").toDouble()
                     )
@@ -112,47 +113,56 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
                     }
                 }
             }
-
             override fun afterTextChanged(s: Editable) {}
         }
         binding.dateInputText.addTextChangedListener(watcher2)
-
-
     }
 
-    private fun inputData() {
+    private fun setData() {
+        val intent = intent
+        val transType = intent.getBooleanExtra("transType", false)
+        val transDate = intent.getStringExtra("transDate")
+        val transCategory = intent.getStringExtra("transCategory")
+        val transName = intent.getStringExtra("transName")
+        val transValue = intent.getStringExtra("transValue")
 
+        if (!transType) {
+            binding.expendRadioButton.isChecked = true
+            binding.incomeRadioButton.isChecked = false
+        }
+        else {
+            binding.expendRadioButton.isChecked = false
+            binding.incomeRadioButton.isChecked = true
+        }
+        binding.dateInputText.setText(transDate)
+        if (transCategory != null) {
+            selectedCategory = transCategory
+        }
+        binding.nameInputText.setText(transName)
+        binding.valueInputText.setText(transValue)
+    }
 
-        binding.inputButton.setOnClickListener {
-
+    fun inputData() {
+        binding.editButton.setOnClickListener {
             val context: Context = this
             val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
             val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
 
             val transDate = binding.dateInputText.text.toString()
             val parts = transDate.split(".")
-//            if (parts.size == 3) {
-//            }
-            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
-
+            if (parts.size == 3) {
+            }
             val transYear = parts[0].toInt() // 연도
             val transMonth = parts[1].toInt() // 월
             val transDay = parts[2].toInt() // 일
 
-            var transCategory:String
-            if(transType){
-                transCategory = "수입"
-            }else{
-                transCategory = selectedCategory
-            }
-
-            val transName = binding.titleInputText.text.toString()
+            var transCategory = selectedCategory.toString()
+            val transName = binding.nameInputText.text.toString()
 
             var value = binding.valueInputText.text.toString()
             val transValue = value.replace(",", "").toInt()
 
-
-            //val trans = Transactions(transType, transCategory, transDate, transName, transValue)
+            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
 
             if (userToken != null) {
                 transactionService.inputInfoData(
@@ -173,8 +183,16 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Successful response: ${response.code()}")
                                 // 입력 후 ShowListActivity로 이동
-                                val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
-                                startActivity(intent)
+                                // val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
+                                // startActivity(intent)
+                                val resultIntent = intent
+                                resultIntent.putExtra("updatedType", transType)
+                                resultIntent.putExtra("updatedDate", transDate)
+                                resultIntent.putExtra("updatedCategory", transCategory)
+                                resultIntent.putExtra("updatedName", transName)
+                                resultIntent.putExtra("updatedValue", transValue)
+                                setResult(RESULT_OK, resultIntent)
+                                finish()
                             } else {
                                 Log.e("API Call", "Unsuccessful response: ${response.code()}")
                             }
@@ -182,7 +200,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             // 통신 실패시 처리
-                            Toast.makeText(this@InsertActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@EditListActivity, "통신 실패", Toast.LENGTH_SHORT).show()
                         }
                     })
             }
@@ -190,7 +208,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
         binding.cancelButton.setOnClickListener {
             // MainActivity로 이동
-            val intent = Intent(this@InsertActivity, ShowListActivity::class.java)
+            val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
             startActivity(intent)
         }
     }
