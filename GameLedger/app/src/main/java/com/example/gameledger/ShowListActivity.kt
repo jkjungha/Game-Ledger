@@ -20,7 +20,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.NumberFormat
-import java.util.Calendar
 import java.util.Locale
 
 
@@ -38,17 +37,7 @@ class ShowListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_showlist)
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
-
         InitData()
-        val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH) + 1
-        val yearTextView: TextView = findViewById(R.id.tv_year)
-        val yearString = "${currentYear}년"
-        yearTextView.text = yearString
-        val monthTextView: TextView = findViewById(R.id.tv_month)
-        val monthString = "${currentMonth}월"
-        monthTextView.text = monthString
         NavigationBar()
 
         val transaction = findViewById<RecyclerView>(R.id.rv_transaction)
@@ -182,6 +171,14 @@ class ShowListActivity : AppCompatActivity() {
                                         Log.v("transCategory",transCategory.toString())
                                         Log.v("transName",transName.toString())
                                         Log.v("transValue",transValue.toString())
+
+                                        val yearTextView: TextView = findViewById(R.id.tv_year)
+                                        val yearString = "${transYear}년"
+                                        yearTextView.text = yearString
+
+                                        val monthTextView: TextView = findViewById(R.id.tv_month)
+                                        val monthString = "${transMonth}월"
+                                        monthTextView.text = monthString
 
                                         val transactions = Transactions(
                                             transType,
