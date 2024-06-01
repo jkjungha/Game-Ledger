@@ -34,6 +34,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        selectedCategory = categories.first()
         categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
 
         init()
@@ -139,7 +140,7 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
             val transMonth = parts[1].toInt() // 월
             val transDay = parts[2].toInt() // 일
 
-            var transCategory:String
+            val transCategory:String
             if(transType){
                 transCategory = "수입"
             }else{
