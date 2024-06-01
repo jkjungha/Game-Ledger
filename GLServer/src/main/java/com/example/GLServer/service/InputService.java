@@ -73,53 +73,50 @@ public class InputService {
         Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
         if (savingEntity.isPresent()) {
             SavingEntity SE = savingEntity.get();
-            int value = transValue;
             if (Objects.equals(transCategory.trim(), "식비")) {
                 int tmp = SE.getSavingFood();
-                SE.setSavingFood(Math.max(tmp - value, 0));
+                SE.setSavingFood(Math.max(tmp - transValue, 0));
             } else if (Objects.equals(transCategory.trim(), "교통")) {
                 int tmp = SE.getSavingTraffic();
-                SE.setSavingTraffic(Math.max(tmp - value, 0));
+                SE.setSavingTraffic(Math.max(tmp - transValue, 0));
             } else if (Objects.equals(transCategory.trim(), "문화")) {
                 int tmp = SE.getSavingCulture();
-                SE.setSavingCulture(Math.max(tmp - value, 0));
+                SE.setSavingCulture(Math.max(tmp - transValue, 0));
             } else if (Objects.equals(transCategory.trim(), "생활")) {
                 int tmp = SE.getSavingLife();
-                SE.setSavingLife(Math.max(tmp - value, 0));
+                SE.setSavingLife(Math.max(tmp - transValue, 0));
             } else if (Objects.equals(transCategory.trim(), "기타")) {
                 int tmp = SE.getSavingEtc();
-                SE.setSavingEtc(Math.max(tmp - value, 0));
+                SE.setSavingEtc(Math.max(tmp - transValue, 0));
             }
             savingRepository.save(SE);
         }
         return responseData;
     }
 
-    public ResponseData inputIncomeCalculate(UserEntity userEntity, DateEntity dateEntity, int transValue, String transCategory) {
+    public void inputIncomeCalculate(UserEntity userEntity, DateEntity dateEntity, int transValue, String transCategory) {
         ResponseData responseData = new ResponseData();
         Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
         if (savingEntity.isPresent()) {
             SavingEntity SE = savingEntity.get();
-            int value = transValue;
             if (Objects.equals(transCategory.trim(), "식비")) {
                 int tmp = SE.getSavingFood();
-                SE.setSavingFood(Math.min(tmp + value, userEntity.getFoodValue()));
+                SE.setSavingFood(Math.min(tmp + transValue, userEntity.getFoodValue()));
             } else if (Objects.equals(transCategory.trim(), "교통")) {
                 int tmp = SE.getSavingTraffic();
-                SE.setSavingTraffic(Math.min(tmp + value, userEntity.getTrafficValue()));
+                SE.setSavingTraffic(Math.min(tmp + transValue, userEntity.getTrafficValue()));
             } else if (Objects.equals(transCategory.trim(), "문화")) {
                 int tmp = SE.getSavingCulture();
-                SE.setSavingCulture(Math.min(tmp + value, userEntity.getCultureValue()));
+                SE.setSavingCulture(Math.min(tmp + transValue, userEntity.getCultureValue()));
             } else if (Objects.equals(transCategory.trim(), "생활")) {
                 int tmp = SE.getSavingLife();
-                SE.setSavingLife(Math.min(tmp + value, userEntity.getLifeValue()));
+                SE.setSavingLife(Math.min(tmp + transValue, userEntity.getLifeValue()));
             } else if (Objects.equals(transCategory.trim(), "기타")) {
                 int tmp = SE.getSavingEtc();
-                SE.setSavingEtc(Math.min(tmp + value, userEntity.getEtcValue()));
+                SE.setSavingEtc(Math.min(tmp + transValue, userEntity.getEtcValue()));
             }
             savingRepository.save(SE);
         }
-        return responseData;
     }
 
     public ResponseData settingsEdit(String username, String password, String newPassword) {

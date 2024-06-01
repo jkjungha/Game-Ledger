@@ -133,17 +133,24 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
             val parts = transDate.split(".")
 //            if (parts.size == 3) {
 //            }
+            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
+
             val transYear = parts[0].toInt() // 연도
             val transMonth = parts[1].toInt() // 월
             val transDay = parts[2].toInt() // 일
 
-            var transCategory = selectedCategory
+            var transCategory:String
+            if(transType){
+                transCategory = "수입"
+            }else{
+                transCategory = selectedCategory
+            }
+
             val transName = binding.titleInputText.text.toString()
 
             var value = binding.valueInputText.text.toString()
             val transValue = value.replace(",", "").toInt()
 
-            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
 
             //val trans = Transactions(transType, transCategory, transDate, transName, transValue)
 

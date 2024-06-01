@@ -133,10 +133,11 @@ public class ListService {
         if(transactionEntity.isPresent()) {
             TransactionEntity TE = transactionEntity.get();
             if(TE.isTransType()){
-                inputService.inputExpendCalculate(userEntity, TE.getDateEntity(), TE.getTransValue(), TE.getTransCategory());
+                transactionRepository.delete(TE);
             }else{
                 inputService.inputIncomeCalculate(userEntity, TE.getDateEntity(), TE.getTransValue(), TE.getTransCategory());
             }
+
             DateEntity dateEntity = searchDayDateEntity(transYear,transMonth,transDay);
             TE.setTransType(transType);
             TE.setTransCategory(transCategory);
@@ -146,7 +147,7 @@ public class ListService {
             transactionRepository.save(TE);
 
             if (!transType) {
-                inputService.inputExpendCalculate(userEntity, dateEntity, transValue, transCategory);
+                return inputService.inputExpendCalculate(userEntity, dateEntity, transValue, transCategory);
             }
 
             return responseData;
