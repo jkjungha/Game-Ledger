@@ -1,17 +1,16 @@
 package com.example.gameledger
 
+import android.R
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gameledger.databinding.ActivityLoginBinding
 import okhttp3.ResponseBody
-import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -50,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
                                 "API Call",
                                 "Successful response: ${response.code()}"
                             )
+                            CustomToast.showToast(this@LoginActivity,"로그인")
                             val intent = Intent(
                                 this@LoginActivity,
                                 InsertActivity::class.java

@@ -44,11 +44,9 @@ class SettingsActivity : AppCompatActivity() {
             var newPasswordAgain = binding.newPasswordAgainInput.text.toString()
 
             if (newPassword != newPasswordAgain) {
-                Toast.makeText(
+                CustomToast.showToast(
                     this@SettingsActivity,
-                    "새로운 비밀번호가 일치하지 않습니다.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    "새로운 비밀번호가 일치하지 않습니다.")
             } else {
                 userService.settingsEditData(userToken, password, newPassword)
                     .enqueue(object : retrofit2.Callback<ResponseBody> {
@@ -69,11 +67,9 @@ class SettingsActivity : AppCompatActivity() {
 
                                         val message = jsonObject.getString("message")
                                         val code = jsonObject.getInt("code")
-                                        Toast.makeText(
+                                        CustomToast.showToast(
                                             this@SettingsActivity,
-                                            message.toString(),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                            message.toString())
                                         if (code == 200) {
                                             val intent = Intent(
                                                 this@SettingsActivity,
@@ -85,11 +81,9 @@ class SettingsActivity : AppCompatActivity() {
                                         e.printStackTrace()
                                     }
                                 } else {
-                                    Toast.makeText(
+                                    CustomToast.showToast(
                                         this@SettingsActivity,
-                                        "응답 내용 없음",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                        "응답 내용 없음")
                                 }
                             } else {
                                 Log.e(
@@ -126,11 +120,9 @@ class SettingsActivity : AppCompatActivity() {
 
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
-                                    Toast.makeText(
+                                    CustomToast.showToast(
                                         this@SettingsActivity,
-                                        message.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                        message.toString())
                                     if (code == 200) {
                                         val context: Context = this@SettingsActivity
                                         val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
@@ -149,11 +141,9 @@ class SettingsActivity : AppCompatActivity() {
                                     e.printStackTrace()
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@SettingsActivity,
-                                    "응답 내용 없음",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음")
                             }
                         } else {
                             Log.e(
@@ -212,11 +202,9 @@ class SettingsActivity : AppCompatActivity() {
 
                                 val message = jsonObject.getString("message")
                                 val code = jsonObject.getInt("code")
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@SettingsActivity,
-                                    message.toString(),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    message.toString())
                                 if (code == 200) {
                                     val context: Context = this@SettingsActivity
                                     val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
@@ -235,11 +223,9 @@ class SettingsActivity : AppCompatActivity() {
                                 e.printStackTrace()
                             }
                         } else {
-                            Toast.makeText(
+                            CustomToast.showToast(
                                 this@SettingsActivity,
-                                "응답 내용 없음",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                "응답 내용 없음")
                         }
                     } else {
                         Log.e(

@@ -198,18 +198,14 @@ class ShowListActivity : AppCompatActivity() {
                                     // Handle JSON parsing error
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@ShowListActivity,
-                                    "응답 내용 없음: ${response.code()}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음: ${response.code()}")
                             }
                         } else {
-                            Toast.makeText(
+                            CustomToast.showToast(
                                 this@ShowListActivity,
-                                "서버 응답 오류: ${response.code()}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                "서버 응답 오류: ${response.code()}")
                         }
                     }
 
@@ -220,11 +216,9 @@ class ShowListActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // 요청이 실패한 경우
-                        Toast.makeText(
+                        CustomToast.showToast(
                             this@ShowListActivity,
-                            "네트워크 오류: ${t.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            "네트워크 오류: ${t.message}")
                     }
 
                 })

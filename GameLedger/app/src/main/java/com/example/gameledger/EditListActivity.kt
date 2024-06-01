@@ -200,7 +200,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             // 통신 실패시 처리
-                            Toast.makeText(this@EditListActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                            CustomToast.showToast(this@EditListActivity, "통신 실패")
                         }
                     })
             }
@@ -215,6 +215,6 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
     override fun onItemClick(category: String) {
         selectedCategory = category
-        Toast.makeText(this, "Selected: $category", Toast.LENGTH_SHORT).show()
+        CustomToast.showToast(this, "Selected: $category")
     }
 }

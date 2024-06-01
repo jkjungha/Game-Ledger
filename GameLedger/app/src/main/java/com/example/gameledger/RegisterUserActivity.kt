@@ -47,11 +47,10 @@ class RegisterUserActivity : AppCompatActivity() {
 
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
-                                    Toast.makeText(
+                                    CustomToast.showToast(
                                         this@RegisterUserActivity,
-                                        message.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                        message.toString()
+                                    )
                                     if (code == 200) {
                                         val intent = Intent(
                                             this@RegisterUserActivity,
@@ -63,11 +62,9 @@ class RegisterUserActivity : AppCompatActivity() {
                                     e.printStackTrace()
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@RegisterUserActivity,
-                                    "응답 내용 없음",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음")
                             }
                         } else {
                             Log.e(

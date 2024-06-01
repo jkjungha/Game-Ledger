@@ -5,11 +5,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gameledger.databinding.ToastLayoutBinding
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -134,18 +136,14 @@ class QuestActivity : AppCompatActivity() {
                                     // Handle JSON parsing error
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@QuestActivity,
-                                    "응답 내용 없음: ${response.code()}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음: ${response.code()}")
                             }
                         } else {
-                            Toast.makeText(
+                            CustomToast.showToast(
                                 this@QuestActivity,
-                                "서버 응답 오류: ${response.code()}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                "서버 응답 오류: ${response.code()}")
                         }
                     }
 
@@ -156,11 +154,9 @@ class QuestActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // 요청이 실패한 경우
-                        Toast.makeText(
+                        CustomToast.showToast(
                             this@QuestActivity,
-                            "네트워크 오류: ${t.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            "네트워크 오류: ${t.message}")
                     }
 
                 })
@@ -194,7 +190,7 @@ class QuestActivity : AppCompatActivity() {
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             // 통신 실패시 처리
-                            Toast.makeText(this@QuestActivity, "통신 실패", Toast.LENGTH_SHORT).show()
+                            CustomToast.showToast(this@QuestActivity, "통신 실패")
                         }
                     })
             }

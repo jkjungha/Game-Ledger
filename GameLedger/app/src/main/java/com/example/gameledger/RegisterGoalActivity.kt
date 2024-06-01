@@ -51,7 +51,7 @@ class RegisterGoalActivity : AppCompatActivity() {
 
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
-                                    Toast.makeText(this@RegisterGoalActivity, message.toString(), Toast.LENGTH_SHORT).show()
+                                    CustomToast.showToast(this@RegisterGoalActivity, message.toString())
                                     if(code == 200){val intent = Intent(
                                         this@RegisterGoalActivity,
                                         LoginActivity::class.java
@@ -62,11 +62,9 @@ class RegisterGoalActivity : AppCompatActivity() {
                                     e.printStackTrace()
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@RegisterGoalActivity,
-                                    "응답 내용 없음",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음")
                             }
                         } else {
                             Log.e(

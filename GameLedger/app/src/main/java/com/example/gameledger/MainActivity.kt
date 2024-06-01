@@ -82,28 +82,22 @@ class MainActivity : AppCompatActivity() {
                                     // Handle JSON parsing error
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@MainActivity,
-                                    "응답 내용 없음: ${response.code()}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음: ${response.code()}")
                             }
                         } else {
-                            Toast.makeText(
+                            CustomToast.showToast(
                                 this@MainActivity,
-                                "서버 응답 오류: ${response.code()}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                "서버 응답 오류: ${response.code()}")
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // 요청이 실패한 경우
-                        Toast.makeText(
+                        CustomToast.showToast(
                             this@MainActivity,
-                            "네트워크 오류: ${t.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            "네트워크 오류: ${t.message}")
                     }
 
                 })

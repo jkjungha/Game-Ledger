@@ -73,20 +73,18 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
                                     if(code == 200){
-                                        Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
+                                        CustomToast.showToast(this@RegisterAuthenticateActivity, message.toString())
                                     }else if(code == 400){
-                                        Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
+                                        CustomToast.showToast(this@RegisterAuthenticateActivity, message.toString())
                                     }
                                     authCode = jsonObject.getJSONObject("result").getInt("authCode").toString()
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@RegisterAuthenticateActivity,
-                                    "응답 내용 없음",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음")
                             }
                         } else {
                             Log.e(
@@ -125,19 +123,17 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
                                     if(code == 200){
-                                        Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
+                                        CustomToast.showToast(this@RegisterAuthenticateActivity, message.toString())
                                     }else if(code == 400){
-                                        Toast.makeText(this@RegisterAuthenticateActivity, message.toString(), Toast.LENGTH_SHORT).show()
+                                        CustomToast.showToast(this@RegisterAuthenticateActivity, message.toString())
                                     }
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                 }
                             } else {
-                                Toast.makeText(
+                                CustomToast.showToast(
                                     this@RegisterAuthenticateActivity,
-                                    "응답 내용 없음",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    "응답 내용 없음")
                             }
                         } else {
                             Log.e(
