@@ -10,6 +10,6 @@
     <color name="purple">#CF9FFF</color>
     <color name="dark_green">#274e13</color>
     <color name="light_green">#25A410</color>
-    <color name="selected_category_background">@android:color/holo_blue_light</color>
-    <color name="default_category_background">#00012E</color>
+    <color name="selected_category_background">#00012E</color>
+    <color name="default_category_background">#E9ECEF</color>
 </resources>

@@ -198,6 +198,6 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
 
     override fun onItemClick(category: String) {
         selectedCategory = category
-        CustomToast.showToast(this, "Selected: $category")
+        //CustomToast.showToast(this, "Selected: $category")
     }
 }
