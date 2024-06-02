@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -154,6 +153,7 @@ class ShowListActivity : AppCompatActivity() {
                                     for (i in 0 until list.length()) {
                                         val listItem = list.getJSONObject(i)
 
+                                        val transId = listItem.getInt("transId")
                                         val transType = listItem.getBoolean("transType")
                                         val transYear = listItem.getInt("transYear")
                                         val transMonth = listItem.getInt("transMonth")
@@ -164,6 +164,7 @@ class ShowListActivity : AppCompatActivity() {
 
                                         val transDate = "${transYear}. ${transMonth}. ${transDay}"
 
+                                        Log.v("tranId",transId.toString())
                                         Log.v("tranType",transType.toString())
                                         Log.v("transYear",transYear.toString())
                                         Log.v("transMonth",transMonth.toString())
