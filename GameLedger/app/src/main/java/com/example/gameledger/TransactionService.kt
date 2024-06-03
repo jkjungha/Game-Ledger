@@ -27,6 +27,20 @@ interface TransactionService {
         @Header("Authorization") Authorization: String
     ): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("/list/edit")
+    fun listEditData(
+        @Header("Authorization") Authorization: String,
+        @Field("transYear") transYear: Int,
+        @Field("transMonth") transMonth: Int,
+        @Field("transDay") transDay: Int,
+        @Field("transCategory") transCategory: String,
+        @Field("transName") transName: String,
+        @Field("transValue") transValue: Int,
+        @Field("transType") transType: Boolean,
+        @Field("transId") transId: Int
+    ): Call<ResponseBody>
+
     @GET("/main/info")
     fun mainInfoData(
         @Header("Authorization") Authorization: String
@@ -41,8 +55,6 @@ interface TransactionService {
     fun questResetData(
         @Header("Authorization") Authorization: String
     ): Call<ResponseBody>
-
-
 
 
 }

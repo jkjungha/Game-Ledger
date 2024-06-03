@@ -24,6 +24,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
     lateinit var binding: ActivityEditlistBinding
     lateinit var transactionService: TransactionService
     private lateinit var selectedCategory: String
+    private var transId:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
         init() // Type별 레이아웃 변경, Value 포맷 설정
         setData()
-//        inputData()
+        inputData()
     }
 
     private fun init() {
@@ -51,7 +52,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         val dateString = dateFormat.format(currentDate)
         binding.dateInputText.setText(dateString)
 
-        binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
+        binding.typeRadioGroup.setOnCheckedChangeListener { _, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {
                     binding.linearLayout2.visibility = View.GONE
@@ -66,7 +67,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             var result: String = ""
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                if (!charSequence.toString().isEmpty() && charSequence.toString() != result) {
+                if (charSequence.toString().isNotEmpty() && charSequence.toString() != result) {
                     result = valueDecimalFormat.format(
                         charSequence.toString().replace(",", "").toDouble()
                     )
@@ -122,9 +123,12 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
                     }
                 }
             }
+
             override fun afterTextChanged(s: Editable) {}
         }
         binding.dateInputText.addTextChangedListener(watcher2)
+
+
     }
 
     private fun setData() {
@@ -134,7 +138,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         val transCategory = intent.getStringExtra("transCategory")
         val transName = intent.getStringExtra("transName")
         val transValue = intent.getStringExtra("transValue")
-        val transId = intent.getIntExtra("transId", 0)
+        transId = intent.getIntExtra("transId", 0)
 
         Log.v("tranType",transType.toString())
         Log.v("transDate",transDate.toString())
@@ -159,30 +163,39 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         binding.valueInputText.setText(transValue)
     }
 
-    fun inputData() {
+    private fun inputData() {
+
         binding.editButton.setOnClickListener {
+
             val context: Context = this
             val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
             val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
 
             val transDate = binding.dateInputText.text.toString()
             val parts = transDate.split(".")
-            if (parts.size == 3) {
-            }
+//            if (parts.size == 3) {
+//            }
+            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
+
             val transYear = parts[0].toInt() // 연도
             val transMonth = parts[1].toInt() // 월
             val transDay = parts[2].toInt() // 일
 
-            var transCategory = selectedCategory.toString()
+            val transCategory:String
+            if(transType){
+                transCategory = "수입"
+            }else{
+                transCategory = selectedCategory
+            }
+
             val transName = binding.nameInputText.text.toString()
 
             var value = binding.valueInputText.text.toString()
             val transValue = value.replace(",", "").toInt()
 
-            val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
 
             if (userToken != null) {
-                transactionService.inputInfoData(
+                transactionService.listEditData(
                     userToken,
                     transYear,
                     transMonth,
@@ -190,7 +203,8 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
                     transCategory,
                     transName,
                     transValue,
-                    transType
+                    transType,
+                    transId
                 )
                     .enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(
@@ -200,16 +214,8 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Successful response: ${response.code()}")
                                 // 입력 후 ShowListActivity로 이동
-                                // val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
-                                // startActivity(intent)
-                                val resultIntent = intent
-                                resultIntent.putExtra("updatedType", transType)
-                                resultIntent.putExtra("updatedDate", transDate)
-                                resultIntent.putExtra("updatedCategory", transCategory)
-                                resultIntent.putExtra("updatedName", transName)
-                                resultIntent.putExtra("updatedValue", transValue)
-                                setResult(RESULT_OK, resultIntent)
-                                finish()
+                                val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
+                                startActivity(intent)
                             } else {
                                 Log.e("API Call", "Unsuccessful response: ${response.code()}")
                             }
@@ -232,6 +238,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
     override fun onItemClick(category: String) {
         selectedCategory = category
-//        CustomToast.showToast(this, "Selected: $category")
+        //CustomToast.showToast(this, "Selected: $category")
     }
+
 }
