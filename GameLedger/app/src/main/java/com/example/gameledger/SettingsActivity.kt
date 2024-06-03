@@ -74,6 +74,9 @@ class SettingsActivity : AppCompatActivity() {
                                                 MainActivity::class.java
                                             )
                                             startActivity(intent)
+                                            binding.passwordInput.text.clear()
+                                            binding.newPasswordInput.text.clear()
+                                            binding.newPasswordAgainInput.text.clear()
                                         }
                                     } catch (e: JSONException) {
                                         e.printStackTrace()
@@ -134,6 +137,9 @@ class SettingsActivity : AppCompatActivity() {
                                             LoginActivity::class.java
                                         )
                                         startActivity(intent)
+                                        binding.passwordInput.text.clear()
+                                        binding.newPasswordInput.text.clear()
+                                        binding.newPasswordAgainInput.text.clear()
                                     }
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
@@ -216,6 +222,9 @@ class SettingsActivity : AppCompatActivity() {
                                         LoginActivity::class.java
                                     )
                                     startActivity(intent)
+                                    binding.passwordInput.text.clear()
+                                    binding.newPasswordInput.text.clear()
+                                    binding.newPasswordAgainInput.text.clear()
                                 }
                             } catch (e: JSONException) {
                                 e.printStackTrace()

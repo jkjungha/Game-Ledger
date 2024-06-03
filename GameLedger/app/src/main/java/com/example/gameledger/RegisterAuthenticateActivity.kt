@@ -154,6 +154,8 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
                 RegisterUserActivity::class.java
             )
             startActivity(intent)
+            binding.authInput.text.clear()
+            binding.authCodeInput.text.clear()
         }
 
     }

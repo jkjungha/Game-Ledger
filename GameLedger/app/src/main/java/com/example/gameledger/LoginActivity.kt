@@ -55,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
                                 InsertActivity::class.java
                             )
                             startActivity(intent)
+                            binding.idInput.text.clear()
+                            binding.passwordInput.text.clear()
 
                         } else {
                             Log.e(
@@ -68,9 +70,6 @@ class LoginActivity : AppCompatActivity() {
                         Log.e("API Call", "Failed to make API call: ${t.message}", t)
                     }
                 })
-            binding.idInput.text.clear()
-            binding.passwordInput.text.clear()
-
 
         }
         binding.registerButton.setOnClickListener {
@@ -79,6 +78,8 @@ class LoginActivity : AppCompatActivity() {
                 RegisterAuthenticateActivity::class.java
             )
             startActivity(intent)
+            binding.idInput.text.clear()
+            binding.passwordInput.text.clear()
         }
     }
 

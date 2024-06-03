@@ -22,7 +22,7 @@ class RegisterGoalActivity : AppCompatActivity() {
         init()
     }
 
-    private fun init(){
+    private fun init() {
         binding.registerButton.setOnClickListener {
             val goalName = binding.goalNameInput.text.toString()
             val goalValue = Integer.parseInt(binding.goalValueInput.text.toString())
@@ -31,7 +31,14 @@ class RegisterGoalActivity : AppCompatActivity() {
             val cultureValue = Integer.parseInt(binding.cultureValueInput.text.toString())
             val lifeValue = Integer.parseInt(binding.lifeValueInput.text.toString())
 
-            userService.signupInputData(goalName, goalValue, foodValue, trafficValue, cultureValue, lifeValue)
+            userService.signupInputData(
+                goalName,
+                goalValue,
+                foodValue,
+                trafficValue,
+                cultureValue,
+                lifeValue
+            )
                 .enqueue(object : retrofit2.Callback<ResponseBody> {
                     override fun onResponse(
                         call: Call<ResponseBody>,
@@ -50,12 +57,22 @@ class RegisterGoalActivity : AppCompatActivity() {
 
                                     val message = jsonObject.getString("message")
                                     val code = jsonObject.getInt("code")
-                                    CustomToast.showToast(this@RegisterGoalActivity, message.toString())
-                                    if(code == 200){val intent = Intent(
+                                    CustomToast.showToast(
                                         this@RegisterGoalActivity,
-                                        LoginActivity::class.java
+                                        message.toString()
                                     )
+                                    if (code == 200) {
+                                        val intent = Intent(
+                                            this@RegisterGoalActivity,
+                                            LoginActivity::class.java
+                                        )
                                         startActivity(intent)
+                                        binding.goalNameInput.text.clear()
+                                        binding.goalValueInput.text.clear()
+                                        binding.foodValueInput.text.clear()
+                                        binding.trafficValueInput.text.clear()
+                                        binding.cultureValueInput.text.clear()
+                                        binding.lifeValueInput.text.clear()
                                     }
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
@@ -63,7 +80,8 @@ class RegisterGoalActivity : AppCompatActivity() {
                             } else {
                                 CustomToast.showToast(
                                     this@RegisterGoalActivity,
-                                    "응답 내용 없음")
+                                    "응답 내용 없음"
+                                )
                             }
                         } else {
                             Log.e(

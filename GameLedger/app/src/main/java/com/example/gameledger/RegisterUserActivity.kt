@@ -56,6 +56,9 @@ class RegisterUserActivity : AppCompatActivity() {
                                             RegisterGoalActivity::class.java
                                         )
                                         startActivity(intent)
+                                        binding.idRsgInput.text.clear()
+                                        binding.passwordRsgInput.text.clear()
+                                        binding.passwordAgainRsgInput.text.clear()
                                     }
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
