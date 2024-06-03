@@ -9,9 +9,8 @@ import com.example.GLServer.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -20,8 +19,9 @@ import java.util.regex.Pattern;
 @Service
 public class JoinService {
 
+    private final MailService mailService;
+    private final PhoneService phoneService;
     private final UserRepository userRepository;
-
     private final DateRepository dateRepository;
     private final SavingRepository savingRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -35,7 +35,9 @@ public class JoinService {
     private String username;
     private String password;
 
-    public JoinService(UserRepository userRepository, DateRepository dateRepository, SavingRepository savingRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public JoinService(MailService mailService, PhoneService phoneService, UserRepository userRepository, DateRepository dateRepository, SavingRepository savingRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.mailService = mailService;
+        this.phoneService = phoneService;
         this.userRepository = userRepository;
         this.dateRepository = dateRepository;
         this.savingRepository = savingRepository;
@@ -43,14 +45,14 @@ public class JoinService {
     }
 
 
-    public DateEntity getDayDateEntity(){
+    public DateEntity getDayDateEntity() {
         LocalDateTime localDateTime = LocalDateTime.now();
         int year = localDateTime.getYear();
         int month = localDateTime.getMonthValue();
         int day = localDateTime.getDayOfMonth();
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
 
-        if(dateEntity == null){
+        if (dateEntity == null) {
             DateEntity DE = new DateEntity();
             DE.setYear(year);
             DE.setMonth(month);
@@ -66,38 +68,50 @@ public class JoinService {
     public ResponseData joinAuth(String emailPhone, Boolean type) throws UnsupportedEncodingException {
         ResponseData responseData = new ResponseData();
         //이메일 or 핸드폰 or 둘 다 아닌 경우 구분
-        if(type){//이메일인 경우
-            if(isValidEmail(emailPhone)){
+        if (type) {//이메일인 경우
+            if (isValidEmail(emailPhone)) {
                 Boolean isExist = userRepository.existsByEmail(emailPhone);
-                if(isExist){
+                if (isExist) {
                     responseData.setCode(400);
                     responseData.setMessage("이미 해당 이메일로 등록된 회원이 있습니다.");
-                }else{
-                    this.email = URLDecoder.decode(emailPhone, StandardCharsets.UTF_8);
-//                    sendEmail(emailPhone);
-                    responseData.setMessage("요청 완료");
+                } else {
+                    return mailService.sendEmail(emailPhone);
                 }
-            }else{
+            } else {
                 responseData.setCode(400);
                 responseData.setMessage("이메일 형식에 맞지 않습니다.");
             }
-        }else{//핸드폰인 경우
-            if(isValidPhone(emailPhone)){
+        } else {//핸드폰인 경우
+            if (isValidPhone(emailPhone)) {
                 Boolean isExist = userRepository.existsByPhone(emailPhone);
-                if(isExist){
+                if (isExist) {
                     responseData.setCode(400);
                     responseData.setMessage("이미 해당 전화번호로 등록된 회원이 있습니다.");
-                }else{
-                    this.phone = emailPhone;
-//                    sendSms(emailPhone);
-                    responseData.setMessage("요청 완료");
+                } else {
+                    return phoneService.sendPhone(emailPhone);
                 }
-            }else{
+            } else {
                 responseData.setCode(400);
                 responseData.setMessage("전화번호 형식에 맞지 않습니다.");
             }
         }
         return responseData;
+    }
+
+    public ResponseData joinAuthCheck(String emailPhone, String authCode, Boolean type) {
+        if (type) {
+            ResponseData responseData = mailService.authCheckEmail(emailPhone, authCode);
+            if (responseData.getCode() == 200) {
+                this.email = emailPhone;
+            }
+            return responseData;
+        } else {
+            ResponseData responseData = phoneService.authCheckPhone(emailPhone, authCode);
+            if (responseData.getCode() == 200) {
+                this.phone = emailPhone;
+            }
+            return responseData;
+        }
     }
 
     public boolean isValidEmail(String email) {
@@ -112,20 +126,13 @@ public class JoinService {
         return matcher.matches();
     }
 
-    public ResponseData joinAuthCheck(String emailPhone, String authCode) {
-        ResponseData responseData = new ResponseData();
-        responseData.setMessage("인증 완료");
-        return responseData;
-    }
-
-
     public ResponseData joinUser(UsernamePasswordDTO usernamePasswordDTO) {
         ResponseData responseData = new ResponseData();
         String username = usernamePasswordDTO.getUsername();
         String password = usernamePasswordDTO.getPassword();
         String againPassword = usernamePasswordDTO.getAgainPassword();
 
-        if(!Objects.equals(password, againPassword)){
+        if (!Objects.equals(password, againPassword)) {
             responseData.setCode(400);
             responseData.setMessage("비밀번호가 일치하지 않습니다.");
             return responseData;
@@ -133,10 +140,11 @@ public class JoinService {
 
         //아이디 중복 확인
         Boolean isExist = userRepository.existsByUsername(username);
-        if(isExist){
+        if (isExist) {
             responseData.setCode(400);
             responseData.setMessage("이미 존재하는 아이디입니다.");
-        }else{
+        } else {
+
             this.username = username;
             this.password = bCryptPasswordEncoder.encode(password);
             responseData.setMessage("요청 완료");
@@ -183,7 +191,7 @@ public class JoinService {
         int day = localDateTime.getDayOfMonth();
         DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
         Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
-        if(dateEntity != null && savingEntity.isPresent()){
+        if (dateEntity != null && savingEntity.isPresent()) {
             SavingEntity SE = savingEntity.get();
             int total = SE.getSavingFood();
             total += SE.getSavingTraffic();

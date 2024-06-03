@@ -16,34 +16,18 @@ public class JoinController {
 
     private final JoinService joinService;
 
-    private final MailService mailService;
-    private final PhoneService phoneService;
-
-
-    public JoinController(JoinService joinService, MailService mailService, PhoneService phoneService){
+    public JoinController(JoinService joinService){
         this.joinService = joinService;
-        this.mailService = mailService;
-        this.phoneService = phoneService;
     }
 
     @PostMapping("/signup/auth")
     public ResponseData joinAuthProcess(@RequestParam("emailPhone") String emailPhone, @RequestParam("type") Boolean type) throws UnsupportedEncodingException {
-//        joinService.joinAuth(emailPhone, type);
-        if(type){
-            return mailService.sendEmail(emailPhone);
-        }else{
-            return phoneService.sendPhone(emailPhone);
-        }
+        return joinService.joinAuth(emailPhone, type);
     }
 
     @PostMapping("/signup/auth/check")
     public ResponseData joinAuthCheckProcess(@RequestParam("emailPhone") String emailPhone, @RequestParam("authCode") String authCode, @RequestParam("type") Boolean type){
-        //        joinService.joinAuthCheck(emailPhone, authCode);
-        if(type){
-            return mailService.authCheckEmail(emailPhone, authCode);
-        }else{
-            return phoneService.authCheckPhone(emailPhone, authCode);
-        }
+        return joinService.joinAuthCheck(emailPhone, authCode, type);
     }
 
     @PostMapping("/signup/user")

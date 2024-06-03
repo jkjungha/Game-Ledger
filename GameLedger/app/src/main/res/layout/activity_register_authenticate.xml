@@ -82,7 +82,7 @@
 				android:inputType="text"
 				android:minHeight="50dp"
 				android:ems="12"
-				android:hint="전화번호(주의%실제 아는 번호)"
+				android:hint="전화번호"
 				android:textSize="15sp" />
 		</LinearLayout>
 
