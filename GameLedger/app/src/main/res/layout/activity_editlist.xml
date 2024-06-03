@@ -198,7 +198,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:hint="10,000원"
-                    android:inputType="text"/>
+                    android:inputType="number"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -12,7 +12,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
     @Query("SELECT SUM(t.transValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.transType = ?4")
     Optional<Double> sumTransValueByUserEntityAndDateEntityAndTranType(String username,int year, int month, Boolean transType);
 
-    @Query("SELECT t FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3")
+    @Query("SELECT t FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 ORDER BY t.dateEntity.year, t.dateEntity.month, t.dateEntity.day, t.id")
     Optional<List<TransactionEntity>> findAllByUserEntityAndDateEntity(String username, int year, int month);
 
     @Query("SELECT SUM(t.transValue) FROM TransactionEntity t WHERE t.userEntity.username = ?1 AND t.dateEntity.year = ?2 AND t.dateEntity.month = ?3 AND t.transType = ?4 AND t.transCategory = ?5")
