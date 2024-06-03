@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
+import java.util.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
@@ -42,6 +44,12 @@ class InsertActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener 
     }
 
     private fun init() {
+        //오늘 날짜를 디폴트로 입력
+        val currentDate = Date()
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val dateString = dateFormat.format(currentDate)
+        binding.dateInputText.setText(dateString)
+
         binding.typeRadioGroup.setOnCheckedChangeListener { _, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {

@@ -18,6 +18,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListener {
     lateinit var binding: ActivityEditlistBinding
@@ -42,6 +45,12 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
     }
 
     private fun init() {
+        //오늘 날짜를 디폴트로 입력
+        val currentDate = Date()
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val dateString = dateFormat.format(currentDate)
+        binding.dateInputText.setText(dateString)
+
         binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {
