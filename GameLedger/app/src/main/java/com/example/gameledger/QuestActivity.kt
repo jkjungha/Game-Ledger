@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -164,7 +166,9 @@ class QuestActivity : AppCompatActivity() {
         val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
         val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
 
-        val link_button = findViewById<ImageButton>(R.id.link_button)
+        val link_button = findViewById<LottieAnimationView>(R.id.link_button)
+        link_button.repeatCount = LottieDrawable.INFINITE
+        link_button.playAnimation()
         link_button.setOnClickListener {
             if (userToken != null) {
                 transactionService.questResetData(userToken)

@@ -59,7 +59,6 @@ class ShowListActivity : AppCompatActivity() {
         })
 
         transaction.adapter = transactionAdapter
-
 //        val back_button = findViewById<ImageButton>(R.id.back_button)
 //        back_button.setOnClickListener{
 //            val intent = Intent(this@ShowListActivity, QuestActivity::class.java)

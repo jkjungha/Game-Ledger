@@ -9,6 +9,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 
 class TransactionAdapter(
     private val transactionList: ArrayList<Transactions>,
@@ -33,14 +35,36 @@ class TransactionAdapter(
         holder.value.text = transactionList.get(position).value
 
         if (transactionList.get(position).type) {
-            holder.type.setImageResource(R.drawable.treasure_opened)
+            holder.type.setAnimation(R.raw.chest_1)
             holder.value.setTextColor(Color.parseColor("#2196F3"))
         }
         else if (!transactionList.get(position).type) {
             // 지출 카테고리별 몬스터 그래픽 변경 예정
-            holder.type.setImageResource(R.drawable.treasure_closed)
-            holder.value.setTextColor(Color.parseColor("#F44336"))
+            if(transactionList.get(position).category == "식비") {
+                holder.type.setAnimation(R.raw.monster_1)
+                holder.value.setTextColor(Color.parseColor("#F44336"))
+            }
+            else if(transactionList.get(position).category == "교통") {
+                holder.type.setAnimation(R.raw.monster_5)
+                holder.value.setTextColor(Color.parseColor("#F44336"))
+            }
+            else if(transactionList.get(position).category == "문화") {
+                holder.type.setAnimation(R.raw.monster_3)
+                holder.value.setTextColor(Color.parseColor("#F44336"))
+            }
+            else if(transactionList.get(position).category == "생활") {
+                holder.type.setAnimation(R.raw.monster_4)
+                holder.value.setTextColor(Color.parseColor("#F44336"))
+            }
+            else {
+                holder.type.setAnimation(R.raw.monster_2)
+                holder.value.setTextColor(Color.parseColor("#F44336"))
+            }
+
         }
+
+        holder.type.repeatCount = LottieDrawable.INFINITE
+        holder.type.playAnimation()
 
         holder.edit_button.setOnClickListener {
             editClickListener.onEditClick(transaction)
@@ -52,7 +76,7 @@ class TransactionAdapter(
     }
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val type: ImageView = itemView.findViewById<ImageView>(R.id.iv_plus)   // 수입, 지출 type
+        val type = itemView.findViewById<LottieAnimationView>(R.id.lav_plus)   // 수입, 지출 type
         val category: TextView = itemView.findViewById<TextView>(R.id.tv_category)    // 카테고리
         val date: TextView = itemView.findViewById<TextView>(R.id.tv_date)    // 날짜
         val title: TextView = itemView.findViewById<TextView>(R.id.tv_transaction)    // 거래 내역
