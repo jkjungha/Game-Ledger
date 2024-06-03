@@ -7,12 +7,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gameledger.databinding.ActivityEditlistBinding
-import com.example.gameledger.databinding.ActivityInsertBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

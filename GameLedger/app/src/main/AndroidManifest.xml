@@ -35,9 +35,6 @@
             android:name=".QuestActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadingActivity"
-            android:exported="false" />
-        <activity
             android:name=".RegisterUserActivity"
             android:exported="false" />
         <activity
