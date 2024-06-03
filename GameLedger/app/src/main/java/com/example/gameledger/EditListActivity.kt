@@ -37,20 +37,13 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        selectedCategory = categories.first()
-        categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
-
-        init() // Type별 레이아웃 변경, Value 포맷 설정
         setData()
+        categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
+        init() // Type별 레이아웃 변경, Value 포맷 설정
         inputData()
     }
 
     private fun init() {
-        //오늘 날짜를 디폴트로 입력
-        val currentDate = Date()
-        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        val dateString = dateFormat.format(currentDate)
-        binding.dateInputText.setText(dateString)
 
         binding.typeRadioGroup.setOnCheckedChangeListener { _, checkedID ->
             when(checkedID) {

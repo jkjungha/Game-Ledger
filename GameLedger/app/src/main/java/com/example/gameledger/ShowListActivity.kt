@@ -16,6 +16,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -65,6 +68,18 @@ class ShowListActivity : AppCompatActivity() {
     }
 
     fun InitData(){
+        //현재 날짜의 년 월
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH) + 1
+        val yearTextView: TextView = findViewById(R.id.tv_year)
+        val yearString = "${currentYear}년"
+        yearTextView.text = yearString
+
+        val monthTextView: TextView = findViewById(R.id.tv_month)
+        val monthString = "${currentMonth}월"
+        monthTextView.text = monthString
+
         val context: Context = this
         val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
         val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
@@ -128,7 +143,11 @@ class ShowListActivity : AppCompatActivity() {
                                         val transValue = listItem.getInt("transValue")
                                         val transId = listItem.getInt("transId")
 
-                                        val transDate = "${transYear}. ${transMonth}. ${transDay}"
+                                        val tYear = transYear.toString().padStart(4, '0')
+                                        val tMonth = transMonth.toString().padStart(2, '0')
+                                        val tDay = transDay.toString().padStart(2, '0')
+
+                                        val transDate = "${tYear}.${tMonth}.${tDay}"
 
                                         Log.v("tranType",transType.toString())
                                         Log.v("transYear",transYear.toString())
@@ -138,14 +157,6 @@ class ShowListActivity : AppCompatActivity() {
                                         Log.v("transName",transName.toString())
                                         Log.v("transValue",transValue.toString())
                                         Log.v("tranId",transId.toString())
-
-                                        val yearTextView: TextView = findViewById(R.id.tv_year)
-                                        val yearString = "${transYear}년"
-                                        yearTextView.text = yearString
-
-                                        val monthTextView: TextView = findViewById(R.id.tv_month)
-                                        val monthString = "${transMonth}월"
-                                        monthTextView.text = monthString
 
                                         val transactions = Transactions(
                                             transType,
