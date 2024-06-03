@@ -37,11 +37,11 @@ class QuestActivity : AppCompatActivity() {
         LinkData()
         NavigationBar()
 
-        val back_button = findViewById<ImageButton>(R.id.back_button)
-        back_button.setOnClickListener {
-            var intent = Intent(this@QuestActivity, MainActivity::class.java)
-            startActivity(intent)
-        }
+//        val back_button = findViewById<ImageButton>(R.id.back_button)
+//        back_button.setOnClickListener {
+//            var intent = Intent(this@QuestActivity, MainActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
     fun InitData(){

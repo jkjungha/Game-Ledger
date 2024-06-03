@@ -48,7 +48,6 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val dateString = dateFormat.format(currentDate)
         binding.dateInputText.setText(dateString)
-
         binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {

@@ -23,9 +23,11 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="7dp"
+        android:gravity="center"
+        android:padding="12dp"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--
         <ImageButton
             android:id="@+id/back_button"
             android:layout_width="48dp"
@@ -33,13 +35,13 @@
             android:layout_margin="10dp"
             android:background="@drawable/back_button"
             android:contentDescription="back_button" />
+        -->
 
         <TextView
             android:id="@+id/tv_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="70dp"
+            android:layout_marginEnd="6dp"
             android:text="@string/year"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -53,8 +55,7 @@
                 android:id="@+id/tv_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="6dp"
                 android:text="@string/month"
                 android:textColor="@color/white"
                 android:textSize="24sp"
