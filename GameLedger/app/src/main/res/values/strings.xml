@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">GameLedger</string>
-    <string name="year_month"><u>2024년 4월</u></string>
-    <string name="total_income">100,000원</string>
-    <string name="total_expense">50,000원</string>
-    <string name="total_sum">50,000원</string>
+    <string name="year_month"><u>2024년 6월</u></string>
+    <string name="total_income">200,000원</string>
+    <string name="total_expense">100,000원</string>
+    <string name="total_sum">100,000원</string>
     <string name="title_activity_register_goal">RegisterGoalActivity</string>
     <string name="total_placeholder">%1$s원</string>
     <!-- Strings used for fragments for navigation -->
@@ -49,5 +49,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="year"><u>2024년</u></string>
-    <string name="month"><u>5월</u></string>
+    <string name="month"><u>6월</u></string>
 </resources>

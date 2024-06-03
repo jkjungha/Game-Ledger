@@ -21,12 +21,13 @@
         app:layout_constraintVertical_bias="1.0">
 
         <!-- 지출 카테고리별 몬스터 그래픽으로 수정 예정 -->
-        <ImageView
-            android:id="@+id/iv_quest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/mission"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_quest"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/monster_1"
             app:layout_constraintBottom_toTopOf="@id/LinearLayout3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/iv_quest"
+                app:layout_constraintStart_toEndOf="@+id/lav_quest"
                 app:layout_constraintTop_toTopOf="parent" >
 
             <TextView
@@ -137,7 +138,7 @@
                 android:id="@+id/LinearLayout3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/iv_quest"
+                app:layout_constraintTop_toBottomOf="@id/lav_quest"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" >
@@ -146,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/border_achievement_rate"
-                    app:layout_constraintTop_toBottomOf="@id/iv_quest"
+                    app:layout_constraintTop_toBottomOf="@id/lav_quest"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/confirm_button" />

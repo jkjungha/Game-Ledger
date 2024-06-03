@@ -47,13 +47,15 @@
             android:layout_height="0dp"
             android:layout_weight="0.7" />
 
-        <ImageButton
-                android:id="@+id/link_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:contentDescription="link_button"
-                android:background="@drawable/insert_button"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/link_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="end"
+            android:contentDescription="link_button"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/pigy_bank"/>
 
     </LinearLayout>
 
