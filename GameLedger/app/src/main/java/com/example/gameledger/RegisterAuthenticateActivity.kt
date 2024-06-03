@@ -3,6 +3,7 @@ package com.example.gameledger
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import com.example.gameledger.databinding.ActivityRegisterAuthenticateBinding
 import okhttp3.ResponseBody
@@ -26,6 +27,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
     }
 
     private fun init() {
+//        binding.authInput.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         binding.emailPhoneRadioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
                 binding.phoneAuthRadioButton.id -> {

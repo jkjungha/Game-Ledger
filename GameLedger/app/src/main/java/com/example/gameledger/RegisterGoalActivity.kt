@@ -3,13 +3,17 @@ package com.example.gameledger
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.widget.EditText
 import com.example.gameledger.databinding.ActivityRegisterGoalBinding
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+import java.text.DecimalFormat
 
 class RegisterGoalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGoalBinding
@@ -21,8 +25,32 @@ class RegisterGoalActivity : AppCompatActivity() {
         setContentView(binding.root)
         init()
     }
+    private fun applyDecimalTextWatcher(editText: EditText) {
+        val valueDecimalFormat = DecimalFormat("#,###")
+        val watcher = object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
+            var result: String = ""
+            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+                if (charSequence.toString().isNotEmpty() && charSequence.toString() != result) {
+                    result = valueDecimalFormat.format(
+                        charSequence.toString().replace(",", "").toDouble()
+                    )
+                    editText.setText(result)
+                    editText.setSelection(result.length)
+                }
+            }
+            override fun afterTextChanged(editable: Editable) {}
+        }
+        editText.addTextChangedListener(watcher)
+    }
 
     private fun init() {
+        applyDecimalTextWatcher(binding.goalValueInput)
+        applyDecimalTextWatcher(binding.foodValueInput)
+        applyDecimalTextWatcher(binding.trafficValueInput)
+        applyDecimalTextWatcher(binding.cultureValueInput)
+        applyDecimalTextWatcher(binding.lifeValueInput)
+
         binding.registerButton.setOnClickListener {
             val goalName = binding.goalNameInput.text.toString()
             val gValue = binding.goalValueInput.text.toString()
@@ -42,11 +70,11 @@ class RegisterGoalActivity : AppCompatActivity() {
                     "금액을 입력해주세요"
                 )
             }else {
-                val goalValue = Integer.parseInt(gValue)
-                val foodValue = Integer.parseInt(fValue)
-                val trafficValue = Integer.parseInt(tValue)
-                val cultureValue = Integer.parseInt(cValue)
-                val lifeValue = Integer.parseInt(lValue)
+                val goalValue = gValue.replace(",", "").toInt()
+                val foodValue = fValue.replace(",", "").toInt()
+                val trafficValue = tValue.replace(",", "").toInt()
+                val cultureValue = cValue.replace(",", "").toInt()
+                val lifeValue = lValue.replace(",", "").toInt()
                 userService.signupInputData(
                     goalName,
                     goalValue,

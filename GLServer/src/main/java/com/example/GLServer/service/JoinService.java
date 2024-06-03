@@ -120,9 +120,11 @@ public class JoinService {
     }
 
     public boolean isValidPhone(String phone) {
-        Pattern pattern = Pattern.compile(PHONE_REGEX);
-        Matcher matcher = pattern.matcher(phone);
-        return matcher.matches();
+        return phone.length() == 11;
+
+//        Pattern pattern = Pattern.compile(PHONE_REGEX);
+//        Matcher matcher = pattern.matcher(phone);
+//        return matcher.matches();
     }
 
     public ResponseData joinUser(UsernamePasswordDTO usernamePasswordDTO) {
