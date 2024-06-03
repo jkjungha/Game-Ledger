@@ -1,3 +1,4 @@
+
 package com.example.gameledger
 
 import android.graphics.Color
@@ -9,15 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TransactionAdapter(
-    private val transactionList: ArrayList<Transactions>,
-    private val editClickListener: OnEditClickListener
-) : RecyclerView.Adapter<TransactionAdapter.CustomViewHolder>()
+class TransactionAdapter(private val transactionList: ArrayList<Transactions>) : RecyclerView.Adapter<TransactionAdapter.CustomViewHolder>()
+//class TransactionAdapter(
+//    private val transactionList: ArrayList<Transactions>,
+//    private val editClickListener: OnEditClickListener
+//) : RecyclerView.Adapter<TransactionAdapter.CustomViewHolder> ()
 {
-
-    interface OnEditClickListener {
-        fun onEditClick(transaction: Transactions)
-    }
+//    interface OnEditClickListener {
+//        fun onEditClick(transaction: Transactions)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionAdapter.CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -27,10 +28,11 @@ class TransactionAdapter(
 
     override fun onBindViewHolder(holder: TransactionAdapter.CustomViewHolder, position: Int) {
         val transaction = transactionList[position]
-        holder.category.text = transaction.category
-        holder.date.text = transaction.date
-        holder.title.text = transaction.title
-        holder.value.text = transaction.value.toString()
+
+        holder.category.text = transactionList.get(position).category
+        holder.date.text = transactionList.get(position).date
+        holder.title.text = transactionList.get(position).title
+        holder.value.text = transactionList.get(position).value
 
         if (transactionList.get(position).type) {
             holder.type.setImageResource(R.drawable.treasure_opened)
@@ -42,10 +44,9 @@ class TransactionAdapter(
             holder.value.setTextColor(Color.parseColor("#F44336"))
         }
 
-        holder.edit_button.setOnClickListener {
-            editClickListener.onEditClick(transaction)
-        }
-
+//        holder.edit_button.setOnClickListener {
+//            editClickListener.onEditClick(transaction)
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -59,8 +60,7 @@ class TransactionAdapter(
         val title: TextView = itemView.findViewById<TextView>(R.id.tv_transaction)    // 거래 내역
         val value: TextView = itemView.findViewById<TextView>(R.id.tv_value)  // 금액
 
-        val edit_button: ImageButton = itemView.findViewById(R.id.edit_button)
+//        val edit_button: ImageButton = itemView.findViewById(R.id.edit_button)
     }
 
 }
-

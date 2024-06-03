@@ -8,8 +8,6 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,11 +26,6 @@ class ShowListActivity : AppCompatActivity() {
     var transactionList = arrayListOf<Transactions>()
     lateinit var transactionAdapter: TransactionAdapter
     lateinit var transactionService: TransactionService
-
-    private var editPosition: Int = -1
-    private lateinit var editTransactionLauncher: ActivityResultLauncher<Intent>
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_showlist)
@@ -41,61 +34,33 @@ class ShowListActivity : AppCompatActivity() {
         NavigationBar()
 
         val transaction = findViewById<RecyclerView>(R.id.rv_transaction)
-
-        transactionAdapter = TransactionAdapter(transactionList, object : TransactionAdapter.OnEditClickListener {
-            override fun onEditClick(transaction: Transactions) {
-                editPosition = transactionList.indexOf(transaction)
-                val editIntent = Intent(this@ShowListActivity, EditListActivity::class.java).apply {
-                    putExtra("transDate", transaction.date)
-                    putExtra("transCategory", transaction.category)
-                    putExtra("transName", transaction.title)
-                    putExtra("transValue", transaction.value)
-                    putExtra("transType", transaction.type)
-                }
-                editTransactionLauncher.launch(editIntent)
-            }
-        })
-
         transaction.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         transaction.setHasFixedSize(true)
+
+        transactionAdapter = TransactionAdapter(transactionList)
+//        transactionAdapter = TransactionAdapter(transactionList, object : TransactionAdapter.OnEditClickListener {
+//            override fun onEditClick(transaction: Transactions) {
+//                var intent = Intent(this@ShowListActivity, EditListActivity::class.java)
+//                startActivity(intent)
+//                editPosition = transactionList.indexOf(transaction)
+//                val editIntent = Intent(this@ShowListActivity, EditListActivity::class.java).apply {
+//                    putExtra("transDate", transaction.date)
+//                    putExtra("transCategory", transaction.category)
+//                    putExtra("transName", transaction.title)
+//                    putExtra("transValue", transaction.value)
+//                    putExtra("transType", transaction.type)
+//                }
+//                editTransactionLauncher.launch(editIntent)
+//            }
+//        })
         transaction.adapter = transactionAdapter
 
-        fun formatNumberWithCommas(number: Int): String {
-            val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
-            return numberFormat.format(number)
-        }
+//        val back_button = findViewById<ImageButton>(R.id.back_button)
+//        back_button.setOnClickListener{
+//            val intent = Intent(this@ShowListActivity, QuestActivity::class.java)
+//            startActivity(intent)
+//        }
 
-        editTransactionLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK && editPosition != -1) {
-                val data = result.data
-                data?.let {
-                    val updatedDate = it.getStringExtra("updatedDate")
-                    val updatedCategory = it.getStringExtra("updatedCategory")
-                    val updatedName = it.getStringExtra("updatedName")
-                    val updatedValue = it.getIntExtra("updatedValue", 0)
-                    val updatedType = it.getBooleanExtra("updatedType", false)
-
-                    val updatedTransaction = Transactions(
-                        updatedType,
-                        updatedCategory.toString(),
-                        updatedDate.toString(),
-                        updatedName.toString(),
-                        formatNumberWithCommas(updatedValue)
-                    )
-                    // 수정된 데이터를 처리하는 로직
-                    transactionList[editPosition] = updatedTransaction
-                    transactionAdapter.notifyItemChanged(editPosition)
-                }
-            }
-        }
-
-        val back_button = findViewById<ImageButton>(R.id.back_button)
-        back_button.setOnClickListener{
-            val intent = Intent(this@ShowListActivity, QuestActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     fun InitData(){
@@ -161,6 +126,7 @@ class ShowListActivity : AppCompatActivity() {
                                         val transCategory = listItem.getString("transCategory")
                                         val transName = listItem.getString("transName")
                                         val transValue = listItem.getInt("transValue")
+                                        val transId = listItem.getInt("transId")
 
                                         val transDate = "${transYear}. ${transMonth}. ${transDay}"
 
@@ -171,6 +137,7 @@ class ShowListActivity : AppCompatActivity() {
                                         Log.v("transCategory",transCategory.toString())
                                         Log.v("transName",transName.toString())
                                         Log.v("transValue",transValue.toString())
+                                        Log.v("transId", transId.toString())
 
                                         val yearTextView: TextView = findViewById(R.id.tv_year)
                                         val yearString = "${transYear}년"
@@ -189,8 +156,9 @@ class ShowListActivity : AppCompatActivity() {
                                         )
                                         transactionList.add(transactions)
 
-                                        val position = transactionList.size-1
-                                        transactionAdapter.notifyItemInserted(position)
+//                                        val position = transactionList.size-1
+//                                        transactionAdapter.notifyItemInserted(position)
+                                        transactionAdapter.notifyDataSetChanged()
                                     }
 
                                 } catch (e: JSONException) {
@@ -198,14 +166,18 @@ class ShowListActivity : AppCompatActivity() {
                                     // Handle JSON parsing error
                                 }
                             } else {
-                                CustomToast.showToast(
+                                Toast.makeText(
                                     this@ShowListActivity,
-                                    "응답 내용 없음: ${response.code()}")
+                                    "응답 내용 없음: ${response.code()}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         } else {
-                            CustomToast.showToast(
+                            Toast.makeText(
                                 this@ShowListActivity,
-                                "서버 응답 오류: ${response.code()}")
+                                "서버 응답 오류: ${response.code()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -216,9 +188,11 @@ class ShowListActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // 요청이 실패한 경우
-                        CustomToast.showToast(
+                        Toast.makeText(
                             this@ShowListActivity,
-                            "네트워크 오류: ${t.message}")
+                            "네트워크 오류: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 })
