@@ -43,10 +43,6 @@ interface TransactionService {
     ): Call<ResponseBody>
 
 
-    @GET("/graph/info")
-    fun graphInfoData(
-        @Header("Authorization") Authorization: String
-    ): Call<ResponseBody>
 
 
 }

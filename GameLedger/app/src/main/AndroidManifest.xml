@@ -15,7 +15,9 @@
         android:theme="@style/Theme.GameLedger"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".EditListActivity"
+            android:exported="false"/>
         <activity
             android:name=".SettingsActivity"
             android:exported="false"/>

@@ -33,13 +33,15 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
         val categories = listOf("식비", "교통", "문화", "생활", "기타")
         val categoryRecyclerView: RecyclerView = findViewById(R.id.rv_category)
+
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        //categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
+
+        selectedCategory = categories.first()
+        categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
 
         init() // Type별 레이아웃 변경, Value 포맷 설정
         setData()
-        categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
-        inputData()
+//        inputData()
     }
 
     private fun init() {
@@ -48,6 +50,7 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val dateString = dateFormat.format(currentDate)
         binding.dateInputText.setText(dateString)
+
         binding.typeRadioGroup.setOnCheckedChangeListener {radioGroup, checkedID ->
             when(checkedID) {
                 binding.incomeRadioButton.id -> {
@@ -131,6 +134,14 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         val transCategory = intent.getStringExtra("transCategory")
         val transName = intent.getStringExtra("transName")
         val transValue = intent.getStringExtra("transValue")
+        val transId = intent.getIntExtra("transId", 0)
+
+        Log.v("tranType",transType.toString())
+        Log.v("transDate",transDate.toString())
+        Log.v("transCategory",transCategory.toString())
+        Log.v("transName",transName.toString())
+        Log.v("transValue",transValue.toString())
+        Log.v("tranId",transId.toString())
 
         if (!transType) {
             binding.expendRadioButton.isChecked = true
@@ -221,6 +232,6 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
     override fun onItemClick(category: String) {
         selectedCategory = category
-        CustomToast.showToast(this, "Selected: $category")
+//        CustomToast.showToast(this, "Selected: $category")
     }
 }

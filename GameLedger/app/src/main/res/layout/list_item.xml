@@ -109,9 +109,9 @@
 
 
         <ImageButton
+            android:id="@+id/edit_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:contentDescription="edit_button"
             android:background="@drawable/edit_icon_white"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />

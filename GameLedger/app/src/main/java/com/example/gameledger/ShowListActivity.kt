@@ -1,6 +1,5 @@
 package com.example.gameledger
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -25,9 +24,14 @@ class ShowListActivity : AppCompatActivity() {
     var transactionList = arrayListOf<Transactions>()
     lateinit var transactionAdapter: TransactionAdapter
     lateinit var transactionService: TransactionService
+
+    private var editPosition: Int = -1
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_showlist)
+
         transactionService = RetrofitClient.retrofit.create(TransactionService::class.java)
         InitData()
         NavigationBar()
@@ -36,22 +40,21 @@ class ShowListActivity : AppCompatActivity() {
         transaction.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         transaction.setHasFixedSize(true)
 
-        transactionAdapter = TransactionAdapter(transactionList)
-//        transactionAdapter = TransactionAdapter(transactionList, object : TransactionAdapter.OnEditClickListener {
-//            override fun onEditClick(transaction: Transactions) {
-//                var intent = Intent(this@ShowListActivity, EditListActivity::class.java)
-//                startActivity(intent)
-//                editPosition = transactionList.indexOf(transaction)
-//                val editIntent = Intent(this@ShowListActivity, EditListActivity::class.java).apply {
-//                    putExtra("transDate", transaction.date)
-//                    putExtra("transCategory", transaction.category)
-//                    putExtra("transName", transaction.title)
-//                    putExtra("transValue", transaction.value)
-//                    putExtra("transType", transaction.type)
-//                }
-//                editTransactionLauncher.launch(editIntent)
-//            }
-//        })
+        transactionAdapter = TransactionAdapter(transactionList, object : TransactionAdapter.OnEditClickListener {
+            override fun onEditClick(transaction: Transactions) {
+                editPosition = transactionList.indexOf(transaction)
+                val editIntent = Intent(this@ShowListActivity, EditListActivity::class.java).apply {
+                    putExtra("transDate", transaction.date)
+                    putExtra("transCategory", transaction.category)
+                    putExtra("transName", transaction.title)
+                    putExtra("transValue", transaction.value)
+                    putExtra("transType", transaction.type)
+                    putExtra("transId", transaction.id)
+                }
+                startActivity(editIntent)
+            }
+        })
+
         transaction.adapter = transactionAdapter
 
 //        val back_button = findViewById<ImageButton>(R.id.back_button)
@@ -59,7 +62,6 @@ class ShowListActivity : AppCompatActivity() {
 //            val intent = Intent(this@ShowListActivity, QuestActivity::class.java)
 //            startActivity(intent)
 //        }
-
     }
 
     fun InitData(){
@@ -70,7 +72,6 @@ class ShowListActivity : AppCompatActivity() {
         if (userToken != null) {
             transactionService.listInfoData(userToken)
                 .enqueue(object : Callback<ResponseBody> {
-                    @SuppressLint("StringFormatMatches")
                     override fun onResponse(
                         call: Call<ResponseBody>,
                         response: Response<ResponseBody>
@@ -118,7 +119,6 @@ class ShowListActivity : AppCompatActivity() {
                                     for (i in 0 until list.length()) {
                                         val listItem = list.getJSONObject(i)
 
-                                        val transId = listItem.getInt("transId")
                                         val transType = listItem.getBoolean("transType")
                                         val transYear = listItem.getInt("transYear")
                                         val transMonth = listItem.getInt("transMonth")
@@ -126,10 +126,10 @@ class ShowListActivity : AppCompatActivity() {
                                         val transCategory = listItem.getString("transCategory")
                                         val transName = listItem.getString("transName")
                                         val transValue = listItem.getInt("transValue")
+                                        val transId = listItem.getInt("transId")
 
                                         val transDate = "${transYear}. ${transMonth}. ${transDay}"
 
-                                        Log.v("tranId",transId.toString())
                                         Log.v("tranType",transType.toString())
                                         Log.v("transYear",transYear.toString())
                                         Log.v("transMonth",transMonth.toString())
@@ -137,6 +137,7 @@ class ShowListActivity : AppCompatActivity() {
                                         Log.v("transCategory",transCategory.toString())
                                         Log.v("transName",transName.toString())
                                         Log.v("transValue",transValue.toString())
+                                        Log.v("tranId",transId.toString())
 
                                         val yearTextView: TextView = findViewById(R.id.tv_year)
                                         val yearString = "${transYear}년"
@@ -151,14 +152,14 @@ class ShowListActivity : AppCompatActivity() {
                                             transCategory,
                                             transDate,
                                             transName,
-                                            formatNumberWithCommas(transValue)
+                                            formatNumberWithCommas(transValue),
+                                            transId
                                         )
                                         transactionList.add(transactions)
 
-//                                        val position = transactionList.size-1
-//                                        transactionAdapter.notifyItemInserted(position)
                                         transactionAdapter.notifyDataSetChanged()
                                     }
+
 
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
