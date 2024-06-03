@@ -25,76 +25,93 @@ class RegisterGoalActivity : AppCompatActivity() {
     private fun init() {
         binding.registerButton.setOnClickListener {
             val goalName = binding.goalNameInput.text.toString()
-            val goalValue = Integer.parseInt(binding.goalValueInput.text.toString())
-            val foodValue = Integer.parseInt(binding.foodValueInput.text.toString())
-            val trafficValue = Integer.parseInt(binding.trafficValueInput.text.toString())
-            val cultureValue = Integer.parseInt(binding.cultureValueInput.text.toString())
-            val lifeValue = Integer.parseInt(binding.lifeValueInput.text.toString())
+            val gValue = binding.goalValueInput.text.toString()
+            val fValue = binding.foodValueInput.text.toString()
+            val tValue = binding.trafficValueInput.text.toString()
+            val cValue = binding.cultureValueInput.text.toString()
+            val lValue = binding.lifeValueInput.text.toString()
 
-            userService.signupInputData(
-                goalName,
-                goalValue,
-                foodValue,
-                trafficValue,
-                cultureValue,
-                lifeValue
-            )
-                .enqueue(object : retrofit2.Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        if (response.isSuccessful) {
-                            Log.e(
-                                "API Call",
-                                "Successful response: ${response.code()}"
-                            )
-                            val responseBodyString = response.body()?.string()
+            if(goalName.isEmpty()){
+                CustomToast.showToast(
+                    this@RegisterGoalActivity,
+                    "내역 내용을 입력해주세요"
+                )
+            }else if(gValue.isEmpty() || fValue.isEmpty() || tValue.isEmpty() || cValue.isEmpty() || lValue.isEmpty()){
+                CustomToast.showToast(
+                    this@RegisterGoalActivity,
+                    "금액을 입력해주세요"
+                )
+            }else {
+                val goalValue = Integer.parseInt(gValue)
+                val foodValue = Integer.parseInt(fValue)
+                val trafficValue = Integer.parseInt(tValue)
+                val cultureValue = Integer.parseInt(cValue)
+                val lifeValue = Integer.parseInt(lValue)
+                userService.signupInputData(
+                    goalName,
+                    goalValue,
+                    foodValue,
+                    trafficValue,
+                    cultureValue,
+                    lifeValue
+                )
+                    .enqueue(object : retrofit2.Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.e(
+                                    "API Call",
+                                    "Successful response: ${response.code()}"
+                                )
+                                val responseBodyString = response.body()?.string()
 
-                            if (!responseBodyString.isNullOrEmpty()) {
-                                try {
-                                    val jsonObject = JSONObject(responseBodyString)
+                                if (!responseBodyString.isNullOrEmpty()) {
+                                    try {
+                                        val jsonObject = JSONObject(responseBodyString)
 
-                                    val message = jsonObject.getString("message")
-                                    val code = jsonObject.getInt("code")
+                                        val message = jsonObject.getString("message")
+                                        val code = jsonObject.getInt("code")
+                                        CustomToast.showToast(
+                                            this@RegisterGoalActivity,
+                                            message.toString()
+                                        )
+                                        if (code == 200) {
+                                            val intent = Intent(
+                                                this@RegisterGoalActivity,
+                                                LoginActivity::class.java
+                                            )
+                                            startActivity(intent)
+                                            binding.goalNameInput.text.clear()
+                                            binding.goalValueInput.text.clear()
+                                            binding.foodValueInput.text.clear()
+                                            binding.trafficValueInput.text.clear()
+                                            binding.cultureValueInput.text.clear()
+                                            binding.lifeValueInput.text.clear()
+                                        }
+                                    } catch (e: JSONException) {
+                                        e.printStackTrace()
+                                    }
+                                } else {
                                     CustomToast.showToast(
                                         this@RegisterGoalActivity,
-                                        message.toString()
+                                        "응답 내용 없음"
                                     )
-                                    if (code == 200) {
-                                        val intent = Intent(
-                                            this@RegisterGoalActivity,
-                                            LoginActivity::class.java
-                                        )
-                                        startActivity(intent)
-                                        binding.goalNameInput.text.clear()
-                                        binding.goalValueInput.text.clear()
-                                        binding.foodValueInput.text.clear()
-                                        binding.trafficValueInput.text.clear()
-                                        binding.cultureValueInput.text.clear()
-                                        binding.lifeValueInput.text.clear()
-                                    }
-                                } catch (e: JSONException) {
-                                    e.printStackTrace()
                                 }
                             } else {
-                                CustomToast.showToast(
-                                    this@RegisterGoalActivity,
-                                    "응답 내용 없음"
+                                Log.e(
+                                    "API Call",
+                                    "Unsuccessful response: ${response.code()}"
                                 )
                             }
-                        } else {
-                            Log.e(
-                                "API Call",
-                                "Unsuccessful response: ${response.code()}"
-                            )
                         }
-                    }
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.e("API Call", "Failed to make API call: ${t.message}", t)
-                    }
-                })
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Log.e("API Call", "Failed to make API call: ${t.message}", t)
+                        }
+                    })
+            }
         }
     }
 

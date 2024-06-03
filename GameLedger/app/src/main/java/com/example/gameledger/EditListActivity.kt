@@ -164,15 +164,10 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
             val sharedPreferences = context.getSharedPreferences("saveData",MODE_PRIVATE)
             val userToken = sharedPreferences.getString("userToken","디폴트 값 입니다.")
 
-            val transDate = binding.dateInputText.text.toString()
-            val parts = transDate.split(".")
-//            if (parts.size == 3) {
-//            }
             val transType = !binding.expendRadioButton.isChecked    //지출: false, 수입: true
 
-            val transYear = parts[0].toInt() // 연도
-            val transMonth = parts[1].toInt() // 월
-            val transDay = parts[2].toInt() // 일
+            val transDate = binding.dateInputText.text.toString()
+            val parts = transDate.split(".")
 
             val transCategory:String
             if(transType){
@@ -183,42 +178,62 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
             val transName = binding.nameInputText.text.toString()
 
-            var value = binding.valueInputText.text.toString()
-            val transValue = value.replace(",", "").toInt()
+            val value = binding.valueInputText.text.toString()
 
-
-            if (userToken != null) {
-                transactionService.listEditData(
-                    userToken,
-                    transYear,
-                    transMonth,
-                    transDay,
-                    transCategory,
-                    transName,
-                    transValue,
-                    transType,
-                    transId
+            if(transName.isEmpty()){
+                CustomToast.showToast(
+                    this@EditListActivity,
+                    "내역 내용을 입력해주세요"
                 )
-                    .enqueue(object : Callback<ResponseBody> {
-                        override fun onResponse(
-                            call: Call<ResponseBody>,
-                            response: Response<ResponseBody>
-                        ) {
-                            if (response.isSuccessful) {
-                                Log.d("API Call", "Successful response: ${response.code()}")
-                                // 입력 후 ShowListActivity로 이동
-                                val intent = Intent(this@EditListActivity, ShowListActivity::class.java)
-                                startActivity(intent)
-                            } else {
-                                Log.e("API Call", "Unsuccessful response: ${response.code()}")
+            }else  if(parts.size != 3 || parts[2].length != 2){
+                CustomToast.showToast(
+                    this@EditListActivity,
+                    "날짜를 입력해주세요"
+                )
+            }else  if(value.isEmpty()){
+                CustomToast.showToast(
+                    this@EditListActivity,
+                    "금액을 입력해주세요"
+                )
+            }else  {
+                val transYear = parts[0].toInt() // 연도
+                val transMonth = parts[1].toInt() // 월
+                val transDay = parts[2].toInt() // 일
+                val transValue = value.replace(",", "").toInt()
+                if (userToken != null) {
+                    transactionService.listEditData(
+                        userToken,
+                        transYear,
+                        transMonth,
+                        transDay,
+                        transCategory,
+                        transName,
+                        transValue,
+                        transType,
+                        transId
+                    )
+                        .enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("API Call", "Successful response: ${response.code()}")
+                                    // 입력 후 ShowListActivity로 이동
+                                    val intent =
+                                        Intent(this@EditListActivity, ShowListActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    Log.e("API Call", "Unsuccessful response: ${response.code()}")
+                                }
                             }
-                        }
 
-                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            // 통신 실패시 처리
-                            CustomToast.showToast(this@EditListActivity, "통신 실패")
-                        }
-                    })
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                // 통신 실패시 처리
+                                CustomToast.showToast(this@EditListActivity, "통신 실패")
+                            }
+                        })
+                }
             }
         }
 

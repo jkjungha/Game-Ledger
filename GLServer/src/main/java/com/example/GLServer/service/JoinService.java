@@ -9,7 +9,6 @@ import com.example.GLServer.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -158,11 +157,20 @@ public class JoinService {
         UserEntity userEntity = getUserEntity(joinInfoDto);
         userRepository.save(userEntity);
 
+        initUserEntity();
+
         execute5amTask(userEntity);
         responseData.setMessage("요청 완료");
 
-
         return responseData;
+
+    }
+
+    private void initUserEntity() {
+        this.email = "";
+        this.phone = "";
+        this.username = "";
+        this.password = "";
     }
 
     private UserEntity getUserEntity(JoinInfoDTO joinInfoDto) {
