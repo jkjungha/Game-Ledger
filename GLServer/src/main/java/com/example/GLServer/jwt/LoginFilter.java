@@ -10,6 +10,7 @@ import com.example.GLServer.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -100,31 +101,28 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     //로그인한 시간에 따른 퀘스트 갱신 함수
     public void makeQuestTask(String username) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        int hour = localDateTime.getHour();
+
         UserEntity userEntity = userRepository.findByUsername(username);
         DateEntity dateEntity = getDayDateEntity();
-        Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
+        Optional<SavingEntity> savingEntityOptional = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
 
-        //퀘스트 갱신
-        if(savingEntity.isEmpty()){
-            if(hour < 5){
-                dateEntity.setDay(localDateTime.getDayOfMonth()-1);
-            }
-            SavingEntity SE = new SavingEntity();
-            SE.setUserEntity(userEntity);
-            SE.setDateEntity(dateEntity);
-            SE.setSavingFood(userEntity.getFoodValue());
-            SE.setFoodAchieved(false);
-            SE.setSavingTraffic(userEntity.getTrafficValue());
-            SE.setTrafficAchieved(false);
-            SE.setSavingCulture(userEntity.getCultureValue());
-            SE.setCultureAchieved(false);
-            SE.setSavingLife(userEntity.getLifeValue());
-            SE.setLifeAchieved(false);
-            SE.setSavingEtc(userEntity.getEtcValue());
-            SE.setEtcAchieved(false);
-            savingRepository.save(SE);
+        if (savingEntityOptional.isEmpty()) {
+            SavingEntity savingEntity = new SavingEntity();
+            savingEntity.setUserEntity(userEntity);
+            savingEntity.setDateEntity(dateEntity);
+            savingEntity.setSavingFood(userEntity.getFoodValue());
+            savingEntity.setFoodAchieved(false);
+            savingEntity.setSavingTraffic(userEntity.getTrafficValue());
+            savingEntity.setTrafficAchieved(false);
+            savingEntity.setSavingCulture(userEntity.getCultureValue());
+            savingEntity.setCultureAchieved(false);
+            savingEntity.setSavingLife(userEntity.getLifeValue());
+            savingEntity.setLifeAchieved(false);
+            savingEntity.setSavingEtc(userEntity.getEtcValue());
+            savingEntity.setEtcAchieved(false);
+            savingRepository.save(savingEntity);
+        } else {
+            System.out.println("SavingEntity already exists for user: " + username + " on date: " + dateEntity);
         }
     }
 

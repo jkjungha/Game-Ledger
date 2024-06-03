@@ -10,13 +10,13 @@ import java.util.List;
 @Getter
 @Setter
 public class DateEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
-    @OneToOne(mappedBy = "dateEntity")
-    private SavingEntity savingEntity;
+    @OneToMany(mappedBy = "dateEntity")
+    private List<SavingEntity> savingEntity;
 
     @OneToMany(mappedBy = "dateEntity")
     private List<TransactionEntity> TransactionEntities;

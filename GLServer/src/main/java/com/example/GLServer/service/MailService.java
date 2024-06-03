@@ -1,7 +1,6 @@
 package com.example.GLServer.service;
 
 import com.example.GLServer.repository.ResponseData;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +15,7 @@ import java.util.Random;
 public class MailService {
     private final JavaMailSender emailSender;
 
+
     private final RedisUtil redisUtil;
 
     public MailService(JavaMailSender emailSender, RedisUtil redisUtil) {
@@ -23,7 +23,7 @@ public class MailService {
         this.redisUtil = redisUtil;
     }
 
-    public ResponseData authCheckEmail(String email,String authCode){
+    public ResponseData authCheckEmail(String email, String authCode){
         ResponseData responseData = new ResponseData();
         if(redisUtil.getData(authCode)==null){
             responseData.setCode(400);

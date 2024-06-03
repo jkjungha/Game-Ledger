@@ -30,7 +30,7 @@ class RegisterAuthenticateActivity : AppCompatActivity() {
             when (checkedId) {
                 binding.phoneAuthRadioButton.id -> {
                     binding.authTitle.text = "전화번호 :"
-                    binding.authInput.hint = "전화번호(주의%실제 아는 번호)"
+                    binding.authInput.hint = "전화번호"
                     binding.phoneAuthRadioButton.setBackgroundResource(R.drawable.phone_button_on_style)
                     binding.emailAuthRadioButton.setBackgroundResource(R.drawable.email_button_off_style)
                     binding.phoneAuthRadioButton.setTextColor(resources.getColor(R.color.black))

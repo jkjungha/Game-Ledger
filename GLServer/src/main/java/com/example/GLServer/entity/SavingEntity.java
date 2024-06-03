@@ -16,7 +16,7 @@ public class SavingEntity {
     @JoinColumn(name = "userId")
     private UserEntity userEntity;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "dateId")
     private DateEntity dateEntity;
 
