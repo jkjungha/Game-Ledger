@@ -110,10 +110,19 @@ public class QuestService {
         if(savingEntity.isPresent()){
             SavingEntity SE = savingEntity.get();
             //UserEntity 저축 금액 갱신
-            int total = SE.getSavingFood();
-            total += SE.getSavingTraffic();
-            total += SE.getSavingCulture();
-            total += SE.getSavingLife();
+            int total = 0;
+            if(SE.getSavingFood()>0) {
+                total += SE.getSavingFood();
+            }
+            if(SE.getSavingTraffic()>0){
+                total += SE.getSavingTraffic();
+            }
+            if(SE.getSavingCulture()>0) {
+                total += SE.getSavingCulture();
+            }
+            if(SE.getSavingLife()>0){
+                total += SE.getSavingLife();
+            }
 
             int achieved = userEntity.getGoalAchieved();
             userEntity.setGoalAchieved(achieved + total);

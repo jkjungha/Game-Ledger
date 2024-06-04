@@ -37,9 +37,9 @@ class EditListActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
 
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        init() // Type별 레이아웃 변경, Value 포맷 설정
         setData()
         categoryRecyclerView.adapter = CategoryAdapter(categories, selectedCategory, this)
-        init() // Type별 레이아웃 변경, Value 포맷 설정
         inputData()
     }
 

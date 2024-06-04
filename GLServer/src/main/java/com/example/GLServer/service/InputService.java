@@ -75,19 +75,19 @@ public class InputService {
             SavingEntity SE = savingEntity.get();
             if (Objects.equals(transCategory.trim(), "식비")) {
                 int tmp = SE.getSavingFood();
-                SE.setSavingFood(Math.max(tmp - transValue, 0));
+                SE.setSavingFood(tmp - transValue);
             } else if (Objects.equals(transCategory.trim(), "교통")) {
                 int tmp = SE.getSavingTraffic();
-                SE.setSavingTraffic(Math.max(tmp - transValue, 0));
+                SE.setSavingTraffic(tmp - transValue);
             } else if (Objects.equals(transCategory.trim(), "문화")) {
                 int tmp = SE.getSavingCulture();
-                SE.setSavingCulture(Math.max(tmp - transValue, 0));
+                SE.setSavingCulture(tmp - transValue);
             } else if (Objects.equals(transCategory.trim(), "생활")) {
                 int tmp = SE.getSavingLife();
-                SE.setSavingLife(Math.max(tmp - transValue, 0));
+                SE.setSavingLife(tmp - transValue);
             } else if (Objects.equals(transCategory.trim(), "기타")) {
                 int tmp = SE.getSavingEtc();
-                SE.setSavingEtc(Math.max(tmp - transValue, 0));
+                SE.setSavingEtc(tmp - transValue);
             }
             savingRepository.save(SE);
         }

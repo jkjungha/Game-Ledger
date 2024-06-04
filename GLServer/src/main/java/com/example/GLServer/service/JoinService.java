@@ -161,7 +161,7 @@ public class JoinService {
 
         initUserEntity();
 
-        execute5amTask(userEntity);
+//        execute5amTask(userEntity);
         responseData.setMessage("요청 완료");
 
         return responseData;
@@ -193,23 +193,23 @@ public class JoinService {
     }
 
     // 매일 오전 5시에 실행
-    @Scheduled(cron = "0 0 5 * * *")
-    public void execute5amTask(UserEntity userEntity) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        int year = localDateTime.getYear();
-        int month = localDateTime.getMonthValue();
-        int day = localDateTime.getDayOfMonth();
-        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
-        Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
-        if (dateEntity != null && savingEntity.isPresent()) {
-            SavingEntity SE = savingEntity.get();
-            int total = SE.getSavingFood();
-            total += SE.getSavingTraffic();
-            total += SE.getSavingCulture();
-            total += SE.getSavingLife();
-
-            int achieved = userEntity.getGoalAchieved();
-            userEntity.setGoalAchieved(achieved + total);
-        }
-    }
+//    @Scheduled(cron = "0 0 5 * * *")
+//    public void execute5amTask(UserEntity userEntity) {
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        int year = localDateTime.getYear();
+//        int month = localDateTime.getMonthValue();
+//        int day = localDateTime.getDayOfMonth();
+//        DateEntity dateEntity = dateRepository.findByYearAndMonthAndDay(year, month, day);
+//        Optional<SavingEntity> savingEntity = savingRepository.findByDateEntityAndUserEntity(dateEntity, userEntity);
+//        if (dateEntity != null && savingEntity.isPresent()) {
+//            SavingEntity SE = savingEntity.get();
+//            int total = SE.getSavingFood();
+//            total += SE.getSavingTraffic();
+//            total += SE.getSavingCulture();
+//            total += SE.getSavingLife();
+//
+//            int achieved = userEntity.getGoalAchieved();
+//            userEntity.setGoalAchieved(achieved + total);
+//        }
+//    }
 }
