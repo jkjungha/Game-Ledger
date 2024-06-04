@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.gameledger.databinding.ActivityMainBinding
 import okhttp3.ResponseBody
@@ -74,6 +75,32 @@ class MainActivity : AppCompatActivity() {
                                     val savingDegreeTextView: TextView = findViewById(R.id.tv_savingDegree)
                                     val savingDegreeString = "${savingDegree}%"
                                     savingDegreeTextView.text = savingDegreeString
+
+                                    val savingDegreeImg: ImageView = findViewById(R.id.iv_castle)
+                                    if (savingDegree >= 100.0) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_10)
+                                    } else if (savingDegree >= 90.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_9)
+                                    } else if (savingDegree >= 80.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_8)
+                                    } else if (savingDegree >= 70.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_7)
+                                    } else if (savingDegree >= 60.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_6)
+                                    } else if (savingDegree >= 50.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_5)
+                                    } else if (savingDegree >= 40.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_4)
+                                    } else if (savingDegree >= 30.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_3)
+                                    } else if (savingDegree >= 20.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_2)
+                                    } else if (savingDegree >= 10.0 ) {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_1)
+                                    } else {
+                                        savingDegreeImg.setImageResource(R.drawable.goal_0)
+                                    }
+
 
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
