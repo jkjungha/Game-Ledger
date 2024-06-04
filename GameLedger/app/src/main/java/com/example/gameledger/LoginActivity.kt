@@ -59,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
                             binding.passwordInput.text.clear()
 
                         } else {
+                            CustomToast.showToast(this@LoginActivity,"잘못 입력했습니다.")
                             Log.e(
                                 "API Call",
                                 "Unsuccessful response: ${response.code()}"

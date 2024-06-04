@@ -42,6 +42,7 @@ public class MailService {
     public ResponseData sendEmail(String emailPhone) {
         ResponseData responseData = new ResponseData();
         String authCode = this.createCode();
+        System.out.println("AUTHCODE"+authCode);
         SimpleMailMessage emailForm = createEmailForm(emailPhone, authCode);
         try {
             emailSender.send(emailForm);
